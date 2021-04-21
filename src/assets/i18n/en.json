@@ -1,0 +1,9 @@
+{
+  "app": {
+    "application-name": "Digital Edition Tools",
+    "developer-email": "is@sls.fi"
+  },
+  "component-selector":{
+    "example": "Example"
+  }
+}

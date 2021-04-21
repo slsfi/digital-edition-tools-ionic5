@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,13 +7,19 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
+    { title: 'Publisher', url: '/component-selector/Publisher-Tool', icon: 'mail' },
+    { title: 'Table of Contents Editor', url: '/component-selector/TOC-Editor', icon: 'list' },
+    { title: 'Facsimile Tool', url: '/component-selector/Facsimile-Tool', icon: 'images' },
+    { title: 'Entity Editor', url: '/component-selector/Entity-Editor', icon: 'file-tray' },
+    { title: 'Event Editor', url: '/component-selector/Event-Editor', icon: 'git-compare' },
+    { title: 'Log out', url: '/component-selector/LogOut', icon: 'warning' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  constructor( private translate: TranslateService ) {
+    this.initializeApp();
+  }
+
+  initializeApp(){
+    this.translate.setDefaultLang('en');
+  }
 }

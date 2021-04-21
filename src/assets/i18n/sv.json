@@ -1,0 +1,8 @@
+{
+  "app": {
+    "application-name": "Digital Edition Tools"
+  },
+  "component-selector":{
+    "example": "Example"
+  }
+}
