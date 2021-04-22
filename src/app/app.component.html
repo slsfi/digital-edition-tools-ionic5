@@ -13,7 +13,12 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
-
+        <ion-list id="labels-list">
+          <ion-item lines="none" [routerLink]="login" (click)="logout()" detail="false" >
+            <ion-icon slot="start" [ios]="'warning-outline'" [md]="'warning-sharp'"></ion-icon>
+            <ion-label>Log out</ion-label>
+          </ion-item>
+        </ion-list>
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from './services/authentication.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,15 +13,21 @@ export class AppComponent {
     { title: 'Table of Contents Editor', url: '/component-selector/TOC-Editor', icon: 'list' },
     { title: 'Facsimile Tool', url: '/component-selector/Facsimile-Tool', icon: 'images' },
     { title: 'Entity Editor', url: '/component-selector/Entity-Editor', icon: 'file-tray' },
-    { title: 'Event Editor', url: '/component-selector/Event-Editor', icon: 'git-compare' },
-    { title: 'Log out', url: '/component-selector/LogOut', icon: 'warning' },
+    { title: 'Event Editor', url: '/component-selector/Event-Editor', icon: 'git-compare' }
   ];
 
-  constructor( private translate: TranslateService ) {
+  constructor( private translate: TranslateService,
+    private authService: AuthenticationService,
+    private router: Router ) {
     this.initializeApp();
   }
 
   initializeApp(){
     this.translate.setDefaultLang('en');
+  }
+
+  async logout() {
+    await this.authService.logout();
+    this.router.navigateByUrl('/', { replaceUrl: true });
   }
 }
