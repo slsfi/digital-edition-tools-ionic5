@@ -1,0 +1,50 @@
+<div>
+  <p>{{header}}</p>
+  <div class="row" *ngIf="dataItem.id !== undefined">
+    <mat-form-field class="input-wide2">
+      <input *ngIf="!showFacsimimilePage" matInput placeholder="Title" [(ngModel)]="dataItem.title" name="title" type="text" (keyup)="onKeyUp($event)" required/>
+      <input *ngIf="showFacsimimilePage" matInput disabled placeholder="Title" [(ngModel)]="dataItem.title" name="title" type="text" (keyup)="onKeyUp($event)" required/>
+    </mat-form-field>
+  </div>
+  <div class="row" *ngIf="tags.length>0">
+    <mat-form-field class="input-wide2">
+      <mat-label>Terms</mat-label>
+      <mat-select [(value)]="dataItem['tag_id']">
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let tag of tags" [value]="tag.id">{{tag.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row" *ngIf="showGenre">
+    <mat-form-field>
+      <mat-select placeholder="Genre" [(ngModel)]="dataItem.genre">
+        <mat-option *ngFor="let genre of genres" [value]="genre.key">
+          {{genre.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row" *ngIf="showDate">
+    <mat-form-field><input matInput [matDatepicker]="picker" placeholder="Publication Date" [(ngModel)]="dataItem.date" name="date"/>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker></mat-form-field>
+  </div>
+  <div class="row" *ngIf="showPublished">
+    <mat-form-field>
+      <mat-select placeholder="Published" [(ngModel)]="dataItem.published">
+        <mat-option *ngFor="let publishedLevel of publishedLevels" [value]="publishedLevel.key">
+          {{publishedLevel.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="row" *ngIf="showFacsimimilePage">
+    <mat-form-field class="input-wide2">
+      <input matInput placeholder="Facsimile page" [(ngModel)]="dataItem.publication_facsimile_page" name="publication_facsimile_page" type="number" (keyup)="onKeyUp($event)" required/>
+    </mat-form-field>
+  </div>
+  <div class="row">
+    <button mat-raised-button (click)="onOKClick()" >OK</button>
+    <button mat-raised-button (click)="onCancelClick()" >Cancel</button>
+  </div>
+</div>

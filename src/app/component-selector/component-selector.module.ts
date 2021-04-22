@@ -13,6 +13,8 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { ComponentsModule } from './../components.module';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserModule } from '@angular/platform-browser';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -25,6 +27,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     IonicModule,
     ComponentSelectorRoutingModule,
     ComponentsModule,
+    MatDialogModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -33,6 +36,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     })
   ],
+  providers: [],
   declarations: [ComponentSelectorPage]
 })
 export class ComponentSelectorModule {}

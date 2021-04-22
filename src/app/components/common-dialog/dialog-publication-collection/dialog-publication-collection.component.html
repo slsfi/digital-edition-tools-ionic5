@@ -1,0 +1,14 @@
+<div>
+  <p i18n>{{header}}</p>
+  <div class="row">
+    <app-grid-publications
+      [editMode]="false"
+      [listLevelLocked]="true"
+      (publicationCollectionOpened)="onPublicationCollectionOpened($event)">
+    </app-grid-publications>
+  </div>
+  <div class="row margin-top">
+    <button mat-raised-button (click)="onOKClick()" i18n>OK</button>
+    <button mat-raised-button (click)="onCancelClick()" i18n>Cancel</button>
+  </div>
+</div>

@@ -1,3 +1,78 @@
-<p>
-  toc-editor works!
-</p>
+<div>
+  <!--<button mat-raised-button (click)="onPopulate()" >Filltest</button>-->
+  <button mat-raised-button (click)="onCreateFromCollection()" >Create from collection...</button>
+  <button mat-raised-button (click)="onLoadFromServer()" >Load...</button>
+  <button mat-raised-button (click)="onSaveToServer()" >Save</button>
+  <button mat-raised-button (click)="fileInput.click()">
+    <span >Load from computer</span>
+    <input #fileInput type="file" multiple accept=".json" (change)="onFileInput($event)" style="display:none;" />
+  </button>
+  <button mat-raised-button (click)="saveToClient()" >Save to computer</button>
+</div>
+<div><p>Opened collection: {{publicationCollectionText}}</p></div>
+<div class="page-container">
+  <div class="container-wide">
+    <app-grid-publications
+      [editMode]="false"
+      [listLevelLocked]="true"
+      [listLevel]="dataItemType.Publication"
+      (publicationOpened)="onPublicationOpened($event)">
+    </app-grid-publications>
+  </div>
+  <div class="container menu">
+    <div class="dd" id="menu"></div>
+  </div>
+  <div *ngIf="tocLoaded" class="container add">
+    <form>
+
+      <div class="row margin-bottom">
+        <button mat-raised-button (click)="collapseAll()" >Collapse all</button>
+        <button mat-raised-button (click)="expandAll()" >Expand all</button>
+        <button mat-raised-button (click)="eventNewItem()" >New item</button>
+      </div>
+
+      <div class="box-header margin-bottom" >TOC Item</div>
+
+      <div class="row">
+        <!--<input [(ngModel)]="itemCurrent.type" name="type"/>-->
+        <mat-form-field>
+          <mat-select  placeholder="Type" id="type" [disabled]="isDisabled" required [(ngModel)]="itemCurrent.type" name="type">
+            <mat-option *ngFor="let typ of itemCurrent.types; let i = index" [value]="typ.id">{{typ.description}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field class="input-wide1"><input matInput placeholder="Text" [(ngModel)]="itemCurrent.text" name="text" type="text" [disabled]="isDisabled" (keyup)="onKeyUp($event)" required/></mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field><input matInput  placeholder="ID" [(ngModel)]="itemCurrent.itemId" name="itemId" type="text" [disabled]="isDisabled" (keyup)="onKeyUp($event)" /></mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field>
+          <mat-label>Collapsed (default: True)</mat-label>
+          <mat-select [(ngModel)]="itemCurrent.collapsed" name="collapsed" (change)="onKeyUp($event)">
+            <mat-option value="true">True</mat-option>
+            <mat-option value="false">False</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field><input matInput  placeholder="e.g. 1845-02-22" [(ngModel)]="itemCurrent.date" name="date" type="text" [disabled]="isDisabled" (keyup)="onKeyUp($event)" /></mat-form-field>
+      </div>
+
+      <div class="row">
+        <mat-form-field><input matInput  placeholder="URL" [(ngModel)]="itemCurrent.url" name="url" type="text" [disabled]="isDisabled" (keyup)="onKeyUp($event)"/></mat-form-field>
+      </div>
+
+    </form>
+    <div>
+      <button mat-raised-button *ngIf="itemCurrent.editItem" (click)="eventUpdateItem()" >Update</button>
+      <button mat-raised-button *ngIf="itemCurrent.editItem" (click)="eventDeleteItem()" >Delete</button>
+      <button mat-raised-button *ngIf="itemCurrent.newItem" (click)="eventAddItem()" >Save</button>
+    </div>
+  </div>
+</div>

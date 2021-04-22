@@ -1,0 +1,18 @@
+<p>
+  <button *ngIf="listLevelLocked==false" mat-raised-button (click)="onParentClick()" title="Parent" ><img src="assets/images/parent.png" /></button>
+  <!--<button *ngIf="editMode" mat-raised-button (click)="selectAllRows()" title="Select All" ><img src="assets/images/select_all.png" /></button>
+  <button *ngIf="editMode" mat-raised-button (click)="deselectAllRows()" title="Deselect All" ><img src="assets/images/deselect_all.png" /></button>-->
+  <button *ngIf="editMode" mat-raised-button (click)="onAddClick()" title="Add" ><img src="assets/images/add.png" /></button>
+  <button *ngIf="editMode && showRemove" mat-raised-button (click)="onRemoveClick()" title="Remove" ><img src="assets/images/remove.png" /></button>
+  <button *ngIf="editMode" mat-raised-button (click)="onEditClick()" title="Edit" ><img src="assets/images/edit.png" /></button>
+</p>
+<ag-grid-angular style="width: 100%; height:594px;"
+                 class="ag-theme-balham"
+                 [rowData]="rowData"
+                 [columnDefs]="columnDefs"
+                 [gridOptions]="gridOptions"
+                 (gridReady)="onGridReady($event)"
+                 (selectionChanged)="onSelectionChanged($event)"
+                 (rowClicked)="onRowClick($event)"
+                 (rowDoubleClicked)="onRowDoubleClick($event)">
+</ag-grid-angular>
