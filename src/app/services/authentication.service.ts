@@ -33,8 +33,9 @@ export class AuthenticationService {
 
   login(credentials: {email, password}): Observable<any> {
     return this.http.post('https://api.sls.fi/auth/login', credentials).pipe(
-      map((data: any) => data.token),
+      map((data: any) => data.access_token),
       switchMap(token => {
+        localStorage.setItem('token', token)
         return from(Storage.set({key: TOKEN_KEY, value: token}));
       }),
       tap(_ => {
@@ -46,5 +47,9 @@ export class AuthenticationService {
   logout(): Promise<void> {
     this.isAuthenticated.next(false);
     return Storage.remove({key: TOKEN_KEY});
+  }
+
+  public getToken(): string {
+    return localStorage.getItem('token');
   }
 }

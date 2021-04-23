@@ -3,11 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-component-selector',
-  templateUrl: './component-selector.page.html',
-  styleUrls: ['./component-selector.page.scss'],
+  selector: 'app-tool-selector',
+  templateUrl: './tool-selector.page.html',
+  styleUrls: ['./tool-selector.page.scss'],
 })
-export class ComponentSelectorPage implements OnInit {
+export class ToolSelectorPage implements OnInit {
   public selectedComponent: string;
 
   constructor(private activatedRoute: ActivatedRoute, private translate: TranslateService) { }

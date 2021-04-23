@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { ComponentSelectorPage } from './component-selector.page';
-import { PublisherToolComponent } from '../components/publisher-tool/publisher-tool.component';
+import { ToolSelectorPage } from './tool-selector.page';
+import { PublisherToolComponent } from '../components/tools/publisher-tool/publisher-tool.component';
 
-describe('ComponentSelectorPage', () => {
-  let component: ComponentSelectorPage;
+describe('ToolSelectorPage', () => {
+  let component: ToolSelectorPage;
   let publisherTool: ComponentFixture<PublisherToolComponent>;
-  let fixture: ComponentFixture<ComponentSelectorPage>;
+  let fixture: ComponentFixture<ToolSelectorPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComponentSelectorPage, PublisherToolComponent ],
+      declarations: [ ToolSelectorPage, PublisherToolComponent ],
       imports: [IonicModule.forRoot(), RouterModule.forRoot([])]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ComponentSelectorPage);
+    fixture = TestBed.createComponent(ToolSelectorPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
 

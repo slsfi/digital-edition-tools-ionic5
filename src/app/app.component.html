@@ -1,10 +1,17 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <ion-split-pane contentId="main-content" >
+    <ion-menu contentId="main-content" type="overlay" *ngIf="isLoggedIn">
       <ion-content>
         <ion-list id="inbox-list">
           <ion-list-header>{{ 'app.application-name' | translate }}</ion-list-header>
           <ion-note>{{ 'app.developer-email' | translate }}</ion-note>
+
+          <ion-item>
+          <ion-label>Project</ion-label>
+          <ion-select placeholder="Select Project" [(ngModel)]="selectedProjectId" (ionChange)="selectProject()">
+            <ion-select-option *ngFor="let project of projects" [value]="project.id">{{project.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -13,6 +20,7 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+
         <ion-list id="labels-list">
           <ion-item lines="none" [routerLink]="login" (click)="logout()" detail="false" >
             <ion-icon slot="start" [ios]="'warning-outline'" [md]="'warning-sharp'"></ion-icon>

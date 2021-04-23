@@ -34,13 +34,13 @@ export class LoginPage implements OnInit {
     this.authService.login(this.credentials.value).subscribe(
       async (res) => {
         await loading.dismiss();
-        this.router.navigateByUrl('/component-selector/Publisher-Tool', { replaceUrl: true });
+        this.router.navigateByUrl('/tool-selector/Publisher-Tool', { replaceUrl: true });
       },
       async (res) => {
         await loading.dismiss();
         const alert = await this.alertController.create({
           header: 'Login failed',
-          message: res.error.error,
+          message: res.error,
           buttons: ['OK'],
         });
 
