@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     component: ToolSelectorPage,
-    canLoad: [AutoLoginGuard]
+    canLoad: [AuthGuard]
   }
 ];
 
