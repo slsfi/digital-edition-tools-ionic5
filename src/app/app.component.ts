@@ -3,6 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 import { ProjectService } from './services/project.service';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -21,11 +22,13 @@ export class AppComponent {
   selectedProjectId: [];
   projects: [];
   isLoggedIn: boolean = false;
+  translations: [];
 
   constructor( private translate: TranslateService,
     private authService: AuthenticationService,
     private router: Router,
-    private projectService: ProjectService) {
+    private projectService: ProjectService,
+    private alertController: AlertController) {
     this.initializeApp();
   }
 
@@ -63,5 +66,36 @@ export class AppComponent {
         localStorage.setItem('selectedProjectName', project['name']);
       }
     });
+  }
+
+  async createProject() {
+    const alert = await this.alertController.create({
+      header:  this.translate.instant('app.create-new-project.title'),
+      subHeader: this.translate.instant('app.create-new-project.subtitle'),
+      inputs: [
+        {
+          label: this.translate.instant('app.create-new-project.project-name-label'),
+          name: 'name',
+          type: 'text',
+          placeholder: this.translate.instant('app.create-new-project.project-name-placeholder')
+        }
+      ],
+      buttons: [
+        {
+          text: this.translate.instant('app.create-new-project.cancel'),
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            // Do nothing
+          }
+        }, {
+          text: this.translate.instant('app.create-new-project.ok'),
+          handler: ( data ) => {
+            // create project -> data.name
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

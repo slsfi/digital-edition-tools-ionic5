@@ -1,7 +1,17 @@
 {
   "app": {
     "application-name": "Digital Edition Tools",
-    "developer-email": "is@sls.fi"
+    "developer-email": "is@sls.fi",
+    "create-project": "Create Project",
+    "logout": "Log out",
+    "create-new-project": {
+      "title": "Create a New Project",
+      "subtitle": "(Use the Publisher Tool to publish the project)",
+      "project-name-label": "Project name",
+      "project-name-placeholder": "Project name",
+      "ok":"Create Project",
+      "cancel":"Cancel"
+    }
   },
   "component-selector":{
     "example": "Example"
