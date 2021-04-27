@@ -1,3 +1,4 @@
+import { ProjectGridComponent } from './components/grids/project-grid/project-grid.component';
 import { NgModule } from '@angular/core';
 import { PublisherToolComponent } from './components/tools/publisher-tool/publisher-tool.component';
 import { IonicModule } from '@ionic/angular';
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     EntityEditorComponent,
     EventEditorComponent,
     FacsimileToolComponent,
-    TeiSelectorComponent
+    TeiSelectorComponent,
+    ProjectGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule],
   exports: [
@@ -28,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     EntityEditorComponent,
     EventEditorComponent,
     FacsimileToolComponent,
-    TeiSelectorComponent
+    TeiSelectorComponent,
+    ProjectGridComponent
   ]
 })
 export class ComponentsModule {}

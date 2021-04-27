@@ -118,3 +118,16 @@ ion-item.selected {
   --color: var(--ion-color-primary);
 }
 
+ion-list .sub-menu-list{
+  margin-left: 1rem;
+}
+
+ion-list .page-menu, .list a {
+  border-color: transparent;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+ion-list .page-menu, .list h2 {
+  padding: 0% !important;
+}

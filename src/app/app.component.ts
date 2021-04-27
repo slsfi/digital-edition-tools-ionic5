@@ -4,6 +4,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { Router } from '@angular/router';
 import { ProjectService } from './services/project.service';
 import { AlertController } from '@ionic/angular';
+import { MenuController } from "@ionic/angular";
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -11,12 +12,14 @@ import { AlertController } from '@ionic/angular';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Publisher', url: '/tool-selector/Publisher-Tool', icon: 'mail' },
-    { title: 'Table of Contents Editor', url: '/tool-selector/TOC-Editor', icon: 'list' },
-    { title: 'Facsimile Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images' },
-    { title: 'Entity Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray' },
-    { title: 'Event Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare' },
-    { title: 'TEI Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand' }
+    { title: 'Publisher', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
+      {title: 'Project Editor', url: '/tool-selector/Publisher-Tool/Project-Editor', icon: 'bulb'}]
+    },
+    { title: 'Table of Contents Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
+    { title: 'Facsimile Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
+    { title: 'Entity Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false },
+    { title: 'Event Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
+    { title: 'TEI Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
 
   selectedProjectId: [];
@@ -28,7 +31,8 @@ export class AppComponent {
     private authService: AuthenticationService,
     private router: Router,
     private projectService: ProjectService,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private menuController: MenuController) {
     this.initializeApp();
   }
 
@@ -37,6 +41,7 @@ export class AppComponent {
     this.authService.isAuthenticated.subscribe(state => {
       if (state) {
         this.isLoggedIn = true;
+        this.menuController.enable(true, 'main-content-menu');
         this.getProjects();
       }
     });
@@ -110,5 +115,16 @@ export class AppComponent {
       ]
     });
     await alert.present();
+  }
+
+  private toggleIsOpen(page){
+    if ( page.isOpen === true ) {
+      page.isOpen = false;
+    } else {
+      page.isOpen = true;
+    }
+    if ( page.subPages === undefined ) {
+      this.menuController.close();
+    }
   }
 }
