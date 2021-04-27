@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap, switchMap } from 'rxjs/operators';
-import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, of} from 'rxjs';
 import { Router } from '@angular/router';
 
 import { Plugins } from '@capacitor/core';
@@ -26,7 +26,6 @@ export class AuthenticationService {
   async loadToken() {
     const token = await Storage.get({ key: ACCESS_TOKEN_KEY });
     if (token && token.value) {
-      console.log('set token: ', token.value);
       this.currentAccessToken = token.value;
       this.isAuthenticated.next(true);
     } else {
