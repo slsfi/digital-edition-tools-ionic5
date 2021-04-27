@@ -59,6 +59,18 @@ export class AppComponent {
     );
   }
 
+  async createProject(projectName) {
+    this.projectService.createProject(projectName).subscribe(
+      async (res) => {
+        // Update list
+        this.getProjects();
+      },
+      async (res) => {
+
+      }
+    );
+  }
+
   selectProject() {
     this.projects.forEach( (project: Array<any>) => {
       if ( this.selectedProjectId === project['id'] ){
@@ -68,7 +80,7 @@ export class AppComponent {
     });
   }
 
-  async createProject() {
+  async createProjectPopup() {
     const alert = await this.alertController.create({
       header:  this.translate.instant('app.create-new-project.title'),
       subHeader: this.translate.instant('app.create-new-project.subtitle'),
@@ -92,6 +104,7 @@ export class AppComponent {
           text: this.translate.instant('app.create-new-project.ok'),
           handler: ( data ) => {
             // create project -> data.name
+            this.createProject(data.name);
           }
         }
       ]

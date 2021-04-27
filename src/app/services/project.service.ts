@@ -19,4 +19,9 @@ export class ProjectService {
     // Send the request to the server
     return this.http.get<any>(environment.api_url + '/' + this.api_url_path + '/projects/');
   }
+
+  createProject(projectName: string): Observable<any> {
+    // Send the request to the server
+    return this.http.get<any>(environment.api_url + '/' + this.api_url_path + '/projects/');
+  }
 }
