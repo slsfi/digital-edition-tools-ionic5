@@ -1,4 +1,4 @@
-<p>
+<p *ngIf="!selectedComponentTool">
   publisher-tool works!
-  <app-project-grid></app-project-grid>
 </p>
+<app-project-grid *ngIf="selectedComponentTool === 'Project-Editor'"></app-project-grid>

@@ -28,7 +28,7 @@
             </ion-item>
             <ion-list *ngIf = "page.subPages && page.isOpen" class="sub-menu-list">
               <ion-menu-toggle auto-hide="false" *ngFor="let subPage of page.subPages">
-                <ion-item routerDirection="root" [routerLink]="[subPage.url]" lines="none" detail="false" routerLinkActive="selected">
+                <ion-item routerDirection="root" [routerLink]="[page.url, subPage.url]" lines="none" detail="false" routerLinkActive="selected">
                   <ion-icon slot="start" [ios]="subPage.icon + '-outline'" [md]="subPage.icon + '-sharp'"></ion-icon>
                   <ion-label>{{ subPage.title }}</ion-label>
                 </ion-item>

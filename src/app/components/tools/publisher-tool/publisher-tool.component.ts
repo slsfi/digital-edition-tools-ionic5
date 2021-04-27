@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-publisher-tool',
@@ -6,9 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./publisher-tool.component.scss'],
 })
 export class PublisherToolComponent implements OnInit {
+  @Input() public selectedComponentTool: string;
 
-  constructor() { }
+  constructor() {
 
-  ngOnInit() {}
+  }
+
+  ngOnInit() {
+    console.log(this.selectedComponentTool)
+  }
 
 }

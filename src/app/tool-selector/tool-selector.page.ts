@@ -9,11 +9,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ToolSelectorPage implements OnInit {
   public selectedComponent: string;
+  public selectedComponentTool: string;
 
   constructor(private activatedRoute: ActivatedRoute, private translate: TranslateService) { }
 
   ngOnInit() {
     this.selectedComponent = this.activatedRoute.snapshot.paramMap.get('id');
+    this.selectedComponentTool = this.activatedRoute.snapshot.paramMap.get('tool');
     this.translate.setDefaultLang('en');
   }
 

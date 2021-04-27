@@ -10,6 +10,11 @@ const routes: Routes = [
     canLoad: [AuthGuard] // Secure all child pages
   },
   {
+    path: 'tool-selector/:id/:tool',
+    loadChildren: () => import('./tool-selector/tool-selector.module').then( m => m.ToolSelectorModule),
+    canLoad: [AuthGuard] // Secure all child pages
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
     canLoad: [AutoLoginGuard]

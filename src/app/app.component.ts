@@ -13,7 +13,7 @@ import { MenuController } from "@ionic/angular";
 export class AppComponent {
   public appPages = [
     { title: 'Publisher', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
-      {title: 'Project Editor', url: '/tool-selector/Publisher-Tool/Project-Editor', icon: 'bulb'}]
+      {title: 'Project Editor', url: 'Project-Editor', icon: 'bulb'}]
     },
     { title: 'Table of Contents Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
     { title: 'Facsimile Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
