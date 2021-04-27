@@ -12,19 +12,6 @@ export class ProjectService {
 
   constructor(private http: HttpClient) {
     this.api_url_path = environment.api_url_path;
-    this.testAccessToken().subscribe(
-      async (res) => {
-
-      },
-      async (res) => {
-
-      }
-    );
-  }
-
-  testAccessToken() : Observable<any>  {
-    // Autorization header (with access token) is applied automatically by TokenInterceptor
-    return this.http.post<any>(environment.api_url + "/auth/test", null);
   }
 
   getProjects(): Observable<any> {
