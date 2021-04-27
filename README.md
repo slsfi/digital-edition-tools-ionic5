@@ -45,7 +45,7 @@ The routing is handeled in the app-routing.module.ts file.
 
 ## Explanations
 ### Components - tools
-A collection tools, may inherit grid components.
+A collection tools, may inherit other sub components (e.g. components->grids).
 
 ### Components - grids
 A collection of data-grid components for viewing and editing data.
