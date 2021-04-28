@@ -15,5 +15,17 @@
   },
   "component-selector":{
     "example": "Example"
+  },
+  "tool-selector": {
+    "tools": {
+      "Publisher-Tool":"Publisher Tool",
+      "Facsimile-Tool":"Facsimile Tool",
+      "TOC-Editor":"TOC Editor",
+      "Entity-Editor":"Entity Editor",
+      "Event-Editor":"Event Editor",
+      "TEI-Selector":"TEI Selector",
+      "Landing-Page":"Home",
+      "Project-Editor": "Project Editor"
+    }
   }
 }

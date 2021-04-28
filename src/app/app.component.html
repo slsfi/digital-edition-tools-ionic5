@@ -13,24 +13,18 @@
             </ion-select>
           </ion-item>
 
-          <!--ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-              <ion-label>{{ p.title }}</ion-label>
-            </ion-item>
-          </ion-menu-toggle-->
           <ion-list *ngFor="let page of appPages" lines="none" class="page-menu">
             <ion-item routerDirection="root" [routerLink]="[page.url]" lines="none" detail="false" routerLinkActive="selected" (click)="toggleIsOpen(page)">
               <ion-icon slot="start" [ios]="page.icon + '-outline'" [md]="page.icon + '-sharp'"></ion-icon>
               <ion-icon *ngIf="page.subPages && page.isOpen" slot="end" [ios]="'caret-down-outline'" [md]="'caret-down-sharp'"></ion-icon>
               <ion-icon *ngIf="page.subPages && !page.isOpen" slot="end" [ios]="'caret-forward-outline'" [md]="'caret-forward-sharp'"></ion-icon>
-              <ion-label>{{ page.title }}</ion-label>
+              <ion-label>{{ ('tool-selector.tools.' + page.title) | translate }}</ion-label>
             </ion-item>
             <ion-list *ngIf = "page.subPages && page.isOpen" class="sub-menu-list">
               <ion-menu-toggle auto-hide="false" *ngFor="let subPage of page.subPages">
                 <ion-item routerDirection="root" [routerLink]="[page.url, subPage.url]" lines="none" detail="false" routerLinkActive="selected">
                   <ion-icon slot="start" [ios]="subPage.icon + '-outline'" [md]="subPage.icon + '-sharp'"></ion-icon>
-                  <ion-label>{{ subPage.title }}</ion-label>
+                  <ion-label>{{ ('tool-selector.tools.' + subPage.title) | translate }}</ion-label>
                 </ion-item>
               </ion-menu-toggle>
             </ion-list>

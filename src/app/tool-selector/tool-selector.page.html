@@ -3,7 +3,8 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>{{ selectedComponent }}</ion-title>
+    <ion-title *ngIf="!selectedComponentTool">{{ ('tool-selector.tools.' + selectedComponent) | translate }}</ion-title>
+    <ion-title *ngIf="selectedComponentTool">{{ ('tool-selector.tools.' + selectedComponentTool) | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,5 +22,6 @@
     <app-entity-editor *ngIf="selectedComponent === 'Entity-Editor'"></app-entity-editor>
     <app-event-editor *ngIf="selectedComponent === 'Event-Editor'"></app-event-editor>
     <app-tei-selector *ngIf="selectedComponent === 'TEI-Selector'"></app-tei-selector>
+    <app-landing-page *ngIf="selectedComponent === 'Landing-Page'"></app-landing-page>
   </div>
 </ion-content>

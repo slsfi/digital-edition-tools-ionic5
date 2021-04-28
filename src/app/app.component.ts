@@ -13,14 +13,14 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent {
   public appPages = [
-    { title: 'Publisher', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
-      {title: 'Project Editor', url: 'Project-Editor', icon: 'bulb'}]
+    { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
+      {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'}]
     },
-    { title: 'Table of Contents Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
-    { title: 'Facsimile Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
-    { title: 'Entity Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false },
-    { title: 'Event Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
-    { title: 'TEI Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
+    { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
+    { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
+    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false },
+    { title: 'Event-Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
+    { title: 'TEI-Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
 
   private selectedProjectId: [];
