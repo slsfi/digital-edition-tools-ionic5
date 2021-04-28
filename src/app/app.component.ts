@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ProjectService } from './services/project.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from "@ionic/angular";
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -22,10 +23,11 @@ export class AppComponent {
     { title: 'TEI Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
 
-  selectedProjectId: [];
-  projects: [];
-  isLoggedIn: boolean = false;
-  translations: [];
+  private selectedProjectId: [];
+  private projects: [];
+  private isLoggedIn: boolean = false;
+  private translations: [];
+  private isAuthenticatedSubscription: Subscription;
 
   constructor( private translate: TranslateService,
     private authService: AuthenticationService,
@@ -38,13 +40,17 @@ export class AppComponent {
 
   initializeApp(){
     this.translate.setDefaultLang('en');
-    this.authService.isAuthenticated.subscribe(state => {
+    this.isAuthenticatedSubscription = this.authService.isAuthenticated.subscribe(state => {
       if (state) {
         this.isLoggedIn = true;
         this.menuController.enable(true, 'main-content-menu');
         this.getProjects();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.isAuthenticatedSubscription.unsubscribe();
   }
 
   async logout() {
