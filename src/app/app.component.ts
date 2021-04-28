@@ -23,10 +23,9 @@ export class AppComponent {
     { title: 'TEI-Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
 
-  private selectedProjectId: [];
-  private projects: [];
-  private isLoggedIn: boolean = false;
-  private translations: [];
+  public selectedProjectId: [];
+  public projects: [];
+  public isLoggedIn: boolean = false;
   private isAuthenticatedSubscription: Subscription;
 
   constructor( private translate: TranslateService,
@@ -123,7 +122,7 @@ export class AppComponent {
     await alert.present();
   }
 
-  private toggleIsOpen(page){
+  public toggleIsOpen(page){
     if ( page.isOpen === true ) {
       page.isOpen = false;
     } else {

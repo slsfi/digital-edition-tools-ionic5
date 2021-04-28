@@ -7,9 +7,9 @@ import { ProjectService } from '../../../services/project.service';
 })
 export class ProjectGridComponent implements OnInit {
 
-  private projects: [];
+  public projects: [];
 
-  projectColumns = [
+  public projectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true  },
       { headerName: 'Name', field: 'name', sortable: true, filter: true  },
       { headerName: 'Date Created', field: 'date_created', sortable: true, filter: true  },
