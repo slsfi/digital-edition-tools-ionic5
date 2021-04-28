@@ -15,6 +15,7 @@
         - publisher-tool
         - tei-selector
         - toc-editor
+      - landing-page
     - guards
     - models
     - pages
@@ -49,6 +50,9 @@ A collection tools, may inherit other sub components (e.g. components->grids).
 
 ### Components - grids
 A collection of data-grid components for viewing and editing data.
+
+### Components - landing-page
+Useras are directed to this page after a successfull login.
 
 ### Guards
 For making sure access restrictions apply in app-routing.module.ts.
