@@ -10,12 +10,12 @@ export class ProjectGridComponent implements OnInit {
   public projects: [];
 
   public projectColumns = [
-      { headerName: 'ID', field: 'id', sortable: true, filter: true  },
-      { headerName: 'Name', field: 'name', sortable: true, filter: true  },
+      { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
+      { headerName: 'Name', field: 'name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
       { headerName: 'Date Created', field: 'date_created', sortable: true, filter: true  },
       { headerName: 'Date Modified', field: 'date_modified', sortable: true, filter: true  },
-      { headerName: 'Published', field: 'published', sortable: true, filter: true  },
-      { headerName: 'Deleted', field: 'deleted', sortable: true, filter: true  }
+      { headerName: 'Published (0, 1, 2)', field: 'published', sortable: true, filter: true, editable: true, onCellValueChanged: this.publishedEdited },
+      { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
   ];
 
   constructor(private projectService: ProjectService) {
@@ -34,6 +34,16 @@ export class ProjectGridComponent implements OnInit {
 
       }
     );
+  }
+
+  nameEdited(data: any) {
+    console.log(data)
+    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
+  }
+
+  publishedEdited(data: any) {
+    console.log(data)
+    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
   }
 
 }

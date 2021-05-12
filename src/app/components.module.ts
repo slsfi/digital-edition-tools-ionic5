@@ -1,4 +1,3 @@
-import { ProjectGridComponent } from './components/grids/project-grid/project-grid.component';
 import { NgModule } from '@angular/core';
 import { PublisherToolComponent } from './components/tools/publisher-tool/publisher-tool.component';
 import { IonicModule } from '@ionic/angular';
@@ -11,6 +10,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { AgGridModule } from 'ag-grid-angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TocGridComponent } from './components/grids/toc-grid/toc-grid.component';
+import { ProjectGridComponent } from './components/grids/project-grid/project-grid.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -21,9 +23,10 @@ import { FormsModule } from '@angular/forms';
     FacsimileToolComponent,
     TeiSelectorComponent,
     ProjectGridComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    TocGridComponent
   ],
-  imports: [IonicModule, AgGridModule, CommonModule, FormsModule],
+  imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule],
   exports: [
     PublisherToolComponent,
     TocEditorComponent,
@@ -32,7 +35,8 @@ import { FormsModule } from '@angular/forms';
     FacsimileToolComponent,
     TeiSelectorComponent,
     ProjectGridComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    TocGridComponent
   ]
 })
 export class ComponentsModule {}
