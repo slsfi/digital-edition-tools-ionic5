@@ -1,12 +1,12 @@
 <div class="pub-toc-container">
   <div class="pub-container">
-    <div cdkDropList [cdkDropListData]="publicationData[0]"
-      [id]="'main'" [cdkDropListConnectedTo]="dropPubTargetIds"
-      (cdkDropListDropped)="drop($event)"
-      [cdkDropListSortingDisabled]="true">
+    <div cdkDropList [cdkDropListData]="publicationData"
+      [id]="'publications'" [cdkDropListConnectedTo]="dropTargetIds"
+      (cdkDropListDropped)="drop($event, 'publications')"
+      [cdkDropListSortingDisabled]="false">
 
-      <div *ngFor="let pub of publicationData[0]" cdkDrag [cdkDragData]="pub.id" (cdkDragMoved)="dragMoved($event)">
-        <div class="node-item" [attr.data-id]="pub.id" [attr.id]="'pub-'+pub.id">
+      <div *ngFor="let pub of publicationData" cdkDrag [cdkDragData]="pub.id" (cdkDragMoved)="dragMoved($event)">
+        <div class="node-item" [attr.data-id]="pub.id" [attr.id]="'node-'+pub.id">
           <div class="node-title" >
              {{pub.name}}
           </div>
@@ -24,8 +24,8 @@
 
         <div *ngIf="!node.collapsed && node.children.length" class="node-children"
           cdkDropList [cdkDropListData]="node.children"
-          [id]="node.id" [cdkDropListConnectedTo]="dropTocTargetIds"
-          (cdkDropListDropped)="drop($event)"
+          [id]="node.id" [cdkDropListConnectedTo]="dropTargetIds"
+          (cdkDropListDropped)="drop($event, 'toc')"
           [cdkDropListSortingDisabled]="true">
           <div *ngFor="let child of node.children" cdkDrag [cdkDragData]="child.id" (cdkDragMoved)="dragMoved($event)">
             <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>
@@ -35,8 +35,9 @@
     </ng-template>
 
     <div cdkDropList [cdkDropListData]="tocData"
-      [id]="'main'" [cdkDropListConnectedTo]="dropTocTargetIds"
-      (cdkDropListDropped)="drop($event)"
+      #tocList="cdkDropList"
+      [id]="'toc'" [cdkDropListConnectedTo]="dropTargetIds"
+      (cdkDropListDropped)="drop($event, 'toc')"
       [cdkDropListSortingDisabled]="true">
 
       <div *ngFor="let node of tocData" cdkDrag [cdkDragData]="node.id" (cdkDragMoved)="dragMoved($event)">

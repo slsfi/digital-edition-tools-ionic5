@@ -38,7 +38,7 @@ export class TocEditorComponent implements OnInit {
   async getCollectionPublications() {
     this.publicationService.getCollectionPublications('topelius', 201).subscribe(
       async (res) => {
-        this.publicationData.push(res);
+        this.publicationData = res;
         this.setMissingData(this.publicationData);
       },
       async (res) => {

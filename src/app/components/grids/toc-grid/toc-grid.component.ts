@@ -2,6 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { TocItem } from 'src/app/models/toc';
 import { Publication } from 'src/app/models/publication';
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import * as uuid from 'uuid';
 
 export interface DropInfo {
   targetId: string;
@@ -18,8 +20,7 @@ export class TocGridComponent implements OnInit {
   @Input() publicationData: Publication[];
 
   // ids for connected drop lists
-  dropTocTargetIds = [];
-  dropPubTargetIds = [];
+  dropTargetIds = [];
   nodeLookup = {};
   pubLookup = {};
   dropActionTodo: DropInfo = null;
@@ -32,23 +33,13 @@ export class TocGridComponent implements OnInit {
     if( this.tocData ) {
       this.prepareDragDrop(this.tocData);
     }
-    if( this.publicationData ) {
-      this.preparePubDragDrop(this.publicationData);
-    }
   }
 
   prepareDragDrop(nodes: TocItem[]) {
     nodes.forEach(node => {
-        this.dropTocTargetIds.push(node.id);
+        this.dropTargetIds.push(node.id);
         this.nodeLookup[node.id] = node;
         this.prepareDragDrop(node.children);
-    });
-  }
-
-  preparePubDragDrop(nodes: Publication[]) {
-    nodes.forEach(node => {
-        this.dropPubTargetIds.push(node.id);
-        this.nodeLookup[node.id] = node;
     });
   }
 
@@ -84,24 +75,58 @@ export class TocGridComponent implements OnInit {
   }
 
 
-  drop(event) {
+  drop(event, parentContainerId) {
+    console.log('container.id:' + parentContainerId)
+
+    //AgGridModuleconsole.log('event:' + JSON.stringify(event));
       if (!this.dropActionTodo) return;
 
-      const draggedItemId = event.item.data;
+      let draggedItemId = event.item.data;
       const parentItemId = event.previousContainer.id;
-      const targetListId = this.getParentNodeId(this.dropActionTodo.targetId, this.tocData, 'main');
+      let dataPool = [];
+
+      if ( parentContainerId === 'publications' ){
+        dataPool = this.publicationData;
+      } else {
+        dataPool = this.tocData;
+      }
+
+
+      const targetListId = this.getParentNodeId(this.dropActionTodo.targetId, dataPool, parentContainerId);
 
       console.log(
           '\nmoving\n[' + draggedItemId + '] from list [' + parentItemId + ']',
           '\n[' + this.dropActionTodo.action + ']\n[' + this.dropActionTodo.targetId + '] from list [' + targetListId + ']');
 
+
+      let oldItemContainer = [];
+      if ( parentItemId !== parentContainerId && parentItemId !== 'publications' ) {
+        if ( this.nodeLookup[parentItemId].children !== undefined ) {
+          oldItemContainer = this.nodeLookup[parentItemId].children;
+        }
+        let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
+        oldItemContainer.splice(i, 1);
+      } else if ( parentItemId === 'publications' && targetListId !== 'publications' && targetListId !== null ) {
+        let i = this.publicationData.findIndex(c => c.id === draggedItemId);
+        const item = this.publicationData.splice(i, 1)[0];
+        const newTocItem = new TocItem({'text': item.name});
+        newTocItem.children = [];
+        newTocItem.id = uuid.v4();
+        newTocItem.itemId = item.publication_collection_id + '_' + item.id;
+        newTocItem.collectionId = String(item.publication_collection_id);
+        this.dropTargetIds.push(newTocItem.id);
+        this.nodeLookup[newTocItem.id] = newTocItem;
+        this.tocData.push(newTocItem);
+        draggedItemId = newTocItem.id;
+      } else {
+        oldItemContainer = dataPool;
+        let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
+        oldItemContainer.splice(i, 1);
+      }
+
       const draggedItem = this.nodeLookup[draggedItemId];
+      const newContainer = (targetListId !== parentContainerId && parentContainerId !== 'publications') ? this.nodeLookup[targetListId].children : dataPool;
 
-      const oldItemContainer = parentItemId != 'main' ? this.nodeLookup[parentItemId].children : this.tocData;
-      const newContainer = targetListId != 'main' ? this.nodeLookup[targetListId].children : this.tocData;
-
-      let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
-      oldItemContainer.splice(i, 1);
 
       switch (this.dropActionTodo.action) {
           case 'before':
@@ -123,18 +148,25 @@ export class TocGridComponent implements OnInit {
       this.clearDragInfo(true)
   }
   getParentNodeId(id: string, nodesToSearch: TocItem[], parentId: string): string {
-      for (let node of nodesToSearch) {
-          if (node.id == id) return parentId;
-          let ret = this.getParentNodeId(id, node.children, node.id);
-          if (ret) return ret;
+      try {
+        if ( nodesToSearch !== undefined && nodesToSearch.length > 0 && nodesToSearch[0] !== undefined ) {
+          for (let node of nodesToSearch) {
+            if (node.id == id) return parentId;
+            let ret = this.getParentNodeId(id, node.children, node.id);
+            if (ret) return ret;
+          }
+        }
+      } catch (error) {
+        console.log(error);
       }
+
       return null;
   }
 
   showDragInfo() {
       this.clearDragInfo();
       if (this.dropActionTodo) {
-          this.document.getElementById("node-" + this.dropActionTodo.targetId).classList.add("drop-" + this.dropActionTodo.action);
+        this.document.getElementById("node-" + this.dropActionTodo.targetId).classList.add("drop-" + this.dropActionTodo.action);
       }
   }
 
