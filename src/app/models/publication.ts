@@ -15,5 +15,6 @@ export class Publication{
   public published: number;
   public published_by: string;
   public zts_id: string;
+  public unique_id: string;
 }
 

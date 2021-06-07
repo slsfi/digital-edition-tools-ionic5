@@ -23,6 +23,7 @@ export class TocGridComponent implements OnInit {
   dropTargetIds = [];
   nodeLookup = {};
   pubLookup = {};
+  tocIds = [];
   dropActionTodo: DropInfo = null;
 
   constructor(@Inject(DOCUMENT) private document: Document) {
@@ -33,13 +34,39 @@ export class TocGridComponent implements OnInit {
     if( this.tocData ) {
       this.prepareDragDrop(this.tocData);
     }
+    this.getTocIds(this.tocData);
+    this.filterPublications();
   }
 
   prepareDragDrop(nodes: TocItem[]) {
     nodes.forEach(node => {
-        this.dropTargetIds.push(node.id);
-        this.nodeLookup[node.id] = node;
+        this.dropTargetIds.push(node.unique_id);
+        this.nodeLookup[node.unique_id] = node;
         this.prepareDragDrop(node.children);
+    });
+  }
+
+  filterPublications() {
+    console.log(this.tocIds);
+    const publications = [];
+    this.publicationData.forEach( publication => {
+      const itemId = publication.publication_collection_id + '_' + publication.id;
+      if( !this.tocIds.includes(itemId) ) {
+        publications.push(publication);
+      }
+    });
+
+    this.publicationData = publications;
+  }
+
+  getTocIds( items?: any[] ) {
+    items.forEach( (item) => {
+      if( item.itemId !== undefined ) {
+        this.tocIds.push(item.itemId);
+      }
+      if ( item.children !== undefined && item.children.length > 0 ) {
+        this.getTocIds(item.children);
+      }
     });
   }
 
@@ -78,7 +105,6 @@ export class TocGridComponent implements OnInit {
   drop(event, parentContainerId) {
     console.log('container.id:' + parentContainerId)
 
-    //AgGridModuleconsole.log('event:' + JSON.stringify(event));
       if (!this.dropActionTodo) return;
 
       let draggedItemId = event.item.data;
@@ -104,23 +130,23 @@ export class TocGridComponent implements OnInit {
         if ( this.nodeLookup[parentItemId].children !== undefined ) {
           oldItemContainer = this.nodeLookup[parentItemId].children;
         }
-        let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
+        let i = oldItemContainer.findIndex(c => c.unique_id === draggedItemId);
         oldItemContainer.splice(i, 1);
       } else if ( parentItemId === 'publications' && targetListId !== 'publications' && targetListId !== null ) {
-        let i = this.publicationData.findIndex(c => c.id === draggedItemId);
+        let i = this.publicationData.findIndex(c => c.unique_id === draggedItemId);
         const item = this.publicationData.splice(i, 1)[0];
         const newTocItem = new TocItem({'text': item.name});
         newTocItem.children = [];
-        newTocItem.id = uuid.v4();
+        newTocItem.unique_id = uuid.v4();
         newTocItem.itemId = item.publication_collection_id + '_' + item.id;
         newTocItem.collectionId = String(item.publication_collection_id);
-        this.dropTargetIds.push(newTocItem.id);
-        this.nodeLookup[newTocItem.id] = newTocItem;
+        this.dropTargetIds.push(newTocItem.unique_id);
+        this.nodeLookup[newTocItem.unique_id] = newTocItem;
         this.tocData.push(newTocItem);
-        draggedItemId = newTocItem.id;
+        draggedItemId = newTocItem.unique_id;
       } else {
         oldItemContainer = dataPool;
-        let i = oldItemContainer.findIndex(c => c.id === draggedItemId);
+        let i = oldItemContainer.findIndex(c => c.unique_id === draggedItemId);
         oldItemContainer.splice(i, 1);
       }
 
@@ -144,15 +170,15 @@ export class TocGridComponent implements OnInit {
               this.nodeLookup[this.dropActionTodo.targetId].collapsed = false;
               break;
       }
-
+      this.filterPublications();
       this.clearDragInfo(true)
   }
-  getParentNodeId(id: string, nodesToSearch: TocItem[], parentId: string): string {
+  getParentNodeId(unique_id: string, nodesToSearch: TocItem[], parentId: string): string {
       try {
         if ( nodesToSearch !== undefined && nodesToSearch.length > 0 && nodesToSearch[0] !== undefined ) {
           for (let node of nodesToSearch) {
-            if (node.id == id) return parentId;
-            let ret = this.getParentNodeId(id, node.children, node.id);
+            if (node.unique_id == unique_id) return parentId;
+            let ret = this.getParentNodeId(unique_id, node.children, node.unique_id);
             if (ret) return ret;
           }
         }

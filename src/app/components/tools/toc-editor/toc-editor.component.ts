@@ -50,8 +50,8 @@ export class TocEditorComponent implements OnInit {
   // Old TOC files might be missing UIDs and Children
   private setMissingData( items?: any[] ) : void {
     items.forEach( (item) => {
-      if ( item.id === undefined || item.id === '') {
-        item.id = uuid.v4();
+      if ( item.unique_id === undefined || item.unique_id === '') {
+        item.unique_id = uuid.v4();
       }
       if ( item.children !== undefined && item.children.length > 0 ) {
         this.setMissingData(item.children);
