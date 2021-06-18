@@ -18,15 +18,20 @@ export class AppComponent {
     },
     { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
     { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
-    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false },
+    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages: [
+      {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'bulb'}]
+    },
     { title: 'Event-Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
     { title: 'TEI-Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
 
-  public selectedProjectId: [];
+  public selectedProjectId: string;
+  public selectedPId: number;
+  public selectedProjectName: string;
   public projects: [];
   public isLoggedIn: boolean = false;
   private isAuthenticatedSubscription: Subscription;
+  public compareWith: any;
 
   constructor( private translate: TranslateService,
     private authService: AuthenticationService,
@@ -41,9 +46,14 @@ export class AppComponent {
     this.translate.setDefaultLang('en');
     this.isAuthenticatedSubscription = this.authService.isAuthenticated.subscribe(state => {
       if (state) {
+        this.selectedPId = Number(localStorage.getItem('selectedProjectId'));
+        this.compareWith = this.compareWithFn;
         this.isLoggedIn = true;
         this.menuController.enable(true, 'main-content-menu');
         this.getProjects();
+      } else {
+        this.isLoggedIn = false;
+        this.menuController.enable(false, 'main-content-menu');
       }
     });
   }
@@ -81,11 +91,22 @@ export class AppComponent {
     );
   }
 
-  selectProject() {
+  compareWithFn(o1, o2) {
+    return String(o1) === String(o2);
+  };
+
+  selectProject( event: any ) {
     this.projects.forEach( (project: Array<any>) => {
-      if ( this.selectedProjectId === project['id'] ){
-        localStorage.setItem('selectedProjectId', project['id']);
+      if ( this.selectedPId === project['id'] ){
+        localStorage.setItem('selectedProjectId', String(project['id']));
         localStorage.setItem('selectedProjectName', project['name']);
+        // this.selectedProjectId = localStorage.getItem('selectedProjectId');
+        // this.selectedProjectName = localStorage.getItem('selectedProjectName');
+      } else if ( this.selectedProjectId === '' ) {
+        localStorage.setItem('selectedProjectId', null);
+        localStorage.setItem('selectedProjectName', null);
+        // this.selectedProjectId = String(localStorage.getItem('selectedProjectId'));
+        // this.selectedProjectName = localStorage.getItem('selectedProjectName');
       }
     });
   }

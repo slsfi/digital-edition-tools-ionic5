@@ -12,7 +12,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TocGridComponent } from './components/grids/toc-grid/toc-grid.component';
 import { ProjectGridComponent } from './components/grids/project-grid/project-grid.component';
+import { SubjectGridComponent } from './components/grids/subject-grid/subject-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TeiSelectorComponent,
     ProjectGridComponent,
     LandingPageComponent,
+    SubjectGridComponent,
     TocGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule],
@@ -35,6 +38,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FacsimileToolComponent,
     TeiSelectorComponent,
     ProjectGridComponent,
+    SubjectGridComponent,
     LandingPageComponent,
     TocGridComponent
   ]

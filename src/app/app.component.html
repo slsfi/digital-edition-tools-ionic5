@@ -7,8 +7,9 @@
           <ion-note>{{ 'app.developer-email' | translate }}</ion-note>
 
           <ion-item>
-            <ion-label>Project</ion-label>
-            <ion-select placeholder="Select Project" [(ngModel)]="selectedProjectId" (ionChange)="selectProject()">
+            <ion-label>{{'app.project' | translate}}</ion-label>
+            <ion-select placeholder="{{ 'app.select-project' | translate }}" [(ngModel)]="selectedPId" *ngIf="projects !== undefined" [value]="selectedProjectId" (ionChange)="selectProject($event)">
+              <ion-select-option [value]=""></ion-select-option>
               <ion-select-option *ngFor="let project of projects" [value]="project['id']">{{project['name']}}</ion-select-option>
             </ion-select>
           </ion-item>

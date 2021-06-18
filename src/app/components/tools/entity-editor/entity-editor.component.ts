@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-entity-editor',
@@ -6,9 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./entity-editor.component.scss'],
 })
 export class EntityEditorComponent implements OnInit {
-
+  @Input() public selectedComponentTool: string;
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.selectedComponentTool)
+  }
 
 }

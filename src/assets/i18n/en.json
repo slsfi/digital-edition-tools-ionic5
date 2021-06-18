@@ -4,6 +4,8 @@
     "developer-email": "is@sls.fi",
     "create-project": "Create Project",
     "logout": "Log out",
+    "select-project": "Select a project",
+    "project": "Project",
     "create-new-project": {
       "title": "Create a New Project",
       "subtitle": "(Use the Publisher Tool to publish the project)",
@@ -25,7 +27,8 @@
       "Event-Editor":"Event Editor",
       "TEI-Selector":"TEI Selector",
       "Landing-Page":"Home",
-      "Project-Editor": "Project Editor"
+      "Project-Editor": "Project Editor",
+      "Subject-Editor": "Subject Editor"
     }
   }
 }

@@ -1,3 +1,4 @@
 <p>
-  entity-editor works!
+  entity-editor works! {{selectedComponentTool}}
 </p>
+<app-subject-grid *ngIf="selectedComponentTool === 'Subject-Editor'"></app-subject-grid>
