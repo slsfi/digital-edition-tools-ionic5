@@ -14,8 +14,8 @@ export class ToolSelectorPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private translate: TranslateService) { }
 
   ngOnInit() {
-    this.selectedComponent = this.activatedRoute.snapshot.paramMap.get('id');
-    this.selectedComponentTool = this.activatedRoute.snapshot.paramMap.get('tool');
+    this.selectedComponent = this.activatedRoute.snapshot.paramMap.get('tool');
+    this.selectedComponentTool = this.activatedRoute.snapshot.paramMap.get('sub-tool');
     this.translate.setDefaultLang('en');
   }
 

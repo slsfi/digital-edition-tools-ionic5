@@ -5,12 +5,12 @@ import { AutoLoginGuard } from './guards/auto-login.guard';
 
 const routes: Routes = [
   {
-    path: 'tool-selector/:id',
+    path: 'tool-selector/:tool',
     loadChildren: () => import('./tool-selector/tool-selector.module').then( m => m.ToolSelectorModule),
     canLoad: [AuthGuard] // Secure all child pages
   },
   {
-    path: 'tool-selector/:id/:tool',
+    path: 'tool-selector/:tool/:sub-tool',
     loadChildren: () => import('./tool-selector/tool-selector.module').then( m => m.ToolSelectorModule),
     canLoad: [AuthGuard] // Secure all child pages
   },

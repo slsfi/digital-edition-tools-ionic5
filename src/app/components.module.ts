@@ -13,8 +13,13 @@ import { FormsModule } from '@angular/forms';
 import { TocGridComponent } from './components/grids/toc-grid/toc-grid.component';
 import { ProjectGridComponent } from './components/grids/project-grid/project-grid.component';
 import { SubjectGridComponent } from './components/grids/subject-grid/subject-grid.component';
+import { GitGridComponent } from './components/grids/git-grid/git-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+/*
+All available tools and sub tools need to imported here.
+
+*/
 
 @NgModule({
   declarations: [
@@ -27,7 +32,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ProjectGridComponent,
     LandingPageComponent,
     SubjectGridComponent,
-    TocGridComponent
+    TocGridComponent,
+    GitGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule],
   exports: [
@@ -40,7 +46,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ProjectGridComponent,
     SubjectGridComponent,
     LandingPageComponent,
-    TocGridComponent
+    TocGridComponent,
+    GitGridComponent
   ]
 })
 export class ComponentsModule {}

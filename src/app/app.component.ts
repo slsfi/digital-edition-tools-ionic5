@@ -12,6 +12,14 @@ import { Subscription } from 'rxjs';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  /*
+    This array is used to construct the left side TOC.
+    It supports main and sub pages.
+    The routing of the pages is done in app-routing.module.ts
+    Routing supports /[tool]/[sub tool]
+    The tool-selector.page.ts shows the selected Tool depending on the URL (routing)
+  */
   public appPages = [
     { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
       {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'}]
@@ -47,7 +55,6 @@ export class AppComponent {
     this.isAuthenticatedSubscription = this.authService.isAuthenticated.subscribe(state => {
       if (state) {
         this.selectedPId = Number(localStorage.getItem('selectedProjectId'));
-        this.compareWith = this.compareWithFn;
         this.isLoggedIn = true;
         this.menuController.enable(true, 'main-content-menu');
         this.getProjects();
@@ -91,22 +98,15 @@ export class AppComponent {
     );
   }
 
-  compareWithFn(o1, o2) {
-    return String(o1) === String(o2);
-  };
-
   selectProject( event: any ) {
     this.projects.forEach( (project: Array<any>) => {
       if ( this.selectedPId === project['id'] ){
         localStorage.setItem('selectedProjectId', String(project['id']));
         localStorage.setItem('selectedProjectName', project['name']);
-        // this.selectedProjectId = localStorage.getItem('selectedProjectId');
-        // this.selectedProjectName = localStorage.getItem('selectedProjectName');
-      } else if ( this.selectedProjectId === '' ) {
+      } else if ( String(this.selectedPId) === '' ) {
+        this.selectedPId = null;
         localStorage.setItem('selectedProjectId', null);
         localStorage.setItem('selectedProjectName', null);
-        // this.selectedProjectId = String(localStorage.getItem('selectedProjectId'));
-        // this.selectedProjectName = localStorage.getItem('selectedProjectName');
       }
     });
   }
@@ -143,6 +143,7 @@ export class AppComponent {
     await alert.present();
   }
 
+  // Used for toggling the TOC items with sub pages
   public toggleIsOpen(page){
     if ( page.isOpen === true ) {
       page.isOpen = false;

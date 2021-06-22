@@ -1,0 +1,15 @@
+ <p>
+  git-grid works!
+</p>
+<ion-button icon-only clear (click)="goBack()">
+  <ion-icon name="arrow-back-circle-outline"></ion-icon>
+</ion-button>
+<ion-button icon-only clear (click)="refresh()">
+  <ion-icon name="refresh-circle-outline"></ion-icon>
+</ion-button>
+<ion-spinner *ngIf="dataLoading" name="crescent"></ion-spinner>
+<ion-list *ngIf="!dataLoading" >
+  <ion-item *ngFor="let item of gitTreeStructure" (click)="selectItem(item)">
+    {{ item }}
+  </ion-item>
+</ion-list>
