@@ -58,14 +58,24 @@ export class GitGridComponent implements OnInit {
     }
     // Add the keys as values to the array of files and folders
     Object.keys(structure).forEach(function(key, index) {
-      topStructure.push(key);
+      // Check if file
+      if ( structure[key] === null ) {
+        topStructure.push({'name': key, 'file': true});
+      } else {
+        topStructure.push({'name': key, 'file': false});
+      }
     });
     this.gitTreeStructure = topStructure;
   }
 
-  public selectItem(item: string) {
-    this.currentPath += item + '/'
-    this.getFileTree();
+  public selectItem(item: Object) {
+    if ( item['file'] === true ) {
+      // Open the file
+
+    } else {
+      this.currentPath += item['name'] + '/'
+      this.getFileTree();
+    }
   }
 
   public goBack() {
