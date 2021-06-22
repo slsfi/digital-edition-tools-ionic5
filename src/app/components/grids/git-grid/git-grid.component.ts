@@ -78,6 +78,7 @@ export class GitGridComponent implements OnInit {
     }
   }
 
+  // Going back should reload the files, if there would be new ones.
   public goBack() {
     if ( this.currentPath !== '' ) {
       const folderPath = this.currentPath.split('/');
