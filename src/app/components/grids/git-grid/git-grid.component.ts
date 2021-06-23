@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GitService } from 'src/app/services/git.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { GitService } from 'src/app/services/git.service';
   styleUrls: ['./git-grid.component.scss'],
 })
 export class GitGridComponent implements OnInit {
+
+  @Output() fileSelectedEvent = new EventEmitter<string>();
 
   public gitTreeStructure: Array<Object> = [];
   public gitTreeStructureFullStructure: Object = {};
@@ -70,8 +72,8 @@ export class GitGridComponent implements OnInit {
 
   public selectItem(item: Object) {
     if ( item['file'] === true ) {
-      // Open the file
-
+      // Send the full filepath to the parent component and relay it to the xml-entity-selector component
+      this.fileSelectedEvent.emit(this.currentPath + item['name']);
     } else {
       this.currentPath += item['name'] + '/'
       this.getFileTree();

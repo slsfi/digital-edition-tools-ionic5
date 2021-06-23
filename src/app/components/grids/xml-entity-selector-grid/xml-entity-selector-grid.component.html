@@ -1,0 +1,19 @@
+<ion-item>
+  <ion-label>Occurrence Type:</ion-label>
+  <ion-select placeholder="Select" [(ngModel)]="selectedOccurrenceType" (ionChange)="selectOccurrenceType()">
+    <ion-select-option *ngFor="let type of availableOccurrenceTypes" [value]="type">{{type}}</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-item>
+  <ion-label *ngIf="!dataLoading" >{{selectedFileFullPath}}</ion-label>
+  <ion-spinner *ngIf="dataLoading" name="crescent"></ion-spinner>
+</ion-item>
+<div class="xml-entity-grid">
+  <ag-grid-angular
+    style="width: 100%; height: 100%;"
+    class="ag-theme-alpine"
+    [rowData]="selectedXmlOccurrences"
+    [columnDefs]="occurrenceColumns"
+    >
+  </ag-grid-angular>
+</div>

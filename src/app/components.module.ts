@@ -15,6 +15,7 @@ import { ProjectGridComponent } from './components/grids/project-grid/project-gr
 import { SubjectGridComponent } from './components/grids/subject-grid/subject-grid.component';
 import { GitGridComponent } from './components/grids/git-grid/git-grid.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { XmlEntitySelectorGridComponent } from './components/grids/xml-entity-selector-grid/xml-entity-selector-grid.component';
 
 /*
 All available tools and sub tools need to imported here.
@@ -33,7 +34,8 @@ All available tools and sub tools need to imported here.
     LandingPageComponent,
     SubjectGridComponent,
     TocGridComponent,
-    GitGridComponent
+    GitGridComponent,
+    XmlEntitySelectorGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule],
   exports: [
@@ -47,7 +49,8 @@ All available tools and sub tools need to imported here.
     SubjectGridComponent,
     LandingPageComponent,
     TocGridComponent,
-    GitGridComponent
+    GitGridComponent,
+    XmlEntitySelectorGridComponent
   ]
 })
 export class ComponentsModule {}

@@ -1,5 +1,7 @@
 <p>
   tei-selector works!
 </p>
-
-<app-git-grid></app-git-grid>
+<div class="tei-selector-container">
+  <app-git-grid (fileSelectedEvent)="setSelectedFileFullPath($event)"></app-git-grid>
+  <app-xml-entity-selector-grid [selectedFileFullPath]="selectedFileFullPath"></app-xml-entity-selector-grid>
+</div>

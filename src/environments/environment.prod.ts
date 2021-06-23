@@ -11,56 +11,63 @@ export const environment = {
   publisher_configuration: {
     show_remove: false
   },
-  selector_configurations: [
-    {
-      name: 'Personer',
-      type: 'subjects',
-      descriptionField: 'Karriär',
-      sortByColumn: 0,
-      sortByField: 'last_name',
-      elements: [
-        'persName', 'rs'
-      ],
-      elementsXPath: '//*[name() = "persName" or name() = "rs"]',
-      attribute: 'corresp'
-    },
-    {
-      name: 'Platser',
-      type: 'locations',
-      descriptionField: 'Beskrivning',
-      sortByColumn: 0,
-      sortByField: 'name',
-      elements: [
-        'placeName'
-      ],
-      elementsXPath: '//*[name() = "placeName"]',
-      attribute: 'corresp'
-    },
-    {
-      name: 'Ämnesord',
-      type: 'tags',
-      descriptionField: 'Beskrivning',
-      sortByColumn: 0,
-      sortByField: 'name',
-      elements: [
-        'tagName'
-      ],
-      elementsXPath: '//*[name() = "placeName"]',
-      attribute: 'corresp'
-    },
-    {
-      name: 'Verk',
-      type: 'works',
-      descriptionField: 'Beskrivning',
-      sortByColumn: 0,
-      sortByField: 'title',
-      elements: [
-        'workName'
-      ],
-      elementsXPath: '//*[name() = "placeName"]',
-      attribute: 'corresp'
-    }
-  ],
+  selector_configurations: {
+    subjects:
+      {
+        name: 'Personer',
+        type: 'subjects',
+        descriptionField: 'Karriär',
+        sortByColumn: 0,
+        sortByField: 'last_name',
+        elements: [
+          'persName', 'rs'
+        ],
+        elementsXPath: '//*[name() = "persName" or name() = "rs"]',
+        attribute: 'corresp'
+      }
+    ,
+    locations:
+      {
+        name: 'Platser',
+        type: 'locations',
+        descriptionField: 'Beskrivning',
+        sortByColumn: 0,
+        sortByField: 'name',
+        elements: [
+          'placeName'
+        ],
+        elementsXPath: '//*[name() = "placeName"]',
+        attribute: 'corresp'
+      }
+    ,
+    tags:
+      {
+        name: 'Ämnesord',
+        type: 'tags',
+        descriptionField: 'Beskrivning',
+        sortByColumn: 0,
+        sortByField: 'name',
+        elements: [
+          'tagName'
+        ],
+        elementsXPath: '//*[name() = "placeName"]',
+        attribute: 'corresp'
+      },
+    works:
+      {
+        name: 'Verk',
+        type: 'works',
+        descriptionField: 'Beskrivning',
+        sortByColumn: 0,
+        sortByField: 'title',
+        elements: [
+          'workName'
+        ],
+        elementsXPath: '//*[name() = "title"]',
+        attribute: 'corresp'
+      }
+
+  },
   xml_file_extensions: '.xml,.tei,.txt',
   xml_space_before_trailing_slash: true,
   line_break: '\r\n',

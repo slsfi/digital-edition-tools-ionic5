@@ -7,8 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeiSelectorComponent implements OnInit {
 
+  public selectedFileFullPath: string = null;
+
   constructor() { }
 
   ngOnInit() {}
+
+  public setSelectedFileFullPath( event: Event) {
+    this.selectedFileFullPath = String(event);
+  }
 
 }

@@ -8,8 +8,8 @@
   <ion-icon name="refresh-circle-outline"></ion-icon>
 </ion-button>
 <ion-spinner *ngIf="dataLoading" name="crescent"></ion-spinner>
-<ion-list *ngIf="!dataLoading" >
-  <ion-item *ngFor="let item of gitTreeStructure" (click)="selectItem(item)">
+<ion-list *ngIf="!dataLoading" class="file-list">
+  <ion-item button *ngFor="let item of gitTreeStructure" (click)="selectItem(item)">
     <ion-icon *ngIf="item.file === true" name="document-outline"></ion-icon>
     <ion-icon *ngIf="item.file === false" name="folder-outline"></ion-icon>
     {{ item.name }}

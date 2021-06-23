@@ -1,0 +1,14 @@
+.tei-selector-container {
+  display: flex;
+  width: 100%;
+}
+
+.tei-selector-container app-git-grid {
+  width: 50%;
+}
+
+.tei-selector-container app-xml-entity-selector-grid {
+  width: 50%;
+  position: fixed;
+  right: 2rem;
+}
