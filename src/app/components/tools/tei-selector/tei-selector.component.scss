@@ -4,11 +4,15 @@
 }
 
 .tei-selector-container app-git-grid {
-  width: 50%;
+  width: 33%;
 }
 
 .tei-selector-container app-xml-entity-selector-grid {
-  width: 50%;
+  width: 33%;
   position: fixed;
   right: 2rem;
+}
+
+.tei-selector-container app-subject-grid {
+  width: 33%;
 }

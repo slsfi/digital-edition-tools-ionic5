@@ -11,10 +11,10 @@ export class ProjectGridComponent implements OnInit {
 
   public projectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
-      { headerName: 'Name', field: 'name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
+      { headerName: 'Name', field: 'name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited.bind(this) },
       { headerName: 'Date Created', field: 'date_created', sortable: true, filter: true  },
       { headerName: 'Date Modified', field: 'date_modified', sortable: true, filter: true  },
-      { headerName: 'Published (0, 1, 2)', field: 'published', sortable: true, filter: true, editable: true, onCellValueChanged: this.publishedEdited },
+      { headerName: 'Published (0, 1, 2)', field: 'published', sortable: true, filter: true, editable: true, onCellValueChanged: this.publishedEdited.bind(this) },
       { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
   ];
 

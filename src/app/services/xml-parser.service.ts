@@ -36,6 +36,7 @@ export class XmlParserService {
         node = xp.iterateNext() as Element;
       }
 
+      var i = 0;
       xmlNodes.forEach(element => {
         if ( element.parentElement !== undefined && element.parentElement.parentElement !== undefined ) {
           if ( element.parentElement.nodeName === 'titleStmt' ) {
@@ -48,12 +49,36 @@ export class XmlParserService {
           id = '';
         }
         occRowData[type].push({
-          occurence: element.textContent, section: element.parentElement.textContent.substring(0, 50),
-          id: id, saved: ((id==='') ? false: true)
+          occurence: element.textContent,
+          section: element.parentElement.textContent.substring(0, 50),
+          id: id, saved: ((id==='') ? false: true),
+          referenceId: i++
         });
       });
     });
     return occRowData;
+  }
+
+
+  public editXMLOccurrences ( xmlDocument: XMLDocument, type, index: number, newValue: string ) {
+    // set the xpath to fetch
+    const xpath = environment.selector_configurations[type].elementsXPath;
+    // Get the nodes using XPath defined in configuration (environment)
+    const xp: XPathResult = xmlDocument.evaluate(xpath, xmlDocument.documentElement,
+      null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+
+    let node: Element = xp.iterateNext() as Element;
+    let i = 0;
+    while (node) {
+      if ( i === index ) {
+        node.setAttribute('corresp', newValue);
+        break;
+      }
+      i++;
+      node = xp.iterateNext() as Element;
+    }
+    // Updated the XML, now we are supposed to save it.
+    return xmlDocument;
   }
 
   public b64EncodeUnicode(str) {
