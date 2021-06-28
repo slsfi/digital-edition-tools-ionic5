@@ -21,13 +21,19 @@ export class AppComponent {
     The tool-selector.page.ts shows the selected Tool depending on the URL (routing)
   */
   public appPages = [
-    { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages: [
-      {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'}]
+    { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages:
+      [
+        {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'}
+      ]
     },
     { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
     { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
-    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages: [
-      {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'bulb'}]
+    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages:
+      [
+        {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'bulb'},
+        {title: 'Location-Editor', url: 'Location-Editor', icon: 'bulb'},
+        {title: 'Work-Editor', url: 'Work-Editor', icon: 'bulb'}
+      ]
     },
     { title: 'Event-Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
     { title: 'TEI-Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
