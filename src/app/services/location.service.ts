@@ -24,8 +24,19 @@ export class LocationService {
     }
   }
 
-  createLocation(subjectName: string): Observable<any> {
+  createLocation(projectName: string, location: object): Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/locations');
+    return this.http.post<any>(
+      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/locations/new/',
+      location
+    );
+  }
+
+  editLocation(projectName: string, location: object): Observable<any> {
+    // Send the request to the server
+    return this.http.post<any>(
+      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/locations/' + location['id'] + '/edit/',
+      location
+    );
   }
 }

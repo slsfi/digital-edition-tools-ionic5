@@ -13,6 +13,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { FormsModule } from '@angular/forms';
+import { HotTableModule } from '@handsontable/angular';
 
 
 export function translateHttpLoaderFactory(handler: HttpBackend) {
@@ -36,6 +37,7 @@ export function translateHttpLoaderFactory(handler: HttpBackend) {
         deps: [HttpBackend]
       }
     }),
+    HotTableModule,
     BrowserAnimationsModule
   ],
   providers: [

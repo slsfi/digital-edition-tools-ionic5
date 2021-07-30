@@ -18,6 +18,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { XmlEntitySelectorGridComponent } from './components/grids/xml-entity-selector-grid/xml-entity-selector-grid.component';
 import { WorkGridComponent } from './components/grids/work-grid/work-grid.component';
 import { LocationGridComponent } from './components/grids/location-grid/location-grid.component';
+import { HotTableModule } from '@handsontable/angular';
 /*
 All available tools and sub tools need to imported here.
 
@@ -40,7 +41,7 @@ All available tools and sub tools need to imported here.
     WorkGridComponent,
     LocationGridComponent
   ],
-  imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule],
+  imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
     PublisherToolComponent,
     TocEditorComponent,
