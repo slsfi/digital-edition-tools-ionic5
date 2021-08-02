@@ -25,7 +25,7 @@ export class DatabaseTranslationService {
   editTranslation (projectName: string, translation: object): Observable<any> {
     // Send the request to the server
     return this.http.post<any>(
-      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/translations/' + translation['id'] +  '/edit/',
+      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/translations/' + translation['translation_id'] +  '/edit/',
       translation
     );
   }

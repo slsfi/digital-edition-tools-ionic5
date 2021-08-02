@@ -22,6 +22,9 @@
 
 
 </hot-table-->
+<ion-button (click)="toggleNestedRows()" *ngIf="dataTable.getSettings().nestedRows">Hide translations</ion-button>
+<ion-button (click)="toggleNestedRows()" *ngIf="!dataTable.getSettings().nestedRows">Show translations</ion-button>
+<ion-button (click)="getLocations()">Reload data</ion-button>
 <div>
   <div id="location_table" class="hot handsontable htRowHeaders htColumnHeaders location-table"></div>
 </div>

@@ -54,6 +54,7 @@ export class LocationGridComponent implements OnInit {
     { data: 'id', readOnly: true },
     { data: 'translation_id', readOnly: true },
     { data: 'is_translation', readOnly: true},
+    { data: 'database_id', readOnly: true },
     { data: 'database_name', readOnly: true },
     { data: 'language' },
     { data: 'name' },
@@ -84,27 +85,40 @@ export class LocationGridComponent implements OnInit {
       async (res) => {
         const data = [];
         res.forEach(element => {
-          element['language'] = 'default';
+          element['language'] = '';
           element['database_name'] = element['name'];
           element['is_translation'] = false;
+          element['database_id'] = element['id'];
           // We need to extract the translations from the returned result
           // The data may contain translations for multiple data fields, so filtering is needed
-          // TODO - We also need to group by language to display the data on the same row
-          // TODO - If we're grouping on language we also need to collect the correct translation_text ids to be able to update the correct rows
+          // We also need to group by language to display the data on the same row
           if ( element['translations'] !== null ) {
-              element['__children'] = [];
-              element['translations'].forEach( translation => {
-                const tmpTranslation = {
-                  translation_id: translation['translation_id'],
-                  language: translation['language'],
-                  name: '', id: translation['id'],
-                  database_name: element['name'],
-                  is_translation: true
-                };
-                tmpTranslation[translation['field_name']] = translation['text'];
-
-                element['__children'].push(tmpTranslation);
-              });
+            element['__children'] = [];
+            let groupedTranslations = [];
+            element['translations'].forEach( (translation, index) => {
+              if ( groupedTranslations[translation['language']] !== undefined ) {
+                groupedTranslations[translation['language']][translation['field_name']] = translation['text'];
+                groupedTranslations[translation['language']]['translation_id'] = translation['translation_id'];
+                groupedTranslations[translation['language']]['id'] = translation['id'];
+                groupedTranslations[translation['language']]['is_translation'] = true;
+                groupedTranslations[translation['language']]['database_name'] = element['name'];
+                groupedTranslations[translation['language']]['date_created'] = translation['date_created'];
+                groupedTranslations[translation['language']]['date_modified'] = translation['date_modified'];
+              } else {
+                groupedTranslations[translation['language']] = {};
+                groupedTranslations[translation['language']][translation['field_name']] = translation['text'];
+                groupedTranslations[translation['language']]['translation_id'] = translation['translation_id'];
+                groupedTranslations[translation['language']]['id'] = translation['id'];
+                groupedTranslations[translation['language']]['is_translation'] = true;
+                groupedTranslations[translation['language']]['database_name'] = element['name'];
+                groupedTranslations[translation['language']]['date_created'] = translation['date_created'];
+                groupedTranslations[translation['language']]['date_modified'] = translation['date_modified'];
+              }
+            });
+            for ( let language in groupedTranslations ) {
+              let tmpTranslation = groupedTranslations[language];
+              element['__children'].push(tmpTranslation);
+            }
           }
           data.push(element);
         });
@@ -120,12 +134,12 @@ export class LocationGridComponent implements OnInit {
     this.dataTable = new Handsontable(location_table, {
       data: [],
       columns: this.locationColumns,
-      colHeaders: ['id', 'translation_id', 'is_translation', 'Identifier', 'Language', 'Name', 'Alias', 'City', 'Country', 'Region',
+      colHeaders: ['id', 'translation_id', 'is_translation', 'Database Id', 'Identifier', 'Language', 'Name', 'Alias', 'City', 'Country', 'Region',
       'source', 'latitude', 'longitude', 'description', 'date_created', 'date_modified', 'deleted'],
       columnSorting: true,
       rowHeaders: true,
       contextMenu: true,
-      nestedRows: true,
+      nestedRows: false,
       width: '99%',
       height: '85vh',
       filters: true,
@@ -162,11 +176,11 @@ export class LocationGridComponent implements OnInit {
                 locationData['field_name'] = ch[1];
                 locationData['table_name'] = 'location';
                 locationData['text'] = ch[3];
-                // __parent.editTranslation(locationData);
+                __parent.editTranslation(locationData);
               });
             } else {
               // existing row, that is the main row
-              // __parent.editlocation(locationData);
+              __parent.editlocation(locationData);
             }
           }
           // New translation
@@ -187,7 +201,7 @@ export class LocationGridComponent implements OnInit {
           console.log(index);
           console.log(amount);
           console.log(source);
-          // __parent.createLocation();
+          __parent.createLocation();
         }
       },
       afterAddChild: function (parent, element, index?) {
@@ -198,11 +212,12 @@ export class LocationGridComponent implements OnInit {
           const translation: object = {
             translation_id: parent['translation_id'],
             table_name: 'location',
-            parent_id: parent['id'], text: parent['name'],
-            field_name: null
+            parent_id: parent['id'],
+            text: 'not set',
+            field_name: 'language'
           };
           console.log(translation);
-          // __parent.createNewTranslation(translation);
+          __parent.createNewTranslation(translation);
         } else {
           // Add new translation
         }
@@ -248,6 +263,15 @@ export class LocationGridComponent implements OnInit {
           this.getLocations();
         }
     );
+  }
+
+  toggleNestedRows() {
+    if ( this.dataTable.getSettings().nestedRows === true ) {
+      this.dataTable.updateSettings({nestedRows: false})
+    } else {
+      this.dataTable.updateSettings({nestedRows: true})
+    }
+    this.getLocations();
   }
 
   nameEdited(data: any) {
