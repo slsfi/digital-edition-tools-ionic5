@@ -15,7 +15,7 @@ export class TocEditorComponent implements OnInit {
   public publicationData: Array<Publication> = [];
 
   constructor(private tocService: TocService, private publicationService: PublicationService) {
-    this.getTOC();
+    // this.getTOC();
     this.getCollectionPublications();
   }
 
