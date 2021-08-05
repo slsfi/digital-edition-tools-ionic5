@@ -1,7 +1,1 @@
-<p>
-Populate excel will all rows from publication
-Check if we have a JSON for the toc
-make the excel according to the JSON
-Add the not sorted rows to the end
-</p>
-<app-toc-grid [tocData]="tocData"  [publicationData]="publicationData" ></app-toc-grid>
+<app-toc-grid [tocData]="tocData" [publicationData]="publicationData" *ngIf="publicationData.length>0"></app-toc-grid>

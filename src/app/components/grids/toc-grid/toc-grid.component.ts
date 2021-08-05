@@ -1,12 +1,7 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TocItem } from 'src/app/models/toc';
 import { Publication } from 'src/app/models/publication';
 import Handsontable from 'handsontable';
-
-export interface DropInfo {
-  targetId: string;
-  action?: string;
-}
 
 @Component({
   selector: 'app-toc-grid',
@@ -17,9 +12,12 @@ export interface DropInfo {
 export class TocGridComponent implements OnInit {
 
   @ViewChild("toc_table") toc_table: ElementRef;
+  @ViewChild("pub_table") pub_table: ElementRef;
+  @Input() publicationData: Publication[];
+  @Input() tocData: TocItem[];
 
-  public dataTable: Handsontable;
-
+  public tocTable: Handsontable;
+  public pubTable: Handsontable;
 
   public tocColumns = [
     { data: 'text', readOnly: false },
@@ -29,6 +27,12 @@ export class TocGridComponent implements OnInit {
     { data: 'date', readOnly: false },
     { data: 'url', readOnly: false },
     { data: 'collapsed', readOnly: false }
+  ];
+
+  public pubColumns = [
+    { data: 'name', readOnly: true },
+    { data: 'itemId', readOnly: true },
+    { data: 'id', readOnly: true }
   ];
 
   constructor() {
@@ -42,7 +46,8 @@ export class TocGridComponent implements OnInit {
   };
 
   ngAfterViewInit() {
-    this.createDataTable();
+    this.createTOCTable();
+    this.createPublicationTable();
     console.log(this.toc_table)
     if (this.toc_table) {
       console.log(this.toc_table.nativeElement.getBoundingClientRect())
@@ -56,11 +61,25 @@ export class TocGridComponent implements OnInit {
     }
   };
 
+  filterPublications() {
+    // console.log(this.tocIds);
+    const publications = [];
+    this.publicationData.forEach( publication => {
+      const itemId = publication.publication_collection_id + '_' + publication.id;
+      publication['itemId'] = itemId;
+      publications.push(publication);
+      /*if( !this.tocIds.includes(itemId) ) {
+        publications.push(publication);
+      }*/
+    });
 
-  createDataTable () {
+    this.publicationData = publications;
+  }
+
+  createTOCTable () {
     const toc_table = this.toc_table.nativeElement;
     const __parent = this;
-    this.dataTable = new Handsontable(this.toc_table.nativeElement, {
+    this.tocTable = new Handsontable(this.toc_table.nativeElement, {
       data: [],
       columns: this.tocColumns,
       colHeaders: ['Text', 'Collection Id', 'Item id', 'Type', 'Date', 'Url', 'Collapsed?'],
@@ -74,7 +93,8 @@ export class TocGridComponent implements OnInit {
       filters: false,
       dropdownMenu: true,
       allowInsertColumn: false,
-      manualColumnMove: true,
+      manualColumnMove: false,
+      manualRowMove: true,
       manualColumnResize: true,
       rowHeaderWidth: 80,
       hiddenColumns: {
@@ -93,10 +113,53 @@ export class TocGridComponent implements OnInit {
     this.getLocations();
   }
 
+  createPublicationTable () {
+    const pub_table = this.pub_table.nativeElement;
+    const __parent = this;
+    this.pubTable = new Handsontable(this.pub_table.nativeElement, {
+      data: [],
+      columns: this.pubColumns,
+      colHeaders: ['Name', 'Id', 'ItemId'],
+      columnSorting: false,
+      rowHeaders: true,
+      contextMenu: true,
+      stretchH: 'all',
+      nestedRows: true,
+      width: '100%',
+      height: '100vh',
+      filters: false,
+      dropdownMenu: true,
+      allowInsertColumn: false,
+      manualColumnMove: false,
+      manualRowMove: true,
+      manualColumnResize: true,
+      rowHeaderWidth: 80,
+      hiddenColumns: {
+        columns: [],
+        indicators: true
+      },
+      licenseKey: 'non-commercial-and-evaluation',
+      afterChange: function (change, source) {
+      },
+      afterCreateRow: function (index, amount, source?) {
+
+      },
+      afterAddChild: function (parent, element, index?) {
+      }
+    });
+    this.setPublications();
+  }
+
   async getLocations() {
     const projectName = localStorage.getItem('selectedProjectName');
-    this.dataTable.loadData(this.transform(this.tmpToc));
-    this.dataTable.refreshDimensions();
+    this.tocTable.loadData(this.transform(this.tmpToc));
+    this.tocTable.refreshDimensions();
+  }
+
+  async setPublications() {
+    this.filterPublications();
+    this.pubTable.loadData(this.publicationData);
+    this.pubTable.refreshDimensions();
   }
 
   /** Only works if we don't have any properties named 'children' */

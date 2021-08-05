@@ -54,6 +54,7 @@ export class AppComponent {
     private alertController: AlertController,
     private menuController: MenuController) {
     this.initializeApp();
+    this.menuController.enable(true, 'main-content-menu');
   }
 
   initializeApp(){

@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { HotTableModule } from '@handsontable/angular';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 export function translateHttpLoaderFactory(handler: HttpBackend) {
@@ -42,7 +43,8 @@ export function translateHttpLoaderFactory(handler: HttpBackend) {
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide : HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide : HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LocationStrategy, useClass: HashLocationStrategy }
   ],
   bootstrap: [AppComponent],
   exports: []
