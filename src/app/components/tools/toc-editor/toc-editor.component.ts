@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TocService } from '../../../services/toc.service';
 import * as uuid from 'uuid';
-import { PublicationService } from '../../../services/publication.service';
+import { CollectionService } from '../../../services/collection.service';
 import { Publication } from 'src/app/models/publication';
 import { TocItem } from 'src/app/models/toc';
 @Component({
@@ -16,7 +16,7 @@ export class TocEditorComponent implements OnInit {
   public selectedCollectionId: Number;
   public collections: Array<any>;
 
-  constructor(private tocService: TocService, private publicationService: PublicationService) {
+  constructor(private tocService: TocService, private collectionService: CollectionService) {
     this.selectedCollectionId = null;
     this.getCollections();
     this.getTOC();
@@ -33,7 +33,7 @@ export class TocEditorComponent implements OnInit {
 
   async getCollections() {
     const projectName = localStorage.getItem('selectedProjectName');
-    this.publicationService.getCollections(projectName).subscribe(
+    this.collectionService.getCollections(projectName).subscribe(
       async (res) => {
         this.collections = res;
       }
@@ -56,7 +56,7 @@ export class TocEditorComponent implements OnInit {
     this.publicationData = [];
     const projectName = localStorage.getItem('selectedProjectName');
     if( this.selectedCollectionId !== null ) {
-      this.publicationService.getCollectionPublications(projectName, this.selectedCollectionId).subscribe(
+      this.collectionService.getCollectionPublications(projectName, this.selectedCollectionId).subscribe(
         async (res) => {
           this.publicationData = res;
         }

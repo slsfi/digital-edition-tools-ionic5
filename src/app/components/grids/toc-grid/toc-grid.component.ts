@@ -98,7 +98,7 @@ export class TocGridComponent implements OnInit {
       stretchH: 'all',
       nestedRows: true,
       width: '100%',
-      height: '100vh',
+      height: '55vh',
       filters: false,
       dropdownMenu: true,
       allowInsertColumn: false,
@@ -106,6 +106,7 @@ export class TocGridComponent implements OnInit {
       manualRowMove: true,
       manualColumnResize: true,
       rowHeaderWidth: 80,
+      colWidths: [100, 50, 50, 50, 50, 50, 50],
       hiddenColumns: {
         columns: [],
         indicators: true
@@ -153,12 +154,13 @@ export class TocGridComponent implements OnInit {
       stretchH: 'all',
       nestedRows: false,
       width: '100%',
-      height: '100vh',
+      height: '20vh',
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
       manualColumnMove: false,
       rowHeaderWidth: 80,
+      colWidths: [100, 50, 50, 50],
       hiddenColumns: {
         columns: [],
         indicators: true

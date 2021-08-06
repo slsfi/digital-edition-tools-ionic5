@@ -19,6 +19,8 @@ import { XmlEntitySelectorGridComponent } from './components/grids/xml-entity-se
 import { WorkGridComponent } from './components/grids/work-grid/work-grid.component';
 import { LocationGridComponent } from './components/grids/location-grid/location-grid.component';
 import { HotTableModule } from '@handsontable/angular';
+import { PublicationGridComponent } from './components/grids/publication-grid/publication-grid.component';
+import { CollectionGridComponent } from './components/grids/collection-grid/collection-grid.component';
 /*
 All available tools and sub tools need to imported here.
 
@@ -39,7 +41,9 @@ All available tools and sub tools need to imported here.
     GitGridComponent,
     XmlEntitySelectorGridComponent,
     WorkGridComponent,
-    LocationGridComponent
+    LocationGridComponent,
+    PublicationGridComponent,
+    CollectionGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
@@ -56,7 +60,9 @@ All available tools and sub tools need to imported here.
     GitGridComponent,
     XmlEntitySelectorGridComponent,
     WorkGridComponent,
-    LocationGridComponent
+    LocationGridComponent,
+    PublicationGridComponent,
+    CollectionGridComponent
   ]
 })
 export class ComponentsModule {}

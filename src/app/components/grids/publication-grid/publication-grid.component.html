@@ -1,0 +1,15 @@
+<div class="table-container">
+
+  <div class="publication-table">
+  <ion-button (click)="addNewPublication()">Add new Publication</ion-button>
+    <ion-item>
+      <ion-label>Collection</ion-label>
+      <ion-select placeholder="Select One" [(ngModel)]="selectedCollectionId" (ionChange)="updateSelectedCollection()">
+        <ion-select-option [value]=""></ion-select-option>
+        <ion-select-option *ngFor="let collection of collections "[value]="collection['id']">{{collection['title']}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <h1>Collection Publications</h1>
+    <div #publication_table id="publication_table" class="hot handsontable htRowHeaders htColumnHeaders publication-table"></div>
+  </div>
+</div>

@@ -50,12 +50,18 @@ div.toc-grid{
   display: flex;
 }
 
+.table-container{
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+}
 
-div.toc-grid{
-  height: 100vh;
+.pub-table{
+  // height: 20vh;
+  width: 96vw;
 }
 
 .toc-table {
-  width: 100vh;
-  height: 100vh;
+  // height: 60vh;
+  width: 96vw;
 }

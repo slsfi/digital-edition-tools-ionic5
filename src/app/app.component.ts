@@ -23,7 +23,9 @@ export class AppComponent {
   public appPages = [
     { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages:
       [
-        {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'}
+        {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'},
+        {title: 'Collection-Editor', url: 'Collection-Editor', icon: 'bulb'},
+        {title: 'Publication-Editor', url: 'Publication-Editor', icon: 'bulb'}
       ]
     },
     { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
