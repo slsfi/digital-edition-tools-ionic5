@@ -27,7 +27,12 @@ export class AppComponent {
       ]
     },
     { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
-    { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false },
+    { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false , subPages:
+      [
+        {title: 'Image-Collections', url: 'Image-Collections', icon: 'bulb'},
+        {title: 'Image-Connector', url: 'Image-Connector', icon: 'bulb'}
+      ]
+    },
     { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages:
       [
         {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'bulb'},

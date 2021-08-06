@@ -18,4 +18,8 @@ export class PublicationService {
     // Send the request to the server
     return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/collection/' + collectionId + '/publications');
   }
+
+  getCollections( projectName: string ) {
+    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/collections');
+  }
 }

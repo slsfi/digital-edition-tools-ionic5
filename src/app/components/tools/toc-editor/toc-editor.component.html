@@ -1,1 +1,8 @@
-<app-toc-grid [tocData]="tocData" [publicationData]="publicationData" *ngIf="publicationData.length>0"></app-toc-grid>
+ <ion-item>
+  <ion-label>Collection</ion-label>
+  <ion-select placeholder="Select One" [(ngModel)]="selectedCollectionId" (ionChange)="updateSelectedCollection()">
+    <ion-select-option [value]=""></ion-select-option>
+    <ion-select-option *ngFor="let collection of collections "[value]="collection['id']">{{collection['title']}}</ion-select-option>
+  </ion-select>
+</ion-item>
+<app-toc-grid [tocData]="tocData" [publicationData]="publicationData" *ngIf="publicationData.length>0 && tocData.length>0"></app-toc-grid>

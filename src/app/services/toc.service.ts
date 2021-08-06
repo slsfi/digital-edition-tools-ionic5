@@ -17,4 +17,9 @@ export class TocService {
     // Send the request to the server
     return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId);
   }
+
+  saveCollectionToc( projectName: String, collectionId: Number, data: any ) {
+    return this.http.put<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId, data);
+  }
+
 }

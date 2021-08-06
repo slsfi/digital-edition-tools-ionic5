@@ -13,52 +13,54 @@ export class TocEditorComponent implements OnInit {
 
   public tocData: Array<TocItem> = [];
   public publicationData: Array<Publication> = [];
+  public selectedCollectionId: Number;
+  public collections: Array<any>;
 
   constructor(private tocService: TocService, private publicationService: PublicationService) {
-    // this.getTOC();
+    this.selectedCollectionId = null;
+    this.getCollections();
+    this.getTOC();
     this.getCollectionPublications();
   }
 
   ngOnInit() {
+  }
 
+  public updateSelectedCollection(){
+    this.getTOC();
+    this.getCollectionPublications();
+  }
+
+  async getCollections() {
+    const projectName = localStorage.getItem('selectedProjectName');
+    this.publicationService.getCollections(projectName).subscribe(
+      async (res) => {
+        this.collections = res;
+      }
+    );
   }
 
   async getTOC() {
-    this.tocService.getCollectionTOC('topelius', 201).subscribe(
-      async (res) => {
-        this.tocData.push(res);
-        this.setMissingData(this.tocData);
-      },
-      async (res) => {
-
-      }
-    );
+    this.tocData = [];
+    const projectName = localStorage.getItem('selectedProjectName');
+    if( this.selectedCollectionId !== null ) {
+      this.tocService.getCollectionTOC(projectName, this.selectedCollectionId).subscribe(
+        async (res) => {
+          this.tocData.push(res);
+        }
+      );
+    }
   }
 
   async getCollectionPublications() {
-    this.publicationService.getCollectionPublications('topelius', 201).subscribe(
-      async (res) => {
-        this.publicationData = res;
-        this.setMissingData(this.publicationData);
-      },
-      async (res) => {
-
-      }
-    );
+    this.publicationData = [];
+    const projectName = localStorage.getItem('selectedProjectName');
+    if( this.selectedCollectionId !== null ) {
+      this.publicationService.getCollectionPublications(projectName, this.selectedCollectionId).subscribe(
+        async (res) => {
+          this.publicationData = res;
+        }
+      );
+    }
   }
-
-  // Old TOC files might be missing UIDs and Children
-  private setMissingData( items?: any[] ) : void {
-    items.forEach( (item) => {
-      if ( item.unique_id === undefined || item.unique_id === '') {
-        item.unique_id = uuid.v4();
-      }
-      if ( item.children !== undefined && item.children.length > 0 ) {
-        this.setMissingData(item.children);
-      } else if ( item.children === undefined ) {
-        item.children = [];
-      }
-    });
-  }
-
 }
