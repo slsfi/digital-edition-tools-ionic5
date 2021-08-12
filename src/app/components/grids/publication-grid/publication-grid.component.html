@@ -1,7 +1,5 @@
 <div class="table-container">
-
   <div class="publication-table">
-  <ion-button (click)="addNewPublication()">Add new Publication</ion-button>
     <ion-item>
       <ion-label>Collection</ion-label>
       <ion-select placeholder="Select One" [(ngModel)]="selectedCollectionId" (ionChange)="updateSelectedCollection()">
@@ -10,6 +8,9 @@
       </ion-select>
     </ion-item>
     <h1>Collection Publications</h1>
+    <ion-button (click)="addNewPublication()">Add new Publication</ion-button>
     <div #publication_table id="publication_table" class="hot handsontable htRowHeaders htColumnHeaders publication-table"></div>
+    <app-version-grid *ngIf="selectedPublicationId" [publicationId]="selectedPublicationId"></app-version-grid>
+    <app-manuscript-grid *ngIf="selectedPublicationId" [publicationId]="selectedPublicationId"></app-manuscript-grid>
   </div>
 </div>

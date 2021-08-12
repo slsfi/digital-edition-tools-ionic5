@@ -1,10 +1,13 @@
 .table-container{
   display: flex;
   flex-direction: column;
-  height: 85vh;
+  height: 50vh;
+  width: 100%;
+  overflow: hidden;
 }
 
 .publication-table{
   // height: 20vh;
-  width: 96vw;
+  width: 100%;
+  overflow: hidden;
 }

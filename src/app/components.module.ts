@@ -1,3 +1,4 @@
+import { VersionGridComponent } from './components/grids/version-grid/version-grid.component';
 import { NgModule } from '@angular/core';
 import { PublisherToolComponent } from './components/tools/publisher-tool/publisher-tool.component';
 import { IonicModule } from '@ionic/angular';
@@ -21,6 +22,7 @@ import { LocationGridComponent } from './components/grids/location-grid/location
 import { HotTableModule } from '@handsontable/angular';
 import { PublicationGridComponent } from './components/grids/publication-grid/publication-grid.component';
 import { CollectionGridComponent } from './components/grids/collection-grid/collection-grid.component';
+import { ManuscriptGridComponent } from './components/grids/manuscript-grid/manuscript-grid.component';
 /*
 All available tools and sub tools need to imported here.
 
@@ -43,7 +45,9 @@ All available tools and sub tools need to imported here.
     WorkGridComponent,
     LocationGridComponent,
     PublicationGridComponent,
-    CollectionGridComponent
+    CollectionGridComponent,
+    VersionGridComponent,
+    ManuscriptGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
@@ -62,7 +66,9 @@ All available tools and sub tools need to imported here.
     WorkGridComponent,
     LocationGridComponent,
     PublicationGridComponent,
-    CollectionGridComponent
+    CollectionGridComponent,
+    VersionGridComponent,
+    ManuscriptGridComponent
   ]
 })
 export class ComponentsModule {}

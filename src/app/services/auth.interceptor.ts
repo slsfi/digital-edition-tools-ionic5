@@ -51,7 +51,8 @@ export class AuthInterceptor implements HttpInterceptor {
   private isInBlockedList(url: string): Boolean {
     // Example: Filter out our login and logout API call
     if (url == `${environment.api_url}/auth` ||
-      url == `${environment.api_url}/auth/logout`) {
+      url == `${environment.api_url}/auth/logout` ||
+      url == `${environment.api_url}/auth/refresh`) {
       return true;
     } else {
       return false;
@@ -101,7 +102,7 @@ export class AuthInterceptor implements HttpInterceptor {
         switchMap((token: any) => {
           if (token) {
             // Store the new token
-            const accessToken = token.accessToken;
+            const accessToken = token.access_token;
             return this.authService.storeAccessToken(accessToken).pipe(
               switchMap(_ => {
                 // Use the subject so other calls can continue with the new token

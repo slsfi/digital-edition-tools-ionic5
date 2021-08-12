@@ -20,7 +20,7 @@ export class CollectionService {
   }
 
   getCollections( projectName: string ) {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/collections');
+    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/list/');
   }
 
   createCollection( projectName: string, data: any ) {

@@ -16,6 +16,8 @@ export class PublicationGridComponent implements OnInit {
   @ViewChild("publication_table") publication_table: ElementRef;
   public publicationTable: Handsontable;
 
+  public selectedPublicationId: Number;
+
   public selectedCollectionId: Number;
 
   public publicationColumns = [
@@ -77,19 +79,14 @@ export class PublicationGridComponent implements OnInit {
       contextMenu: true,
       stretchH: 'all',
       nestedRows: false,
+      manualColumnResize: true,
       width: '100%',
-      startRows: 5,
-      height: '80vh',
+      height: '45vh',
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
       manualColumnMove: false,
-      rowHeaderWidth: 80,
-      colWidths: [30, 100, 30, 100, 50, 50],
-      hiddenColumns: {
-        columns: [],
-        indicators: true
-      },
+      colWidths: [30, 30, 30, 30, 30, 30],
       licenseKey: 'non-commercial-and-evaluation',
       afterChange: function (change, source) {
         if (source === 'loadData') {
@@ -107,9 +104,19 @@ export class PublicationGridComponent implements OnInit {
           console.log(publicationData);
           __parent.editPublication(publicationData);
         });
+      }, afterSelection: (row, column, row2, column2, preventScrolling, selectionLayerLevel) => {
+        // setting if prevent scrolling after selection
+        preventScrolling.value = true;
+        const rowData = __parent.publicationTable.getDataAtRow(Number(row));
+        // get the publication ID for showing Manuscripts, Versions etc.
+        const publicationId = rowData[0];
+        __parent.selectedPublicationId = publicationId;
+        console.log(publicationId);
       }
     });
-    this.getPublications();
+    if( this.selectedPublicationId ) {
+      this.getPublications();
+    }
   }
 
   async getCollections() {

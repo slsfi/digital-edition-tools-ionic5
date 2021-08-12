@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { CollectionService } from 'src/app/services/collection.service';
 import { Collection } from '../../../models/collection';
@@ -18,9 +19,17 @@ export class CollectionGridComponent implements OnInit {
     { data: 'id', readOnly: true },
     { data: 'name', readOnly: false },
     { data: 'published', readOnly: false },
+    { data: 'collection_intro_filename', readOnly: false },
+    { data: 'collection_intro_published', readOnly: true },
+    { data: 'publication_collection_introduction_id', readOnly: false },
+    { data: 'collection_title_filename', readOnly: false },
+    { data: 'collection_title_published', readOnly: true },
+    { data: 'publication_collection_title_id', readOnly: false },
     { data: 'date_created', readOnly: true },
     { data: 'date_modified', readOnly: true }
   ];
+
+  public collectionTableId = 'collectionTableId';
 
   constructor( private collectionService: CollectionService ) {
     this.collections = [];
@@ -33,15 +42,14 @@ export class CollectionGridComponent implements OnInit {
     this.createCollectionTable();
   };
 
+
   async getCollections() {
     const projectName = localStorage.getItem('selectedProjectName');
     this.collectionService.getCollections(projectName).subscribe(
       async (res) => {
         this.collections = res;
-        this.collections.forEach(element => {
-          element['name'] = element['title'];
-        });
-        this.collectionTable.loadData(this.collections);
+        //this.collectionTable.loadData(this.collections);
+        this.hotRegisterer.getInstance(this.collectionTableId).loadData(this.collections);
       }
     );
   }
@@ -54,30 +62,26 @@ export class CollectionGridComponent implements OnInit {
     this.collectionTable.loadData(this.collections);
     this.createCollection(newCollection);
   }
-
+  private hotRegisterer = new HotTableRegisterer();
+  public hotSettings: Handsontable.GridSettings;
   createCollectionTable () {
-    const collection_table = this.collection_table.nativeElement;
+
     const __parent = this;
-    this.collectionTable = new Handsontable(collection_table, {
+    this.hotSettings = {
       data: [],
       columns: this.collectionColumns,
-      colHeaders: ['Id', 'Name', 'Published?', 'Date Created', 'Date Modified'],
+      colHeaders: ['Id', 'Name', 'Published?', 'Intro file', 'Intro published', 'introduction_id',
+       'Title file', 'Title published', 'title_id', 'Date Created', 'Date Modified'],
       columnSorting: true,
       rowHeaders: true,
       contextMenu: true,
-      stretchH: 'all',
       nestedRows: false,
-      width: '100%',
-      startRows: 5,
-      height: '80vh',
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
-      manualColumnMove: false,
-      rowHeaderWidth: 80,
-      colWidths: [100, 50, 50],
+      manualColumnMove: true,
       hiddenColumns: {
-        columns: [],
+        columns: [5,8],
         indicators: true
       },
       licenseKey: 'non-commercial-and-evaluation',
@@ -96,7 +100,42 @@ export class CollectionGridComponent implements OnInit {
           __parent.editCollection(collectionData);
         });
       }
-    });
+    }
+    /*const collection_table = this.collection_table.nativeElement;
+    this.collectionTable = new Handsontable(collection_table, {
+      data: [],
+      columns: this.collectionColumns,
+      colHeaders: ['Id', 'Name', 'Published?', 'Intro file', 'Intro published', 'introduction_id',
+       'Title file', 'Title published', 'title_id', 'Date Created', 'Date Modified'],
+      columnSorting: true,
+      rowHeaders: true,
+      contextMenu: true,
+      nestedRows: false,
+      filters: true,
+      dropdownMenu: true,
+      allowInsertColumn: false,
+      manualColumnMove: true,
+      hiddenColumns: {
+        columns: [5,8],
+        indicators: true
+      },
+      licenseKey: 'non-commercial-and-evaluation',
+      afterChange: function (change, source) {
+        if (source === 'loadData') {
+          return; //don't save this change
+        }
+        change.forEach( changedData => {
+          const rowData = __parent.collectionTable.getDataAtRow(Number(changedData[0]));
+          const collectionData = {};
+          // Add labels to indexes
+          __parent.collectionColumns.forEach((value, index) => {
+            collectionData[value['data']] = rowData[index];
+          });
+          console.log(collectionData);
+          __parent.editCollection(collectionData);
+        });
+      }
+    });*/
     this.getCollections();
   }
 

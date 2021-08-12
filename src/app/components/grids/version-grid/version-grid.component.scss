@@ -1,10 +1,10 @@
 .table-container{
   display: flex;
   flex-direction: column;
+  height: 23vh;
 }
 
-#collection_table{
-  height: 80vh;
+.version-table{
+  // height: 20vh;
   width: 96vw;
-  overflow: hidden;
 }
