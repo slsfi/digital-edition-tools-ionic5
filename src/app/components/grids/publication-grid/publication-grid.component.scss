@@ -1,13 +1,17 @@
 .table-container{
   display: flex;
   flex-direction: column;
-  height: 50vh;
   width: 100%;
-  overflow: hidden;
 }
 
 .publication-table{
-  // height: 20vh;
   width: 100%;
-  overflow: hidden;
+}
+
+.version-table{
+  width: 100%;
+}
+
+.manuscript-table{
+  width: 100%;
 }
