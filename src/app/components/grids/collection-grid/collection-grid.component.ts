@@ -48,7 +48,6 @@ export class CollectionGridComponent implements OnInit {
     this.collectionService.getCollections(projectName).subscribe(
       async (res) => {
         this.collections = res;
-        //this.collectionTable.loadData(this.collections);
         this.hotRegisterer.getInstance(this.collectionTableId).loadData(this.collections);
       }
     );
@@ -101,41 +100,6 @@ export class CollectionGridComponent implements OnInit {
         });
       }
     }
-    /*const collection_table = this.collection_table.nativeElement;
-    this.collectionTable = new Handsontable(collection_table, {
-      data: [],
-      columns: this.collectionColumns,
-      colHeaders: ['Id', 'Name', 'Published?', 'Intro file', 'Intro published', 'introduction_id',
-       'Title file', 'Title published', 'title_id', 'Date Created', 'Date Modified'],
-      columnSorting: true,
-      rowHeaders: true,
-      contextMenu: true,
-      nestedRows: false,
-      filters: true,
-      dropdownMenu: true,
-      allowInsertColumn: false,
-      manualColumnMove: true,
-      hiddenColumns: {
-        columns: [5,8],
-        indicators: true
-      },
-      licenseKey: 'non-commercial-and-evaluation',
-      afterChange: function (change, source) {
-        if (source === 'loadData') {
-          return; //don't save this change
-        }
-        change.forEach( changedData => {
-          const rowData = __parent.collectionTable.getDataAtRow(Number(changedData[0]));
-          const collectionData = {};
-          // Add labels to indexes
-          __parent.collectionColumns.forEach((value, index) => {
-            collectionData[value['data']] = rowData[index];
-          });
-          console.log(collectionData);
-          __parent.editCollection(collectionData);
-        });
-      }
-    });*/
     this.getCollections();
   }
 
