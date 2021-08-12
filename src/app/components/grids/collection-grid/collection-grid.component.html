@@ -2,12 +2,7 @@
   <div>
     <ion-button (click)="addNewCollection()">Add new Collection</ion-button>
     <h1>Project Collections</h1>
-
-     <h1>Dela upp translations så att man kan välja språk. Övre tabellen visar samtliga språk och rader, men man kan  endast editera första (original)</h1>
-     <h1>Under annan tabell där man kan välja språk, då visas alla rader, men så att endast ett språk och editerbart (inga nested rows)</h1>
-    <!--div class="collection-table">
-      <div #collection_table id="collection_table" class="hot handsontable htRowHeaders htColumnHeaders"></div>
-    </div-->
-    <hot-table [hotId]="collectionTableId" [settings]="hotSettings"></hot-table>
+    <hot-table [hotId]="collectionTableId" [settings]="hotSettings" licenseKey="non-commercial-and-evaluation">
+    </hot-table>
   </div>
 </div>

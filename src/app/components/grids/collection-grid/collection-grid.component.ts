@@ -14,6 +14,8 @@ export class CollectionGridComponent implements OnInit {
   public collections: Array<any>;
   @ViewChild("collection_table") collection_table: ElementRef;
   public collectionTable: Handsontable;
+  private hotRegisterer = new HotTableRegisterer();
+  public hotSettings: Handsontable.GridSettings;
 
   public collectionColumns = [
     { data: 'id', readOnly: true },
@@ -36,10 +38,11 @@ export class CollectionGridComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createCollectionTable();
   }
 
   ngAfterViewInit() {
-    this.createCollectionTable();
+
   };
 
 
@@ -61,8 +64,7 @@ export class CollectionGridComponent implements OnInit {
     this.collectionTable.loadData(this.collections);
     this.createCollection(newCollection);
   }
-  private hotRegisterer = new HotTableRegisterer();
-  public hotSettings: Handsontable.GridSettings;
+
   createCollectionTable () {
 
     const __parent = this;
@@ -74,16 +76,19 @@ export class CollectionGridComponent implements OnInit {
       columnSorting: true,
       rowHeaders: true,
       contextMenu: true,
-      nestedRows: false,
+      width: 'auto',
+      height: 'auto',
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
+      stretchH: 'last',
+      colWidths: [50, 280, 150, 380, 150, 150, 380, 150, 150, 150, 150],
+      manualColumnResize: true,
       manualColumnMove: true,
       hiddenColumns: {
         columns: [5,8],
         indicators: true
       },
-      licenseKey: 'non-commercial-and-evaluation',
       afterChange: function (change, source) {
         if (source === 'loadData') {
           return; //don't save this change
@@ -95,7 +100,6 @@ export class CollectionGridComponent implements OnInit {
           __parent.collectionColumns.forEach((value, index) => {
             collectionData[value['data']] = rowData[index];
           });
-          console.log(collectionData);
           __parent.editCollection(collectionData);
         });
       }
