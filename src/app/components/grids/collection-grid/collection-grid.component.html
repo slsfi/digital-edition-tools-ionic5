@@ -2,7 +2,8 @@
   <div>
     <ion-button (click)="addNewCollection()">Add new Collection</ion-button>
     <h1>Project Collections</h1>
-    <hot-table [hotId]="collectionTableId" [settings]="hotSettings" licenseKey="non-commercial-and-evaluation">
-    </hot-table>
+    <div class="collection-table">
+      <div #collection_table id="collection_table" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+    </div>
   </div>
 </div>

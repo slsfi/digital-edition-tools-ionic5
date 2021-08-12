@@ -14,8 +14,6 @@ export class CollectionGridComponent implements OnInit {
   public collections: Array<any>;
   @ViewChild("collection_table") collection_table: ElementRef;
   public collectionTable: Handsontable;
-  private hotRegisterer = new HotTableRegisterer();
-  public hotSettings: Handsontable.GridSettings;
 
   public collectionColumns = [
     { data: 'id', readOnly: true },
@@ -31,18 +29,17 @@ export class CollectionGridComponent implements OnInit {
     { data: 'date_modified', readOnly: true }
   ];
 
-  public collectionTableId = 'collectionTableId';
 
   constructor( private collectionService: CollectionService ) {
     this.collections = [];
   }
 
   ngOnInit() {
-    this.createCollectionTable();
+
   }
 
   ngAfterViewInit() {
-
+    this.createCollectionTable();
   };
 
 
@@ -51,7 +48,7 @@ export class CollectionGridComponent implements OnInit {
     this.collectionService.getCollections(projectName).subscribe(
       async (res) => {
         this.collections = res;
-        this.hotRegisterer.getInstance(this.collectionTableId).loadData(this.collections);
+        this.collectionTable.loadData(this.collections);
       }
     );
   }
@@ -66,9 +63,9 @@ export class CollectionGridComponent implements OnInit {
   }
 
   createCollectionTable () {
-
+    const collection_table = this.collection_table.nativeElement;
     const __parent = this;
-    this.hotSettings = {
+    this.collectionTable =  new Handsontable(collection_table, {
       data: [],
       columns: this.collectionColumns,
       colHeaders: ['Id', 'Name', 'Published?', 'Intro file', 'Intro published', 'introduction_id',
@@ -85,6 +82,7 @@ export class CollectionGridComponent implements OnInit {
       colWidths: [50, 280, 150, 380, 150, 150, 380, 150, 150, 150, 150],
       manualColumnResize: true,
       manualColumnMove: true,
+      licenseKey: 'non-commercial-and-evaluation',
       hiddenColumns: {
         columns: [5,8],
         indicators: true
@@ -103,7 +101,7 @@ export class CollectionGridComponent implements OnInit {
           __parent.editCollection(collectionData);
         });
       }
-    }
+    });
     this.getCollections();
   }
 
