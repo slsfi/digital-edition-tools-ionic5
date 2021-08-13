@@ -75,6 +75,28 @@ export class LocationGridComponent implements OnInit {
     { data: 'deleted' }
   ];
 
+  public translationColumns = [
+    { data: 'id', readOnly: true },
+    { data: 'translation_id', readOnly: true },
+    { data: 'is_translation', readOnly: true},
+    { data: 'database_id', readOnly: true },
+    { data: 'database_name', readOnly: true },
+    { data: 'language'},
+    { data: 'name' },
+    { data: 'alias' },
+    { data: 'city' },
+    { data: 'country' },
+    { data: 'region' },
+    { data: 'source' },
+    { data: 'latitude' },
+    { data: 'longitude' },
+    { data: 'description' },
+    { data: 'date_created', readOnly: true },
+    { data: 'date_modified', readOnly: true },
+    { data: 'deleted' }
+  ];
+
+
   public iso639Languages;
 
   constructor(
@@ -139,6 +161,7 @@ export class LocationGridComponent implements OnInit {
         });
         this.locations = data;
         this.locationTable.loadData(data);
+        console.log(translationData);
         this.translationTable.loadData(translationData);
       }
     );
@@ -300,7 +323,7 @@ export class LocationGridComponent implements OnInit {
     const __parent = this;
     this.translationTable = new Handsontable(translation_table, {
       data: [],
-      columns: this.locationColumns,
+      columns: this.translationColumns,
       colHeaders: ['id', 'translation_id', 'is_translation', 'Database Id', 'Identifier', 'Language', 'Name', 'Alias', 'City', 'Country', 'Region',
       'source', 'latitude', 'longitude', 'description', 'date_created', 'date_modified', 'deleted'],
       columnSorting: true,
@@ -314,7 +337,7 @@ export class LocationGridComponent implements OnInit {
       allowInsertColumn: false,
       manualColumnMove: true,
       hiddenColumns: {
-        columns: [0, 1, 2],
+        columns: [0, 1, 2, 3],
         indicators: true
       },
       licenseKey: 'non-commercial-and-evaluation',
