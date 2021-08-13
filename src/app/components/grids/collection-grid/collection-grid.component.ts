@@ -78,7 +78,7 @@ export class CollectionGridComponent implements OnInit {
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
-      stretchH: 'last',
+      stretchH: 'all',
       colWidths: [50, 280, 150, 380, 150, 150, 380, 150, 150, 150, 150],
       manualColumnResize: true,
       manualColumnMove: true,

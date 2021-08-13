@@ -3,6 +3,7 @@ import Handsontable from 'handsontable';
 import { LocationService } from 'src/app/services/location.service';
 import { DatabaseTranslationService } from 'src/app/services/database-translation.service';
 import { element } from 'protractor';
+import * as languages from '../../../models/iso639';
 
 @Component({
   selector: 'app-location-grid',
@@ -12,7 +13,10 @@ import { element } from 'protractor';
 export class LocationGridComponent implements OnInit {
 
   public locations: any[];
-  public dataTable: Handsontable;
+  public translations: any[];
+  public locationTable: Handsontable;
+  public translationTable: Handsontable;
+  public selectedLanguage: string = 'sv';
 
   /**
    *
@@ -71,12 +75,17 @@ export class LocationGridComponent implements OnInit {
     { data: 'deleted' }
   ];
 
-  constructor(private locationService: LocationService, private databaseTranslationService: DatabaseTranslationService) {
+  public iso639Languages;
 
+  constructor(
+    private locationService: LocationService,
+    private databaseTranslationService: DatabaseTranslationService) {
+    this.iso639Languages = languages.iso639Languages;
   }
 
   ngOnInit() {
-    this.createDataTable();
+    this.createLocationTable();
+    this.createTranslationTable();
   }
 
   async getLocations() {
@@ -84,6 +93,7 @@ export class LocationGridComponent implements OnInit {
     this.locationService.getLocations(projectName).subscribe(
       async (res) => {
         const data = [];
+        const translationData = [];
         res.forEach(element => {
           element['language'] = '';
           element['database_name'] = element['name'];
@@ -115,23 +125,29 @@ export class LocationGridComponent implements OnInit {
                 groupedTranslations[translation['language']]['date_modified'] = translation['date_modified'];
               }
             });
+
             for ( let language in groupedTranslations ) {
               let tmpTranslation = groupedTranslations[language];
               element['__children'].push(tmpTranslation);
+              if ( language === this.selectedLanguage ) {
+                translationData.push(tmpTranslation);
+              }
             }
           }
           data.push(element);
         });
+        console.log(translationData);
         this.locations = data;
-        this.dataTable.loadData(data);
+        this.locationTable.loadData(data);
+        this.translationTable.loadData(translationData);
       }
     );
   }
 
-  createDataTable () {
+  createLocationTable () {
     const location_table = document.getElementById('location_table');
     const __parent = this;
-    this.dataTable = new Handsontable(location_table, {
+    this.locationTable = new Handsontable(location_table, {
       data: [],
       columns: this.locationColumns,
       colHeaders: ['id', 'translation_id', 'is_translation', 'Database Id', 'Identifier', 'Language', 'Name', 'Alias', 'City', 'Country', 'Region',
@@ -140,8 +156,8 @@ export class LocationGridComponent implements OnInit {
       rowHeaders: true,
       contextMenu: true,
       nestedRows: false,
-      width: '99%',
-      height: '85vh',
+      width: 'auto',
+      height: 'auto',
       filters: true,
       dropdownMenu: true,
       allowInsertColumn: false,
@@ -156,7 +172,7 @@ export class LocationGridComponent implements OnInit {
           return; //don't save this change
         }
         change.forEach( changedData => {
-          const rowData = __parent.dataTable.getDataAtRow(Number(changedData[0]));
+          const rowData = __parent.locationTable.getDataAtRow(Number(changedData[0]));
           const locationData = {};
           // Add labels to indexes
           __parent.locationColumns.forEach((value, index) => {
@@ -221,8 +237,104 @@ export class LocationGridComponent implements OnInit {
         } else {
           // Add new translation
         }
+      }
+    });
+    this.getLocations();
+  }
 
+  createTranslationTable () {
+    const translation_table = document.getElementById('translation_table');
+    const __parent = this;
+    this.translationTable = new Handsontable(translation_table, {
+      data: [],
+      columns: this.locationColumns,
+      colHeaders: ['id', 'translation_id', 'is_translation', 'Database Id', 'Identifier', 'Language', 'Name', 'Alias', 'City', 'Country', 'Region',
+      'source', 'latitude', 'longitude', 'description', 'date_created', 'date_modified', 'deleted'],
+      columnSorting: true,
+      rowHeaders: true,
+      contextMenu: true,
+      nestedRows: false,
+      width: 'auto',
+      height: 'auto',
+      filters: true,
+      dropdownMenu: true,
+      allowInsertColumn: false,
+      manualColumnMove: true,
+      hiddenColumns: {
+        columns: [0, 1, 2],
+        indicators: true
+      },
+      licenseKey: 'non-commercial-and-evaluation',
+      afterChange: function (change, source) {
+        if (source === 'loadData') {
+          return; //don't save this change
+        }
+        change.forEach( changedData => {
+          const rowData = __parent.translationTable.getDataAtRow(Number(changedData[0]));
+          const locationData = {};
+          // Add labels to indexes
+          __parent.locationColumns.forEach((value, index) => {
+            locationData[value['data']] = rowData[index];
+          });
+          const dbId = locationData['id'];
+          const dbTranslationId = locationData['translation_id'];
+          const isTranslation = locationData['is_translation'];
+          // New row
+          if ( dbId === null ) {
 
+          } else {
+            // existing row, that is a translation (sub row)
+            if ( isTranslation === true ) {
+              // If we add a save button we might get multiple changes at once
+              change.forEach(ch => {
+                locationData['field_name'] = ch[1];
+                locationData['table_name'] = 'location';
+                locationData['text'] = ch[3];
+                __parent.editTranslation(locationData);
+              });
+            } else {
+              // existing row, that is the main row
+              __parent.editlocation(locationData);
+            }
+          }
+          // New translation
+          if ( dbTranslationId === null ) {
+
+          } else {
+            // existing translation
+          }
+          console.log(dbId);
+          console.log(dbTranslationId);
+          console.log(isTranslation);
+        });
+      },
+      afterCreateRow: function (index, amount, source?) {
+        // Create a placeholder row in the DB and update the data
+        if( source !== undefined ) {
+          console.log('afterCreateRow:');
+          console.log(index);
+          console.log(amount);
+          console.log(source);
+          __parent.createLocation();
+        }
+      },
+      afterAddChild: function (parent, element, index?) {
+        // Add a translation row
+        if ( parent !== null ) {
+          console.log('afterAddChild');
+          console.log(parent);
+          const translation: object = {
+            translation_id: parent['translation_id'],
+            table_name: 'location',
+            parent_id: parent['id'],
+            text: 'not set',
+            field_name: 'language'
+          };
+          console.log(translation);
+          __parent.createNewTranslation(translation);
+        } else {
+          // Add new translation
+        }
       }
     });
     this.getLocations();
@@ -266,22 +378,16 @@ export class LocationGridComponent implements OnInit {
   }
 
   toggleNestedRows() {
-    if ( this.dataTable.getSettings().nestedRows === true ) {
-      this.dataTable.updateSettings({nestedRows: false})
+    if ( this.locationTable.getSettings().nestedRows === true ) {
+      this.locationTable.updateSettings({nestedRows: false})
     } else {
-      this.dataTable.updateSettings({nestedRows: true})
+      this.locationTable.updateSettings({nestedRows: true})
     }
     this.getLocations();
   }
 
-  nameEdited(data: any) {
-    console.log(data)
-    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
-  }
+  public updateSelectedLanguage() {
 
-  publishedEdited(data: any) {
-    console.log(data)
-    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
   }
 
 }

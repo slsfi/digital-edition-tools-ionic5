@@ -1,8 +1,12 @@
-div.location-grid{
-  height: 100vh;
+.table-container{
+  display: flex;
+  flex-direction: column;
 }
 
-.location-table {
-  width: 100vh;
-  height: 500px;
+.location-table{
+  width: 100%;
+}
+
+.translation-table{
+  width: 100%;
 }
