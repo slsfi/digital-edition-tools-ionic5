@@ -1,4 +1,5 @@
 export const iso639Languages: object = {
+  'not set': 'placeholder',
   ab: 'Abkhazian',
   aa: 'Afar',
   af: 'Afrikaans',

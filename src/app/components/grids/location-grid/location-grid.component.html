@@ -1,8 +1,6 @@
 
 <div class="table-container">
   <div>
-    <h1>Dela upp translations så att man kan välja språk. Övre tabellen visar samtliga språk och rader, men man kan  endast editera första (original)</h1>
-    <h1>Under annan tabell där man kan välja språk, då visas alla rader, men så att endast ett språk och editerbart (inga nested rows)</h1>
     <ion-button (click)="toggleNestedRows()" *ngIf="locationTable.getSettings().nestedRows">Hide translations</ion-button>
     <ion-button (click)="toggleNestedRows()" *ngIf="!locationTable.getSettings().nestedRows">Show translations</ion-button>
     <ion-button (click)="getLocations()">Reload data</ion-button>
@@ -15,7 +13,7 @@
     <ion-item>
       <ion-label>Language</ion-label>
       <ion-select placeholder="Select One" [(ngModel)]="selectedLanguage" (ionChange)="getLocations()">
-        <ion-select-option [value]=""></ion-select-option>
+        <ion-select-option value="not set">Placeholder</ion-select-option>
         <ion-select-option *ngFor="let language of iso639Languages | keyvalue" [value]="language.key">{{language.value}}</ion-select-option>
       </ion-select>
     </ion-item>

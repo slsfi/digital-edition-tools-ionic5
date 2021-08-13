@@ -60,7 +60,7 @@ export class LocationGridComponent implements OnInit {
     { data: 'is_translation', readOnly: true},
     { data: 'database_id', readOnly: true },
     { data: 'database_name', readOnly: true },
-    { data: 'language' },
+    { data: 'language', type: 'dropdown', source: Object.keys(languages.iso639Languages) },
     { data: 'name' },
     { data: 'alias' },
     { data: 'city' },
@@ -134,9 +134,9 @@ export class LocationGridComponent implements OnInit {
               }
             }
           }
+
           data.push(element);
         });
-        console.log(translationData);
         this.locations = data;
         this.locationTable.loadData(data);
         this.translationTable.loadData(translationData);
@@ -154,11 +154,67 @@ export class LocationGridComponent implements OnInit {
       'source', 'latitude', 'longitude', 'description', 'date_created', 'date_modified', 'deleted'],
       columnSorting: true,
       rowHeaders: true,
-      contextMenu: true,
       nestedRows: false,
       width: 'auto',
-      height: 'auto',
+      height: '100%',
       filters: true,
+      contextMenu: {
+        callback(key, selection, clickEvent) {
+          // Common callback for all options
+          console.log(key, selection, clickEvent);
+        },
+        items: {
+          row_above: {
+            disabled() { // `disabled` can be a boolean or a function
+              // Disable option when first row was clicked
+              return this.getSelectedLast()[0] === 0; // `this` === hot
+            }
+          },
+          row_below: {
+            name: 'Click to add row below' // Set custom text for predefined option
+          },
+          show_translations: {
+            name: '<b>Show translations for language</b>', // Name can contain HTML
+            callback(key, selection, clickEvent) { // Callback for specific option
+              selection.forEach(select => {
+                const selectedRowId = select['end']['row'];
+                const rowData = __parent.locationTable.getDataAtRow(Number(selectedRowId));
+                // Add labels to indexes
+                __parent.locationColumns.forEach((value, index) => {
+                  rowData[value['data']] = rowData[index];
+                });
+                if( rowData['language'] === '' ){
+                  __parent.selectedLanguage = 'not set';
+                } else {
+                  __parent.selectedLanguage = rowData['language'];
+                }
+              });
+            }
+          },
+          add_child: {
+            name: '<b>Add translation</b>', // Name can contain HTML
+            callback(key, selection, clickEvent) { // Callback for specific option
+              selection.forEach(select => {
+                const selectedRowId = select['end']['row'];
+                const rowData = __parent.locationTable.getDataAtRow(Number(selectedRowId));
+                // Add labels to indexes
+                __parent.locationColumns.forEach((value, index) => {
+                  rowData[value['data']] = rowData[index];
+                });
+                const translation: object = {
+                  translation_id: rowData['translation_id'],
+                  table_name: 'location',
+                  parent_id: rowData['id'],
+                  text: 'not set',
+                  field_name: 'language'
+                };
+                __parent.createNewTranslation(translation);
+              });
+              __parent.selectedLanguage = 'not set';
+            }
+          }
+        }
+      },
       dropdownMenu: true,
       allowInsertColumn: false,
       manualColumnMove: true,
@@ -171,6 +227,7 @@ export class LocationGridComponent implements OnInit {
         if (source === 'loadData') {
           return; //don't save this change
         }
+        console.log('afterChange');
         change.forEach( changedData => {
           const rowData = __parent.locationTable.getDataAtRow(Number(changedData[0]));
           const locationData = {};
@@ -214,9 +271,6 @@ export class LocationGridComponent implements OnInit {
         // Create a placeholder row in the DB and update the data
         if( source !== undefined ) {
           console.log('afterCreateRow:');
-          console.log(index);
-          console.log(amount);
-          console.log(source);
           __parent.createLocation();
         }
       },
@@ -224,7 +278,6 @@ export class LocationGridComponent implements OnInit {
         // Add a translation row
         if ( parent !== null ) {
           console.log('afterAddChild');
-          console.log(parent);
           const translation: object = {
             translation_id: parent['translation_id'],
             table_name: 'location',
@@ -287,6 +340,7 @@ export class LocationGridComponent implements OnInit {
             if ( isTranslation === true ) {
               // If we add a save button we might get multiple changes at once
               change.forEach(ch => {
+                locationData['translation_text_id'] = dbId;
                 locationData['field_name'] = ch[1];
                 locationData['table_name'] = 'location';
                 locationData['text'] = ch[3];

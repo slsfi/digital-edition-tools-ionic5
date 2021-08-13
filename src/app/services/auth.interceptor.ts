@@ -10,7 +10,7 @@ import {
   filter,
   take,
 } from 'rxjs/operators';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -18,7 +18,9 @@ export class AuthInterceptor implements HttpInterceptor {
   tokenSubject: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   isRefreshingToken = false;
 
-  constructor(private authService: AuthenticationService, private toastCtrl: ToastController) { }
+  constructor(private authService: AuthenticationService,
+    private toastCtrl: ToastController,
+    public alertController: AlertController) { }
 
   // Intercept every HTTP call
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -36,6 +38,10 @@ export class AuthInterceptor implements HttpInterceptor {
                 return this.handle401Error(request, next);
               case 422:
                 return this.handle400Error(err);
+              case 500:
+                return this.handle500Error(err);
+              case 502:
+                return this.handle502Error(err);
               default:
                 return throwError(err);
             }
@@ -86,6 +92,24 @@ export class AuthInterceptor implements HttpInterceptor {
     return of(null);
   }
 
+  private async handle500Error(err) {
+    const toast = await this.toastCtrl.create({
+      message: 'Issue with connection to API, data might not have been saved, please try again.',
+      duration: 2000
+    });
+    toast.present();
+    return of(null);
+  }
+
+  private async handle502Error(err) {
+    const toast = await this.toastCtrl.create({
+      message: 'Issue with connection to API, data might not have been saved, please try again.',
+      duration: 2000
+    });
+    toast.present();
+    return of(null);
+  }
+
   // Indicates our access token is invalid, try to load a new one
   private handle401Error(request: HttpRequest < any >, next: HttpHandler): Observable < any > {
     // Check if another call is already using the refresh logic
@@ -114,6 +138,7 @@ export class AuthInterceptor implements HttpInterceptor {
             );
           } else {
             // No new token or other problem occurred
+            this.presentAlert();
             return of(null);
           }
         }),
@@ -133,5 +158,20 @@ export class AuthInterceptor implements HttpInterceptor {
         })
       );
     }
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: 'Issue with connection to API',
+      message: 'Data might not have been saved, please try again.',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 }
