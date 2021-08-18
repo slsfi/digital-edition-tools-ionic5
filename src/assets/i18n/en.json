@@ -28,7 +28,13 @@
       "TEI-Selector":"TEI Selector",
       "Landing-Page":"Home",
       "Project-Editor": "Project Editor",
-      "Subject-Editor": "Subject Editor"
+      "Location-Editor": "Location Editor",
+      "Work-Editor": "Works Editor",
+      "Subject-Editor": "Subject Editor",
+      "Publication-Editor": "Publication Editor",
+      "Collection-Editor": "Collection Editor",
+      "Image-Collections": "Image Collections",
+      "Image-Connector": "Image Connector"
     }
   }
 }
