@@ -47,7 +47,7 @@ export class TocGridComponent implements OnInit {
   };
 
   ngOnChanges() {
-    this.getLocations();
+    this.setTocData();
     this.setPublications();
   }
 
@@ -61,7 +61,7 @@ export class TocGridComponent implements OnInit {
       if( item.itemId !== undefined ) {
         this.tocIds.push(String(item.itemId).replace(/_ch[0-9]+/, ''));
       }
-      if ( item.children !== undefined && item.children.length > 0 ) {
+      if ( item.children !== undefined && item.children !== null && item.children.length > 0 ) {
         this.getTocIds(item.children);
       }
     });
@@ -127,7 +127,7 @@ export class TocGridComponent implements OnInit {
       afterAddChild: function (parent, element, index?) {
       }
     });
-    this.getLocations();
+    this.setTocData();
   }
 
   async saveCollectionData( data: any ) {
@@ -170,7 +170,7 @@ export class TocGridComponent implements OnInit {
     this.setPublications();
   }
 
-  async getLocations() {
+  async setTocData() {
     if ( this.tocData !== undefined && this.tocTable !== undefined ) {
       try {
         this.tocTable.loadData(this.transform(this.tocData));

@@ -47,6 +47,22 @@ export class TocEditorComponent implements OnInit {
       this.tocService.getCollectionTOC(projectName, this.selectedCollectionId).subscribe(
         async (res) => {
           this.tocData.push(res);
+        },
+        async (error) => {
+          // The TOC could not be found, we need to create an initial placeholder
+          let collectionName = 'placeholder';
+          this.collections.forEach(collection => {
+            if ( collection['id'] === this.selectedCollectionId ) {
+              collectionName = collection['name'];
+            }
+          });
+          const tmpTOC: TocItem =
+          {
+            "text":collectionName,
+            "collectionId": String(this.selectedCollectionId),
+            "type": "title"
+          };
+          this.tocData.push(tmpTOC);
         }
       );
     }

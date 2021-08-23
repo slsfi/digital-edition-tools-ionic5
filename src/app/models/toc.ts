@@ -4,12 +4,12 @@ export class TocItem{
   public text: string;
   public collectionId: string;
   public type: string;
-  public unique_id: string;
-  public url: string;
-  public date: string;
-  public children: TocItem[];
-  public itemId: string;
-  public collapsed: boolean;
+  public unique_id?: string;
+  public url?: string;
+  public date?: string;
+  public children?: TocItem[];
+  public itemId?: string;
+  public collapsed?: boolean;
 
   constructor(options: {
     text: string,
