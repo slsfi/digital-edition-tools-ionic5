@@ -9,11 +9,9 @@
   <ion-spinner *ngIf="dataLoading" name="crescent"></ion-spinner>
 </ion-item>
 <div class="xml-entity-grid">
-  <ag-grid-angular
-    style="width: 100%; height: 100%;"
-    class="ag-theme-alpine"
-    [rowData]="selectedXmlOccurrences"
-    [columnDefs]="occurrenceColumns"
-    >
-  </ag-grid-angular>
+  <div class="table-container">
+    <div class="occurrence-table">
+      <div id="occurrence_table" class="hot handsontable htRowHeaders htColumnHeaders occurrence-table"></div>
+    </div>
+  </div>
 </div>
