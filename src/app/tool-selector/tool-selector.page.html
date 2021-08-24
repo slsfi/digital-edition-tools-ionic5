@@ -17,7 +17,7 @@
 
   <div id="container">
     <app-publisher-tool *ngIf="selectedComponent === 'Publisher-Tool'" [selectedComponentTool]="selectedComponentTool"></app-publisher-tool>
-    <app-facsimile-tool *ngIf="selectedComponent === 'Facsimile-Tool'"></app-facsimile-tool>
+    <app-facsimile-tool *ngIf="selectedComponent === 'Facsimile-Tool'" [selectedComponentTool]="selectedComponentTool"></app-facsimile-tool>
     <app-toc-editor *ngIf="selectedComponent === 'TOC-Editor'"></app-toc-editor>
     <app-entity-editor *ngIf="selectedComponent === 'Entity-Editor'" [selectedComponentTool]="selectedComponentTool"></app-entity-editor>
     <app-event-editor *ngIf="selectedComponent === 'Event-Editor'"></app-event-editor>

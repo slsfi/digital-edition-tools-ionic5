@@ -23,6 +23,7 @@ import { HotTableModule } from '@handsontable/angular';
 import { PublicationGridComponent } from './components/grids/publication-grid/publication-grid.component';
 import { CollectionGridComponent } from './components/grids/collection-grid/collection-grid.component';
 import { ManuscriptGridComponent } from './components/grids/manuscript-grid/manuscript-grid.component';
+import { FacsimileCollectionGridComponent } from './components/grids/facsimile-collection-grid/facsimile-collection-grid.component';
 /*
 All available tools and sub tools need to imported here.
 
@@ -47,7 +48,8 @@ All available tools and sub tools need to imported here.
     PublicationGridComponent,
     CollectionGridComponent,
     VersionGridComponent,
-    ManuscriptGridComponent
+    ManuscriptGridComponent,
+    FacsimileCollectionGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
@@ -68,7 +70,8 @@ All available tools and sub tools need to imported here.
     PublicationGridComponent,
     CollectionGridComponent,
     VersionGridComponent,
-    ManuscriptGridComponent
+    ManuscriptGridComponent,
+    FacsimileCollectionGridComponent
   ]
 })
 export class ComponentsModule {}

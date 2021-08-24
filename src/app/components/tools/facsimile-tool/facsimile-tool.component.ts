@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-facsimile-tool',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./facsimile-tool.component.scss'],
 })
 export class FacsimileToolComponent implements OnInit {
+
+  @Input() public selectedComponentTool: string;
 
   constructor() { }
 

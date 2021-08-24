@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import Handsontable from 'handsontable';
 import { CollectionService } from 'src/app/services/collection.service';
 import { PublicationService } from 'src/app/services/publication.service';
@@ -20,6 +20,8 @@ export class PublicationGridComponent implements OnInit {
 
   public selectedCollectionId: Number;
 
+  @Input() collectionId: Number;
+
   public publicationColumns = [
     { data: 'id', readOnly: true },
     { data: 'name', readOnly: false },
@@ -31,6 +33,10 @@ export class PublicationGridComponent implements OnInit {
 
   constructor( private publicationService: PublicationService, private collectionService: CollectionService ) {
     this.publications = [];
+    // Allow predefined collection id
+    if( this.collectionId !== undefined ) {
+      this.selectedCollectionId = this.collectionId;
+    }
   }
 
   ngOnInit() {

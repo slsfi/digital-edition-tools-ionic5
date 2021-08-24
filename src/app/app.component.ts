@@ -32,7 +32,8 @@ export class AppComponent {
     { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false , subPages:
       [
         {title: 'Image-Collections', url: 'Image-Collections', icon: 'bulb'},
-        {title: 'Image-Connector', url: 'Image-Connector', icon: 'bulb'}
+        {title: 'Image-Connector', url: 'Image-Connector', icon: 'bulb'},
+        {title: 'Image-Upload', url: 'Image-Upload', icon: 'bulb'}
       ]
     },
     { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages:
