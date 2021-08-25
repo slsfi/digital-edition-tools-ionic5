@@ -13,7 +13,7 @@ export class TeiSelectorComponent implements OnInit {
 
   ngOnInit() {}
 
-  public setSelectedFileFullPath( event: Event) {
+  public setSelectedFileFullPath( event: any) {
     this.selectedFileFullPath = String(event);
   }
 
