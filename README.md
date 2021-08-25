@@ -76,3 +76,10 @@ Contain images and translation files needed for the app.
 
 ### Environments 
 Configuration for the App e.g. the URL for the API 
+Copy the environment files
+
+`cp src/environments/environment.example.ts src/environments/environment.ts`
+`cp src/environments/environment.example.ts src/environments/environment.prod.ts`
+`cp src/environments/environment.example.ts src/environments/environment.staging.ts`
+
+and fill in the correct details.
