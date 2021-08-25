@@ -79,7 +79,15 @@ Configuration for the App e.g. the URL for the API
 Copy the environment files
 
 `cp src/environments/environment.example.ts src/environments/environment.ts`
-`cp src/environments/environment.example.ts src/environments/environment.prod.ts`
-`cp src/environments/environment.example.ts src/environments/environment.staging.ts`
 
+`cp src/environments/environment.example.ts src/environments/environment.prod.ts`
+
+`cp src/environments/environment.example.ts src/environments/environment.staging.ts`
 and fill in the correct details.
+
+### Deploying to firebase
+See [the ionic documentation](https://ionicframework.com/docs/angular/pwa#firebase) for Angular based PWA deployments.
+
+### Proxy to different backend server
+(this is optional, as it can also be acieved via the environment files.)
+See [the angular documentation](https://angular.io/guide/build#proxying-to-a-backend-server)
