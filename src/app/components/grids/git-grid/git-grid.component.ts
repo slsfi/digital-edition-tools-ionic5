@@ -10,10 +10,10 @@ export class GitGridComponent implements OnInit {
 
   @Output() fileSelectedEvent = new EventEmitter<string>();
 
-  public gitTreeStructure: Array<Object> = [];
-  public gitTreeStructureFullStructure: Object = {};
-  public currentPath: string = '';
-  public dataLoading: boolean = true;
+  public gitTreeStructure = [];
+  public gitTreeStructureFullStructure = {};
+  public currentPath = '';
+  public dataLoading = true;
 
   constructor( public gitService: GitService ) {
   }

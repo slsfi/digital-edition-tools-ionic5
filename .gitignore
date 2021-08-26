@@ -29,3 +29,13 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# config files
+environment.prod.ts
+environment.staging.ts
+environment.ts
+
+# do not track firebase settings for now.
+.firebase
+.firebaserc
+firebase.json
