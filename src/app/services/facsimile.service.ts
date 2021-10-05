@@ -18,4 +18,9 @@ export class FacsimileService {
   getFacsimileCollections( projectName: string ): Observable<any> {
       return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/list/');
   }
+
+  // /<project>/facsimiles/<collection_id>/<page_number>
+  uploadFacsimileCollection( projectName: string, collectionId: Number, pageNumber: Number ): Observable<any> {
+    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimiles/' + collectionId + '/' + pageNumber);
+  }
 }

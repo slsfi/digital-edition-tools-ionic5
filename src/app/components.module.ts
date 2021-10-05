@@ -25,7 +25,6 @@ import { CollectionGridComponent } from './components/grids/collection-grid/coll
 import { ManuscriptGridComponent } from './components/grids/manuscript-grid/manuscript-grid.component';
 import { FacsimileCollectionGridComponent } from './components/grids/facsimile-collection-grid/facsimile-collection-grid.component';
 import { FacsimileUploadComponent } from './components/tools/facsimile-upload/facsimile-upload.component';
-import { FileUploadModule } from 'ng2-file-upload';
 /*
 All available tools and sub tools need to imported here.
 
@@ -54,7 +53,7 @@ All available tools and sub tools need to imported here.
     FacsimileCollectionGridComponent,
     FacsimileUploadComponent
   ],
-  imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule, FileUploadModule],
+  imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
     PublisherToolComponent,
     TocEditorComponent,

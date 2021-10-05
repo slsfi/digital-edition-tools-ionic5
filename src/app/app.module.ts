@@ -14,8 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { HotTableModule } from '@handsontable/angular';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { FileUploadModule } from 'ng2-file-upload';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';;
 
 
 export function translateHttpLoaderFactory(handler: HttpBackend) {
@@ -39,7 +38,6 @@ export function translateHttpLoaderFactory(handler: HttpBackend) {
         deps: [HttpBackend]
       }
     }),
-    FileUploadModule,
     HotTableModule,
     BrowserAnimationsModule
   ],
