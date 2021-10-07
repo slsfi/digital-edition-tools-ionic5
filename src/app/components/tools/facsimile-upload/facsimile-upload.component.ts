@@ -1,9 +1,7 @@
+import { FacsimileService } from './../../../services/facsimile.service';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
 import { FileQueueObject, FileUploadService } from '../../../services/file-upload.service';
-import { filter } from 'rxjs/operators';
-
 @Component({
   selector: 'app-facsimile-upload',
   templateUrl: './facsimile-upload.component.html',
@@ -14,9 +12,11 @@ export class FacsimileUploadComponent implements OnInit {
   public response:string;
 
   public imageNumber: string;
-  public collectionId: string;
+  public collectionId: number;
+  public selectedFacsimileCollectionId: string;
   public imageStartNumber: number;
-
+  public projectName: string;
+  public facsimileCollections: any;
 
 
   @Output() onCompleteItem = new EventEmitter();
@@ -24,13 +24,13 @@ export class FacsimileUploadComponent implements OnInit {
   @ViewChild('fileInput') fileInput;
   queue: Observable<FileQueueObject[]>;
 
-  constructor(public uploader: FileUploadService) {
-    const projectName = localStorage.getItem('selectedProjectName');
-    this.uploader.setProjectName(projectName);
-    this.uploader.setFacsimileCollectionId('9088');
+  constructor(public uploader: FileUploadService, public facsimileService: FacsimileService) {
+    this.projectName = localStorage.getItem('selectedProjectName');
+    this.uploader.setProjectName(this.projectName);
     // Start numbering on 1
     this.imageStartNumber = 1;
     this.uploader.setImageStartNumber(this.imageStartNumber);
+    this.getFacsimileCollections();
   }
 
   ngOnInit() {
@@ -53,12 +53,28 @@ export class FacsimileUploadComponent implements OnInit {
   addToQueue() {
     const fileBrowser = this.fileInput.nativeElement;
     this.uploader.addToQueue(fileBrowser.files);
+    this.setOrderNumbers();
   }
 
-  updateOrderNumber( itemOrderNumber: number, direction: number ) {
-    this.queue.subscribe( fileQueueObject => {
+  updateOrderNumber( item: FileQueueObject, itemOrderNumber: number, direction: number ) {
+    this.queue.subscribe( (fileQueueObject: FileQueueObject[]) => {
       if( (itemOrderNumber + direction) >= 0 && (itemOrderNumber + direction) < fileQueueObject.length )
         this.arrayMove(fileQueueObject, itemOrderNumber, (itemOrderNumber + direction));
+        let start = this.imageStartNumber;
+        fileQueueObject.forEach(item => {
+          item.setOrderNumber(start);
+          start++;
+        });
+    } );
+  }
+
+  setOrderNumbers() {
+    this.queue.subscribe( (fileQueueObject: FileQueueObject[]) => {
+      let start = this.imageStartNumber;
+      fileQueueObject.forEach(item => {
+        item.setOrderNumber(start);
+        start++;
+      });
     } );
   }
 
@@ -77,8 +93,16 @@ export class FacsimileUploadComponent implements OnInit {
     this.uploader.setImageStartNumber(this.imageStartNumber);
   }
 
-  setCollectionId( nr: string ) {
-    this.collectionId = nr;
+  setCollectionId( e ) {
+    this.collectionId = Number(e.detail.value);
+    this.selectedFacsimileCollectionId = e.detail.value;
+    this.uploader.setFacsimileCollectionId(this.selectedFacsimileCollectionId);
+  }
+
+  getFacsimileCollections() {
+    this.facsimileService.getFacsimileCollections(this.projectName).subscribe( facsimileCollections => {
+      this.facsimileCollections = facsimileCollections;
+    });
   }
 
 }

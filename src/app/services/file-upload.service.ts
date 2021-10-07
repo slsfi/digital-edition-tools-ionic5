@@ -31,6 +31,14 @@ export class FileQueueObject {
     this.file = file;
   }
 
+  public setOrderNumber( nr: number) {
+    this.orderNumber = nr;
+  }
+
+  public getOrderNumber(): number {
+    return this.orderNumber;
+  }
+
   // actions
   public upload = () => { /* set in service */ };
   public cancel = () => { /* set in service */ };

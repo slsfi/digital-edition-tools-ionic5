@@ -1,66 +1,175 @@
 <div class="row">
 
-	<div class="col-md-3">
-		<h3>Select files</h3>
-		<input type="file" #fileInput multiple (change)="addToQueue()" />
-	</div>
+  <ion-item>
+    <ion-label>1. Facsimile Collection:</ion-label>
+    <ion-select placeholder="Select Facsimile Collection" [(ngModel)]="collectionId"  [value]="selectedFacsimileCollectionId" (ionChange)="setCollectionId($event)">
+      <ion-select-option [value]=""></ion-select-option>
+      <ion-select-option *ngFor="let fColl of facsimileCollections" [value]="fColl['id']">{{fColl['title']}}</ion-select-option>
+    </ion-select>
+  </ion-item>
 
-	<div class="col-md-9">
-		<h3>Upload queue</h3>
-    <h3>Start ordering from: {{imageOrderNumber}}</h3>
+  <ion-item>
+    <ion-label>2. Start upload from page number:</ion-label>
+    <ion-input type="number" [(ngModel)]="imageOrderNumber" (ionChange)="setImageOrderNumber($event)"></ion-input>
+  </ion-item>
+
+  <div *ngIf="selectedFacsimileCollectionId">
     <ion-item>
-        <ion-input type="number"  [(ngModel)]="imageOrderNumber" (ionChange)="setImageOrderNumber($event)"></ion-input>
+      <ion-label>3. Select files</ion-label>
+      <input type="file" #fileInput multiple (change)="addToQueue()" />
     </ion-item>
-		<table class="table-headed table-striped">
-			<thead>
-				<tr>
-					<th class="text-right">Order</th>
-          <th class="text-left">Name</th>
-					<th class="text-right">Size</th>
-					<th class="text-left">Progress</th>
-					<th class="text-left">Status</th>
-					<th class="text-right">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr *ngFor="let i = index; let item of queue | async ">
-          <td>
-              <a tooltip="Remove from queue" (click)="updateOrderNumber(i, -1)">
-                <i class="fa fa-trash">up</i>
-              </a>
-              {{(i+1)}}{{item.orderNumber}}
-              <a tooltip="Remove from queue" (click)="updateOrderNumber(i, 1)">
-                <i class="fa fa-trash">down</i>
-              </a>
-          </td>
-					<td>{{ item?.file?.name }}</td>
-					<td class="text-right">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-					<td>{{ item.progress + ' %' }}</td>
-					<td>
-						<span *ngIf="item.isPending()" class="tag tag-default"></span>
-						<span *ngIf="item.isSuccess()" class="tag tag-success"></span>
-						<span *ngIf="item.inProgress()" class="tag tag-warning"></span>
-						<span *ngIf="item.isError()" class="tag tag-danger"></span>
-					</td>
-					<td class="text-right">
+    <ion-item>
+      <ion-item>
+        <a class="button button-clear" (click)="uploader.clearQueue()">Clear queue</a>
+      </ion-item>
+      <ion-item>
+        <a class="button button-primary" (click)="uploader.uploadAll()">Upload all</a>
+      </ion-item>
+      <ion-item>
+        <a class="button button-primary" (click)="orderBy()">Order</a>
+      </ion-item>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div>
+            Order
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            Name
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            Size
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            Progress
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            Status
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            Actions
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngFor="let i = index; let item of queue | async ">
+        <ion-col>
+          <div>
+            <a tooltip="Remove from queue" (click)="updateOrderNumber(item, i, -1)">
+              <i class="fa fa-trash">up</i>
+            </a>
+            {{item.orderNumber}}
+            <a tooltip="Remove from queue" (click)="updateOrderNumber(item, i, 1)">
+              <i class="fa fa-trash">down</i>
+            </a>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            {{ item?.file?.name }}
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            {{ item.progress + ' %' }}
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
+            <span *ngIf="item.isPending()" class="tag tag-default"></span>
+            <span *ngIf="item.isSuccess()" class="tag tag-success"></span>
+            <span *ngIf="item.inProgress()" class="tag tag-warning"></span>
+            <span *ngIf="item.isError()" class="tag tag-danger"></span>
+          </div>
+        </ion-col>
+        <ion-col>
+          <div>
             <a tooltip="Upload file" (click)="item.upload()" *ngIf="item.isUploadable()">
-							<i class="fa fa-upload"></i>
-						</a>
-						<a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
-							<i class="fa fa-times-circle"></i>
-						</a>
-						<a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
-							<i class="fa fa-trash"></i>
-						</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div>
-			<a class="button button-clear" (click)="uploader.clearQueue()">Clear queue</a>
-			<a class="button button-primary" (click)="uploader.uploadAll()">Upload all</a>
-      <a class="button button-primary" (click)="orderBy()">Order</a>
-		</div>
-	</div>
+              <i class="fa fa-upload"></i>
+            </a>
+            <a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
+              <i class="fa fa-times-circle"></i>
+            </a>
+            <a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
+              <i class="fa fa-trash"></i>
+            </a>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!--div class="col-md-3">
+      <h3>Select files</h3>
+      <input type="file" #fileInput multiple (change)="addToQueue()" />
+    </div>
 
+    <div class="col-md-9">
+      <h3>Upload queue</h3>
+
+      <table class="table-headed table-striped">
+        <thead>
+          <tr>
+            <th class="text-right">Order</th>
+            <th class="text-left">Name</th>
+            <th class="text-right">Size</th>
+            <th class="text-left">Progress</th>
+            <th class="text-left">Status</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i = index; let item of queue | async ">
+            <td>
+                <a tooltip="Remove from queue" (click)="updateOrderNumber(i, -1)">
+                  <i class="fa fa-trash">up</i>
+                </a>
+                {{(i+1)}}{{item.orderNumber}}
+                <a tooltip="Remove from queue" (click)="updateOrderNumber(i, 1)">
+                  <i class="fa fa-trash">down</i>
+                </a>
+            </td>
+            <td>{{ item?.file?.name }}</td>
+            <td class="text-right">{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+            <td>{{ item.progress + ' %' }}</td>
+            <td>
+              <span *ngIf="item.isPending()" class="tag tag-default"></span>
+              <span *ngIf="item.isSuccess()" class="tag tag-success"></span>
+              <span *ngIf="item.inProgress()" class="tag tag-warning"></span>
+              <span *ngIf="item.isError()" class="tag tag-danger"></span>
+            </td>
+            <td class="text-right">
+              <a tooltip="Upload file" (click)="item.upload()" *ngIf="item.isUploadable()">
+                <i class="fa fa-upload"></i>
+              </a>
+              <a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
+                <i class="fa fa-times-circle"></i>
+              </a>
+              <a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
+                <i class="fa fa-trash"></i>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <a class="button button-clear" (click)="uploader.clearQueue()">Clear queue</a>
+        <a class="button button-primary" (click)="uploader.uploadAll()">Upload all</a>
+        <a class="button button-primary" (click)="orderBy()">Order</a>
+      </div>
+    </div-->
+  </div>
 </div>
