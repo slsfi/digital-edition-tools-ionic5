@@ -9,6 +9,7 @@ import { SubjectService } from 'src/app/services/subject.service';
 export class SubjectGridComponent implements OnInit {
 
   public subjects: [];
+  public filter: '';
 
   public subjectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
@@ -19,6 +20,13 @@ export class SubjectGridComponent implements OnInit {
       { headerName: 'Date Modified', field: 'date_modified', sortable: true, filter: true  },
       { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
   ];
+
+  public defaultColDef = {
+    flex: 1,
+    minWidth: 200,
+    floatingFilter: true,
+    resizable: true,
+  };
 
   constructor(private subjectService: SubjectService) {
     this.getSubjects();
