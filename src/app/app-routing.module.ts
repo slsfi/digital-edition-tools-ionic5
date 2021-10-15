@@ -23,6 +23,11 @@ const routes: Routes = [
     path: '',
     redirectTo: '/login',
     pathMatch: 'full'
+  },
+  {
+    path: 'facsimile-collection-modal',
+    loadChildren: () => import('./components/modals/facsimile-collection-modal/facsimile-collection-modal.module').then( m => m.FacsimileCollectionModalPageModule),
+    canLoad: [AuthGuard] // Secure all child pages
   }
 ];
 

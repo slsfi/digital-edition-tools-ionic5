@@ -1,0 +1,213 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>my-modal</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSegment">
+  <ion-segment-button value="collections">
+    <ion-label>1. Choose Facsimile Collection</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="publication">
+    <ion-label>2. Link Facsimile Publication</ion-label>
+  </ion-segment-button>
+</ion-segment>
+<ion-content class="ion-padding">
+  <ion-grid *ngIf="selectedSegment === 'collections'">
+    <ion-row>
+      <ion-col text-center>
+        <ion-searchbar></ion-searchbar>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-list>
+          <ion-item>
+            <ion-label>
+                Create new Collection
+            </ion-label>
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </ion-item>
+          <ion-item>
+            <form  #form="ngForm" (ngSubmit)="createFacsimileCollection(form)">
+              <ion-grid class="new-collection">
+                <ion-row>
+                  <ion-col>
+                    <span>Title*</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input name="title" position="fixed" ngModel required></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span>Description</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input name="description" position="fixed" ngModel></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span>External URL (e.g. to finna.fi):</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input name="externalUrl" position="fixed" type="url" ngModel></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span>Number of Pages (in collection)*:</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input name="numberOfPages" type="number" value="33" position="fixed" ngModel required></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span>Start at (image number)*:</span>
+                  </ion-col>
+                  <ion-col>
+                    <ion-input name="startPageNumber" type="number" value="1" position="fixed" ngModel required></ion-input>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    &nbsp;
+                  </ion-col>
+                  <ion-col>
+                    <div padding>
+                      <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Register</ion-button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </form>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">
+                Select a Collection
+            </ion-label>
+          </ion-item>
+          <ng-container *ngFor="let fColl of facsimileCollections">
+            <ion-item *ngIf="fColl.display || fColl.display===undefined">
+              <ion-label>
+                <h3>Title: {{fColl.title}}</h3>
+                <p>Description: {{fColl.description}}</p>
+                <p>External URL (e.g. to finna.fi): {{fColl.external_url}}</p>
+                <p>Number of Pages (in collection): {{fColl.number_of_pages}}</p>
+                <p>Start at (image number): {{fColl.start_page_number}}</p>
+              </ion-label>
+              <ion-icon name="add-circle-outline" (click)="setSelectedFacsimileCollection(fColl)"></ion-icon>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-item>
+          <ion-button *ngIf="selectedPublicationId" (click)="openFacsimileCollectionModal()">Add new Facsimile Collection (type)</ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-button (click)="closeModal()">Close Modal</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="selectedSegment === 'publication'">
+    <ion-row>
+      <ion-col text-center>
+        <ion-item>
+          <ion-label>
+            <h3>Title: {{selectedFacsimileCollection.title}}</h3>
+            <p>Description: {{selectedFacsimileCollection.description}}</p>
+            <p>External URL (e.g. to finna.fi): {{selectedFacsimileCollection.external_url}}</p>
+            <p>Number of Pages (in collection): {{selectedFacsimileCollection.number_of_pages}}</p>
+            <p>Start at (image number): {{selectedFacsimileCollection.start_page_number}}</p>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-item>
+          <form  #form="ngForm" (ngSubmit)="linkFacsimileCollection(form)">
+            <ion-grid class="new-collection">
+              <ion-row>
+                <ion-col>
+                  <span>Publication Manuscript</span>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-select interface="action-sheet" placeholder="Select Manuscript" [(ngModel)]="manuscriptId"  [value]="selectedManuscriptId" (ionChange)="setManuscriptId($event)">
+                      <ion-select-option [value]=""></ion-select-option>
+                      <ion-select-option *ngFor="let coll of publicationManuscripts" [value]="coll['id']">{{coll['name']}}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span>Publication Version</span>
+                </ion-col>
+                <ion-col>
+                  <ion-item>
+                    <ion-select interface="action-sheet" placeholder="Select Version" [(ngModel)]="versionId"  [value]="selectedVersionId" (ionChange)="setVersionId($event)">
+                      <ion-select-option [value]=""></ion-select-option>
+                      <ion-select-option *ngFor="let coll of publicationVersions" [value]="coll['id']">{{coll['name']}}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span>Start Page Number</span>
+                </ion-col>
+                <ion-col>
+                  <ion-input name="page" position="fixed" type="number" ngModel required></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span>Section Id</span>
+                </ion-col>
+                <ion-col>
+                  <ion-input name="section_id" type="number" position="fixed" ngModel></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span>Priority:</span>
+                </ion-col>
+                <ion-col>
+                  <ion-input name="priority" type="number" position="fixed" ngModel></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <span>Type:</span>
+                </ion-col>
+                <ion-col>
+                  <ion-input name="type" type="number" position="fixed" ngModel></ion-input>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  &nbsp;
+                </ion-col>
+                <ion-col>
+                  <div padding>
+                    <ion-button  size="large" type="submit" [disabled]="form.invalid" expand="block">Register</ion-button>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </form>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

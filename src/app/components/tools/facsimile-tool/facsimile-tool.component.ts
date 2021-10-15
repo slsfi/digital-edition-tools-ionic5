@@ -3,6 +3,8 @@ import { FacsimileService } from '../../../services/facsimile.service';
 import { PublicationService } from '../../../services/publication.service';
 import { CollectionService } from '../../../services/collection.service';
 import { environment } from '../../../../environments/environment.example';
+import { ModalController } from '@ionic/angular';
+import { FacsimileCollectionModalPage } from '../../modals/facsimile-collection-modal/facsimile-collection-modal.page';
 
 @Component({
   selector: 'app-facsimile-tool',
@@ -23,18 +25,22 @@ export class FacsimileToolComponent implements OnInit {
   public publications: any[];
   public collections: any[];
   public facsimilePublications: any[];
+  public facsimileCollections: any[];
 
-  public facsimileImageUrls: string[];
+  public facsimileImageUrls: Array<Object>;
 
   public selectedFacsimile: any[];
+  public dataReturned: any;
 
 
   constructor(  public facsimileService: FacsimileService,
                 public publicationService: PublicationService,
-                public collectionService: CollectionService) {
+                public collectionService: CollectionService,
+                public modalController: ModalController) {
     this.selectedProjectName = localStorage.getItem('selectedProjectName');
     this.facsimileImageUrls = [];
     this.getPublicationCollections();
+    this.getFacsimileCollections();
   }
 
   ngOnInit() {}
@@ -66,6 +72,12 @@ export class FacsimileToolComponent implements OnInit {
     } );
   }
 
+  getFacsimileCollections() {
+    this.facsimileService.getFacsimileCollections(this.selectedProjectName).subscribe( facsimileCollections => {
+      this.facsimileCollections = facsimileCollections;
+    });
+  }
+
   setCollectionId( e ) {
     this.collectionId = Number(e.detail.value);
     this.selectedCollectionId = e.detail.value;
@@ -78,15 +90,37 @@ export class FacsimileToolComponent implements OnInit {
     this.getPublicationFacsimiles();
   }
 
-  selectFacsimilePublication( facsimile: any ) {
-    this.selectedFacsimile = facsimile;
-    this.facsimileImageUrls = [];
-    for(let i = Number(facsimile.first_page); i <= Number(facsimile.last_page); i++) {
-      /*let url = environment.api_url + '/' + environment.api_url_path + '/' +
-                  this.selectedProjectName + '/facsimiles/' + facsimile.publication_facsimile_collection_id + '/' + i + '/1';*/
-      let url = 'https://api.sls.fi' + '/' + environment.api_url_path + '/' +
-                  this.selectedProjectName + '/facsimiles/' + facsimile.publication_facsimile_collection_id + '/' + i + '/1';
-      this.facsimileImageUrls.push(url);
+  selectFacsimilePublication( facsimile?: any ) {
+    if ( facsimile !== undefined ) {
+      this.selectedFacsimile = facsimile;
     }
+
+    this.facsimileImageUrls = [];
+    for(let i = Number(this.selectedFacsimile['first_page']); i <= Number(this.selectedFacsimile['last_page']); i++) {
+      let url = environment.api_url + '/' + environment.api_url_path + '/' +
+                  this.selectedProjectName + '/facsimiles/' + this.selectedFacsimile['publication_facsimile_collection_id'] + '/' + i + '/1' + '?' + Date.now();
+      this.facsimileImageUrls.push({'url': url, 'number': i});
+    }
+  }
+
+  async openFacsimileCollectionModal() {
+    const modal = await this.modalController.create({
+      component: FacsimileCollectionModalPage,
+      componentProps: {
+        "facsimileCollections": this.facsimileCollections,
+        "selectedPublicationId": this.selectedPublicationId,
+        "paramTitle": "Test Title"
+      }
+    });
+
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned !== null) {
+        this.dataReturned = dataReturned.data;
+        this.getPublicationFacsimiles();
+        //alert('Modal Sent Data :'+ dataReturned);
+      }
+    });
+
+    return await modal.present();
   }
 }
