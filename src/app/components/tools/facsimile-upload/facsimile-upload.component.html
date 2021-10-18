@@ -9,14 +9,14 @@
     </ion-select>
   </ion-item>
   -->
-  <!--ion-item>
-    <ion-label>2. Start upload from page number:</ion-label>
-    <ion-input type="number" [(ngModel)]="imageOrderNumber" value="{{imageOrderNumber}}" (ionChange)="setImageOrderNumber($event)"></ion-input>
-  </ion-item-->
+  <ion-item>
+    <ion-label>a) Start upload from page number:</ion-label>
+    <ion-input type="number" [(ngModel)]="imageOrderNumber" value="{{imageOrderNumber}}" placeholder="1" (ionChange)="setImageOrderNumber($event)"></ion-input>
+  </ion-item>
 
   <div *ngIf="selectedFacsimileCollectionId">
     <ion-item>
-      <ion-label>Select files</ion-label>
+      <ion-label>b) Select files</ion-label>
       <input type="file" #fileInput multiple (change)="addToQueue()" />
     </ion-item>
     <ion-item>
@@ -26,12 +26,9 @@
       <ion-item>
         <a class="button button-primary" (click)="uploader.uploadAll()">Upload all</a>
       </ion-item>
-      <ion-item>
-        <a class="button button-primary" (click)="orderBy()">Order</a>
-      </ion-item>
     </ion-item>
-    <ion-grid>
-      <ion-row>
+    <ion-grid class="file-que">
+      <ion-row class="file-que-header">
         <ion-col>
           <div>
             Order
@@ -101,13 +98,13 @@
         <ion-col>
           <div>
             <a tooltip="Upload file" (click)="item.upload()" *ngIf="item.isUploadable()">
-              <i class="fa fa-upload"></i>
+              <i class="fa fa-upload">Upload</i>
             </a>
             <a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
-              <i class="fa fa-times-circle"></i>
+              <i class="fa fa-times-circle">Cancel</i>
             </a>
             <a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
-              <i class="fa fa-trash"></i>
+              <i class="fa fa-trash">Remove</i>
             </a>
           </div>
         </ion-col>

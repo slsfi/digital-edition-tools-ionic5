@@ -1,3 +1,13 @@
 .facsimile_img img{
 
 }
+
+.facsimile-items {
+  padding-left: 0%;
+  ion-col {
+    padding-left: 0%;
+  }
+  .facsimile-items-header p{
+    font-weight: bold;
+  }
+}

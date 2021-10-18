@@ -19,49 +19,57 @@
 <app-facsimile-collection-grid *ngIf="selectedComponentTool === 'Image-Collections'"></app-facsimile-collection-grid>
 <div *ngIf="selectedComponentTool === 'Image-Connector'">
   <ion-item>
-    <ion-label>Collections:</ion-label>
+    <ion-label>1. Select Collection:</ion-label>
     <ion-select interface="action-sheet" placeholder="Select Collection" [(ngModel)]="collectionId"  [value]="selectedCollectionId" (ionChange)="setCollectionId($event)">
       <ion-select-option [value]=""></ion-select-option>
       <ion-select-option *ngFor="let coll of collections" [value]="coll['id']">{{coll['name']}}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
-    <ion-label>Publications:</ion-label>
+    <ion-label>2. Select Publication:</ion-label>
     <ion-select interface="action-sheet" placeholder="Select Publication" [(ngModel)]="publicationId"  [value]="selectedPublicationId" (ionChange)="setPublicationId($event)">
       <ion-select-option [value]=""></ion-select-option>
       <ion-select-option *ngFor="let coll of publications" [value]="coll['id']">{{coll['name']}}</ion-select-option>
     </ion-select>
   </ion-item>
-   <ion-item>
-    <ion-button  (click)="openFacsimileCollectionModal()">Add new Facsimile Collection (type)</ion-button>
+   <ion-item *ngIf="selectedPublicationId">
+    <ion-label>3. Create a new Facsimile Item (optional)</ion-label>
+    <ion-button  (click)="openFacsimileCollectionModal()" >Add new Facsimile Item</ion-button>
   </ion-item>
-  <ion-item>
+  <ion-item *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0">
     <!-- Check if we already have facsimiles connected -->
-    <ion-grid *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0">
+    <ion-grid class="facsimile-items">
       <ion-row>
         <ion-col>
           <div>
-            Title
+              <ion-label>4. Select Facsimile Item</ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="facsimile-items-header">
+        <ion-col>
+          <div>
+            <p>Title</p>
           </div>
         </ion-col>
          <ion-col>
           <div>
-            Pages
+            <p>Pages</p>
           </div>
         </ion-col>
         <ion-col>
           <div>
-            Total Pages
+            <p>Total Pages</p>
           </div>
         </ion-col>
         <ion-col>
           <div>
-            External URL
+            <p>External URL</p>
           </div>
         </ion-col>
         <ion-col>
           <div>
-            Type
+            <p>Type</p>
           </div>
         </ion-col>
       </ion-row>
@@ -113,8 +121,15 @@
       <ion-select-option *ngFor="let fColl of facsimileCollections" [value]="fColl['id']">{{fColl['title']}}</ion-select-option>
     </ion-select>
   </ion-item-->
-  <ion-item>
-    <ion-grid *ngIf="selectedFacsimile">
+  <ion-item *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0">
+    <ion-grid *ngIf="selectedFacsimile" class="facsimile-items">
+      <ion-row>
+        <ion-col>
+          <div>
+              <h4>Facsimiles</h4>
+          </div>
+        </ion-col>
+      </ion-row>
       <ion-row>
         <ion-col *ngFor="let image of facsimileImageUrls">
           <div class="facsimile_img">
@@ -128,6 +143,9 @@
     </ion-grid>
   </ion-item>
 </div>
+<ion-item *ngIf="selectedFacsimile">
+  <h4>Upload New Facsimiles:</h4>
+</ion-item>
 <app-facsimile-upload *ngIf="selectedFacsimile"
 (onUploaded)="selectFacsimilePublication($event)"
 [selectedFacsimileCollectionId]="selectedFacsimile.publication_facsimile_collection_id"
