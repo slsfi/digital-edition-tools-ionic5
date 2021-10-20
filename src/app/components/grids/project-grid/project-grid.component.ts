@@ -8,6 +8,7 @@ import { ProjectService } from '../../../services/project.service';
 export class ProjectGridComponent implements OnInit {
 
   public projects: [];
+  public filter: '';
 
   public projectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
@@ -17,6 +18,13 @@ export class ProjectGridComponent implements OnInit {
       { headerName: 'Published (0, 1, 2)', field: 'published', sortable: true, filter: true, editable: true, onCellValueChanged: this.publishedEdited.bind(this) },
       { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
   ];
+
+  public defaultColDef = {
+    flex: 1,
+    minWidth: 200,
+    floatingFilter: true,
+    resizable: true,
+  };
 
   constructor(private projectService: ProjectService) {
     this.getProjects();

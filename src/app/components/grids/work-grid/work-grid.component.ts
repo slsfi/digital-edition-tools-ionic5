@@ -9,6 +9,7 @@ import { WorkService } from 'src/app/services/work.service';
 export class WorkGridComponent implements OnInit {
 
   public works: [];
+  public filter: '';
 
   publicworkColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
@@ -19,6 +20,12 @@ export class WorkGridComponent implements OnInit {
       { headerName: 'Date Modified', field: 'date_modified', sortable: true, filter: true  },
       { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
   ];
+
+  public defaultColDef = {
+    flex: 1,
+    minWidth: 200,
+    floatingFilter: true,
+  };
 
   constructor(private workService: WorkService) {
     this.getWorks();

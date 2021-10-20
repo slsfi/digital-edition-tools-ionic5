@@ -1,9 +1,12 @@
 <div class="project-grid">
+  <ion-input type="text" placeholder="Search..." [(ngModel)]="filter" class="ion-padding-bottom"></ion-input>
   <ag-grid-angular
     style="width: 100%; height: 100%;"
     class="ag-theme-alpine"
     [rowData]="projects"
     [columnDefs]="projectColumns"
+    [defaultColDef]="defaultColDef"
+    [quickFilterText]="filter"
     >
   </ag-grid-angular>
 </div>
