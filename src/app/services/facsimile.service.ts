@@ -36,4 +36,12 @@ export class FacsimileService {
     return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' +
      data.publication_facsimile_collection_id + '/link/' , data);
   }
+
+  updateFacsimilePublication( projectName: string, data: any ) {
+    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/facsimile/edit/' , data);
+  }
+
+  updateFacsimilePublicationCollection( projectName: string, data: any ) {
+    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' + data.publication_facsimile_collection_id + '/edit/' , data);
+  }
 }

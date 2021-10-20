@@ -26,6 +26,7 @@ import { ManuscriptGridComponent } from './components/grids/manuscript-grid/manu
 import { FacsimileCollectionGridComponent } from './components/grids/facsimile-collection-grid/facsimile-collection-grid.component';
 import { FacsimileUploadComponent } from './components/tools/facsimile-upload/facsimile-upload.component';
 import { FacsimileCollectionModalPage } from './components/modals/facsimile-collection-modal/facsimile-collection-modal.page';
+import { FacsimileItemGridComponent } from './components/grids/facsimile-item-grid/facsimile-item-grid.component';
 /*
 All available tools and sub tools need to imported here.
 
@@ -53,7 +54,8 @@ All available tools and sub tools need to imported here.
     ManuscriptGridComponent,
     FacsimileCollectionGridComponent,
     FacsimileUploadComponent,
-    FacsimileCollectionModalPage
+    FacsimileCollectionModalPage,
+    FacsimileItemGridComponent
   ],
   imports: [IonicModule, AgGridModule, CommonModule, FormsModule, DragDropModule, HotTableModule],
   exports: [
@@ -76,7 +78,8 @@ All available tools and sub tools need to imported here.
     VersionGridComponent,
     ManuscriptGridComponent,
     FacsimileCollectionGridComponent,
-    FacsimileUploadComponent
+    FacsimileUploadComponent,
+    FacsimileItemGridComponent
   ]
 })
 export class ComponentsModule {}

@@ -1,0 +1,12 @@
+<div class="facsimile-item-grid" *ngIf="facsimileItems">
+  <ag-grid-angular
+    style="width: 100%; height: 100%;"
+    class="ag-theme-alpine"
+    [rowData]="facsimileItems"
+    [columnDefs]="facsimilePublicationsColumns"
+    [defaultColDef]="defaultColDef"
+    [rowSelection]="rowSelection"
+    (selectionChanged)="selectFacsimileItem($event)"
+    >
+  </ag-grid-angular>
+</div>

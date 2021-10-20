@@ -36,9 +36,12 @@
     <ion-label>3. Create a new Facsimile Item (optional)</ion-label>
     <ion-button  (click)="openFacsimileCollectionModal()" >Add new Facsimile Item</ion-button>
   </ion-item>
-  <ion-item *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0">
+  <app-facsimile-item-grid *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0"
+  (onSelected)="selectFacsimilePublication($event)"
+  [facsimileItems]="facsimilePublications"></app-facsimile-item-grid>
+  <!--ion-item *ngIf="facsimilePublications !== undefined && facsimilePublications.length > 0"-->
     <!-- Check if we already have facsimiles connected -->
-    <ion-grid class="facsimile-items">
+    <!--ion-grid class="facsimile-items">
       <ion-row>
         <ion-col>
           <div>
@@ -112,7 +115,7 @@
       </ion-row>
     </ion-grid>
     <!-- if we dont have any connected facsimiles, ask to create one -->
-  </ion-item>
+  <!--/ion-item-->
 
   <!--ion-item>
     <ion-label>1. Facsimile Collection:</ion-label>
