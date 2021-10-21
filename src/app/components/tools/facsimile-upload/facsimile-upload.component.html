@@ -11,7 +11,7 @@
   -->
   <ion-item>
     <ion-label>a) Start upload from page number:</ion-label>
-    <ion-input type="number" [(ngModel)]="imageOrderNumber" value="{{imageOrderNumber}}" placeholder="1" (ionChange)="setImageOrderNumber($event)"></ion-input>
+    <ion-input type="number" [(ngModel)]="imageOrderNumber" value="{{imageStartNumber}}" placeholder="{{imageStartNumber}}" (ionChange)="setImageOrderNumber($event)"></ion-input>
   </ion-item>
 
   <div *ngIf="selectedFacsimileCollectionId">

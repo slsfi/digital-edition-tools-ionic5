@@ -14,14 +14,14 @@ export class FacsimileItemGridComponent implements OnInit {
   public rowSelection: string;
 
   public facsimilePublicationsColumns = [
-    { headerName: 'Title', field: 'title', sortable: true, filter: true, onCellValueChanged: this.updateFacsimileItem.bind(this)},
-    { headerName: 'Pages', field: 'page', sortable: true, filter: true, editable: false, valueGetter: this.getPages, onCellValueChanged: this.updateFacsimileItem.bind(this)},
-    { headerName: 'Collection Start Page', field: 'start_page_number', sortable: true, filter: true, editable: false, onCellValueChanged: this.updateFacsimileItem.bind(this)},
-    { headerName: 'Publication Start Page', field: 'page_nr', sortable: true, filter: true, editable: false, onCellValueChanged: this.updateFacsimileItem.bind(this)},
-    { headerName: 'Last Page', field: 'last_page', sortable: true, filter: true, editable: false, onCellValueChanged: this.updateFacsimileItem.bind(this)},
-    { headerName: 'Total Collection Pages', field: 'number_of_pages', sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) },
-    { headerName: 'External URL', field: 'external_url', sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) },
-    { headerName: 'Type', field: 'type', sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) }
+    { headerName: 'Title', field: 'title', sortable: true, editable: true, resizable: true, filter: true, onCellValueChanged: this.updateFacsimileItem.bind(this)},
+    { headerName: 'Pages', field: 'page', sortable: true, resizable: true, filter: true, editable: false, valueGetter: this.getPages, onCellValueChanged: this.updateFacsimileItem.bind(this)},
+    { headerName: 'Collection Start Page', field: 'start_page_number', resizable: true, sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this)},
+    { headerName: 'Publication Start Page', field: 'page_nr', resizable: true, sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this)},
+    { headerName: 'Last Page', field: 'last_page', sortable: true, resizable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this)},
+    { headerName: 'Total Collection Pages', field: 'number_of_pages', resizable: true, sortable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) },
+    { headerName: 'External URL', field: 'external_url', sortable: true, resizable: true, filter: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) },
+    { headerName: 'Type', field: 'type', sortable: true, filter: true, resizable: true, editable: true, onCellValueChanged: this.updateFacsimileItem.bind(this) }
   ];
 
   public defaultColDef = {
