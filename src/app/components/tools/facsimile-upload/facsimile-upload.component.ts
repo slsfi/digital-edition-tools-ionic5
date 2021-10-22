@@ -15,6 +15,8 @@ export class FacsimileUploadComponent implements OnInit {
   public collectionId: number;
   public projectName: string;
   public facsimileCollections: any;
+  public iStartNumber: number;
+  public imageOrderNumber: any;
 
   @Output() onCompleteItem = new EventEmitter();
   @Output() onUploaded = new EventEmitter();
@@ -27,11 +29,12 @@ export class FacsimileUploadComponent implements OnInit {
 
   constructor(public uploader: FileUploadService, public facsimileService: FacsimileService) {
     this.projectName = localStorage.getItem('selectedProjectName');
+    this.iStartNumber = this.imageStartNumber;
   }
 
   ngOnInit() {
     this.uploader.setProjectName(this.projectName);
-    this.uploader.setImageStartNumber(this.imageStartNumber);
+    this.uploader.setImageStartNumber(this.iStartNumber);
     this.uploader.setFacsimileCollectionId(this.selectedFacsimileCollectionId);
     this.queue = this.uploader.queue;
     this.uploader.onCompleteItem = this.completeItem;
@@ -39,7 +42,7 @@ export class FacsimileUploadComponent implements OnInit {
 
   ngOnChanges() {
     this.uploader.setProjectName(this.projectName);
-    this.uploader.setImageStartNumber(this.imageStartNumber);
+    this.uploader.setImageStartNumber(this.iStartNumber);
     this.uploader.setFacsimileCollectionId(this.selectedFacsimileCollectionId);
   }
 
@@ -66,7 +69,7 @@ export class FacsimileUploadComponent implements OnInit {
     this.queue.subscribe( (fileQueueObject: FileQueueObject[]) => {
       if( (itemOrderNumber + direction) >= 0 && (itemOrderNumber + direction) < fileQueueObject.length )
         this.arrayMove(fileQueueObject, itemOrderNumber, (itemOrderNumber + direction));
-        let start = this.imageStartNumber;
+        let start = this.iStartNumber;
         fileQueueObject.forEach(item => {
           item.setOrderNumber(start);
           start++;
@@ -76,7 +79,7 @@ export class FacsimileUploadComponent implements OnInit {
 
   setOrderNumbers() {
     this.queue.subscribe( (fileQueueObject: FileQueueObject[]) => {
-      let start = this.imageStartNumber;
+      let start = this.iStartNumber;
       fileQueueObject.forEach(item => {
         item.setOrderNumber(start);
         start++;
@@ -95,7 +98,7 @@ export class FacsimileUploadComponent implements OnInit {
   };
 
   setImageOrderNumber( e ) {
-    this.imageStartNumber = Number(e.detail.value);
-    this.uploader.setImageStartNumber(this.imageStartNumber);
+    this.iStartNumber = Number(e.detail.value);
+    this.uploader.setImageStartNumber(this.iStartNumber);
   }
 }

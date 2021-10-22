@@ -6,8 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { FacsimileCollectionModalPageRoutingModule } from './facsimile-collection-modal-routing.module';
 
-import { FacsimileCollectionModalPage } from './facsimile-collection-modal.page';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +13,6 @@ import { FacsimileCollectionModalPage } from './facsimile-collection-modal.page'
     IonicModule,
     FacsimileCollectionModalPageRoutingModule
   ],
-  declarations: [FacsimileCollectionModalPage]
+  declarations: []
 })
 export class FacsimileCollectionModalPageModule {}

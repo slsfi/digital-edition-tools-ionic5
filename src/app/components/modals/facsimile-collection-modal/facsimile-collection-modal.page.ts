@@ -6,6 +6,14 @@ import { element } from 'protractor';
 import { ManuscriptService } from '../../../services/manuscript.service';
 import { VersionService } from '../../../services/version.service';
 
+interface FacsimileCollection {
+  number_of_pages: number,
+  external_url: string,
+  start_page_number: number,
+  description: string,
+  title: string
+};
+
 @Component({
   selector: 'app-facsimile-collection-modal',
   templateUrl: './facsimile-collection-modal.page.html',
@@ -13,12 +21,13 @@ import { VersionService } from '../../../services/version.service';
 })
 export class FacsimileCollectionModalPage implements OnInit {
 
+
   public modalTitle: string;
   public selectedProjectName: string;
   public facsimileCollections: any[];
   public searchbar: HTMLIonSearchbarElement;
   public selectedSegment: string;
-  public selectedFacsimileCollection: any[];
+  public selectedFacsimileCollection: FacsimileCollection;
   public selectedPublicationId: any;
 
   public selectedManuscriptId: number;

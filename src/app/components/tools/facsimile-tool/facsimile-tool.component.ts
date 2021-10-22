@@ -6,6 +6,16 @@ import { environment } from '../../../../environments/environment.example';
 import { ModalController } from '@ionic/angular';
 import { FacsimileCollectionModalPage } from '../../modals/facsimile-collection-modal/facsimile-collection-modal.page';
 
+interface Facsimile {
+  publication_facsimile_collection_id: any,
+  first_page: number
+}
+
+interface FacsimileImage {
+  number: number,
+  url: string
+}
+
 @Component({
   selector: 'app-facsimile-tool',
   templateUrl: './facsimile-tool.component.html',
@@ -27,9 +37,9 @@ export class FacsimileToolComponent implements OnInit {
   public facsimilePublications: any[];
   public facsimileCollections: any[];
 
-  public facsimileImageUrls: Array<Object>;
+  public facsimileImageUrls: Array<FacsimileImage>;
 
-  public selectedFacsimile: any[];
+  public selectedFacsimile: Facsimile;
   public dataReturned: any;
 
 
@@ -103,7 +113,7 @@ export class FacsimileToolComponent implements OnInit {
     }
   }
 
-  async openFacsimileCollectionModal() {
+  public async openFacsimileCollectionModal() {
     const modal = await this.modalController.create({
       component: FacsimileCollectionModalPage,
       componentProps: {

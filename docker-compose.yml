@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  backend:
+    build: .
+    volumes:
+      - application:/app/www
+
+
+  frontend:
+    image: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - application:/usr/share/nginx/html
+    depends_on:
+      - backend
+
+
+volumes:
+  application:
