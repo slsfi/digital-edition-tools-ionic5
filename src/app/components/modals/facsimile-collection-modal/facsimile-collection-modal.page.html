@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="danger">
-    <ion-title>my-modal</ion-title>
+    <ion-title>Facsimile Item Connector</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSegment">
@@ -88,7 +88,7 @@
                 Select a Collection
             </ion-label>
           </ion-item>
-          <ng-container *ngFor="let fColl of facsimileCollections">
+          <!--ng-container *ngFor="let fColl of facsimileCollections">
             <ion-item *ngIf="fColl.display || fColl.display===undefined">
               <ion-label>
                 <h3>Title: {{fColl.title}}</h3>
@@ -99,8 +99,24 @@
               </ion-label>
               <ion-icon name="add-circle-outline" (click)="setSelectedFacsimileCollection(fColl)"></ion-icon>
             </ion-item>
-          </ng-container>
+          </ng-container-->
+            <ion-virtual-scroll [items]="collectionList">
+              <ion-item *virtualItem="let fColl">
+                 <ion-label>
+                  <h3>Title: {{fColl.title}} - {{fColl.index}}</h3>
+                  <p>Description: {{fColl.description}}</p>
+                  <p>External URL (e.g. to finna.fi): {{fColl.external_url}}</p>
+                  <p>Number of Pages (in collection): {{fColl.number_of_pages}}</p>
+                  <p>Start at (image number): {{fColl.start_page_number}}</p>
+                </ion-label>
+                <ion-icon name="add-circle-outline" (click)="setSelectedFacsimileCollection(fColl)"></ion-icon>
+              </ion-item>
+            </ion-virtual-scroll>
         </ion-list>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadCollections($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
       </ion-col>
     </ion-row>
     <ion-row>

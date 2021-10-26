@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { IonSearchbar, IonSegment, ModalController, NavParams } from '@ionic/angular';
+import { IonInfiniteScroll, IonSearchbar, IonSegment, IonVirtualScroll, ModalController, NavParams } from '@ionic/angular';
 import { FacsimileService } from '../../../services/facsimile.service';
 import { element } from 'protractor';
 import { ManuscriptService } from '../../../services/manuscript.service';
@@ -21,10 +21,13 @@ interface FacsimileCollection {
 })
 export class FacsimileCollectionModalPage implements OnInit {
 
+  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+  @ViewChild(IonVirtualScroll) virtualScroll: IonVirtualScroll;
 
   public modalTitle: string;
   public selectedProjectName: string;
   public facsimileCollections: any[];
+  public collectionList: any[];
   public searchbar: HTMLIonSearchbarElement;
   public selectedSegment: string;
   public selectedFacsimileCollection: FacsimileCollection;
@@ -38,6 +41,9 @@ export class FacsimileCollectionModalPage implements OnInit {
   public publicationManuscripts: any[];
   public publicationVersions: any[];
 
+  private startLoadNumber: number;
+  private collCount: number;
+
   constructor(
     private modalController: ModalController,
     private navParams: NavParams,
@@ -47,14 +53,20 @@ export class FacsimileCollectionModalPage implements OnInit {
   ) {
     this.selectedProjectName = localStorage.getItem('selectedProjectName');
     this.selectedSegment = 'collections';
+    this.collectionList = [];
+    this.startLoadNumber = 0;
+    this.collCount = 0;
   }
 
   ngOnInit() {
     this.facsimileCollections = this.navParams.data.facsimileCollections;
     this.selectedPublicationId = this.navParams.data.selectedPublicationId;
     this.modalTitle = this.navParams.data.paramTitle;
+    this.collCount = this.facsimileCollections.length;
+    this.fixCollectionDisplay();
     this.getPublicationManuscripts();
     this.getPublicationVersions();
+    this.getCollections();
   }
 
   ionViewDidEnter() {
@@ -65,19 +77,34 @@ export class FacsimileCollectionModalPage implements OnInit {
   ngOnChanges() {
     this.facsimileCollections = this.navParams.data.facsimileCollections;
     this.selectedPublicationId = this.navParams.data.selectedPublicationId;
+    this.collCount = this.facsimileCollections.length;
+    this.fixCollectionDisplay();
     this.getPublicationManuscripts();
     this.getPublicationVersions();
   }
 
+  fixCollectionDisplay() {
+    this.facsimileCollections.forEach(item => {
+      item.display = true;
+    });
+  }
+
   handleInput(event) {
     const query = event.target.value.toLowerCase();
-
     requestAnimationFrame(() => {
+      this.collCount = 1;
       this.facsimileCollections.forEach(item => {
         const shouldShow = item.title.toLowerCase().indexOf(query) > -1;
         item.display = shouldShow ? true : false;
+        if ( shouldShow ) {
+          this.collCount++;
+        }
       });
+      this.collectionList = [];
+      this.startLoadNumber = 0;
+      this.getCollections();
     });
+
   }
 
   segmentChanged( segment: any ) {
@@ -136,5 +163,38 @@ export class FacsimileCollectionModalPage implements OnInit {
   setVersionId( e ) {
     this.versionId = Number(e.detail.value);
     this.selectedVersionId = e.detail.value;
+  }
+
+  getCollections() {
+    let i = this.startLoadNumber;
+    while(this.collectionList.length < (this.startLoadNumber + 25) && i < (this.facsimileCollections.length)) {
+      if (this.facsimileCollections[i]['display'] === true) {
+        this.collectionList.push(this.facsimileCollections[i]);
+      }
+      this.facsimileCollections[i]['index'] = i;
+      i++;
+    }
+    this.startLoadNumber += 25;
+  }
+
+  loadCollections(event) {
+    // Using settimeout to simulate api call
+    setTimeout(() => {
+      // load more data
+      this.getCollections();
+      //Hide Infinite List Loader on Complete
+      event.target.complete();
+      //Rerender Virtual Scroll List After Adding New Data
+      this.virtualScroll.checkEnd();
+      // App logic to determine if all data is loaded
+      // and disable the infinite scroll
+      if (this.collectionList.length === this.collCount) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
+
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
   }
 }
