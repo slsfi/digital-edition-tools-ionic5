@@ -85,6 +85,9 @@ export class FacsimileCollectionModalPage implements OnInit {
   }
 
   createFacsimileCollection( formData: NgForm ) {
+    if( formData.value['externalUrl'] === null || formData.value['externalUrl'] === "" ){
+      delete(formData.value['externalUrl']);
+    }
     this.facsimileService.createFacsimileCollection(this.selectedProjectName, formData.value).subscribe( (ret) => {
       this.facsimileCollections.push(ret.row);
       this.selectedFacsimileCollection = ret.row;
