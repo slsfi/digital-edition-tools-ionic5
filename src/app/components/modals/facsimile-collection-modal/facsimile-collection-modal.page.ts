@@ -102,7 +102,7 @@ export class FacsimileCollectionModalPage implements OnInit {
     data.publication_version_id = this.selectedVersionId;
     data.publication_facsimile_collection_id = this.selectedFacsimileCollection['id'];
     this.facsimileService.linkFacsimileCollection(this.selectedProjectName, data).subscribe( (ret) => {
-      console.log(ret)
+      this.closeModal();
     } );
   }
 
