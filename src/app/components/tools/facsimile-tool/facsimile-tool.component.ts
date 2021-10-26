@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FacsimileService } from '../../../services/facsimile.service';
 import { PublicationService } from '../../../services/publication.service';
 import { CollectionService } from '../../../services/collection.service';
-import { environment } from '../../../../environments/environment.example';
+import { environment } from '../../../../environments/environment.prod';
 import { ModalController } from '@ionic/angular';
 import { FacsimileCollectionModalPage } from '../../modals/facsimile-collection-modal/facsimile-collection-modal.page';
 

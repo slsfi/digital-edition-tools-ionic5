@@ -30,6 +30,37 @@ export class XmlEntitySelectorGridComponent implements OnInit {
 
   private suggestions: Array<object>;
 
+  public occColumns = [
+    { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
+    { headerName: 'Occurence', field: 'occurence', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
+    {
+      headerName: 'Language',
+      editable: true,
+      cellEditor: 'agSelectCellEditor',
+      cellEditorParams: {
+        values: this.extractValues(this.availableOccurrenceTypes)
+      }
+    },
+    { headerName: 'Matches', field: 'matches', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
+    { headerName: 'Section', field: 'section', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
+    { headerName: 'Saved', field: 'saved', sortable: true, filter: true  },
+    { headerName: 'Reference ID', field: 'referenceId', sortable: true, filter: true }
+  ];
+
+  public nameEdited() {
+
+  }
+
+  public extractValues(mappings) {
+    return Object.keys(mappings);
+  }
+
+  public defaultColDef = {
+    flex: 1,
+    minWidth: 200,
+    floatingFilter: true,
+    resizable: true,
+  };
 
   public occurrenceColumns = [
     { data: 'occurence', readOnly: true },
@@ -48,7 +79,7 @@ export class XmlEntitySelectorGridComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createOccurrenceTable();
+    //this.createOccurrenceTable();
   }
 
   ngOnChanges() {
@@ -100,7 +131,7 @@ export class XmlEntitySelectorGridComponent implements OnInit {
     });
     this.selectedXmlOccurrences = this.xmlOccurrences[this.selectedOccurrenceType];
     this.dataLoading = false;
-    this.occurrenceTable.loadData(this.selectedXmlOccurrences);
+    // this.occurrenceTable.loadData(this.selectedXmlOccurrences);
   }
 
   public selectOccurrenceType () {
@@ -130,83 +161,5 @@ export class XmlEntitySelectorGridComponent implements OnInit {
     this.xmlDocument = this.xmlParserService.editXMLOccurrences(this.xmlDocument, this.selectedOccurrenceType, data.data.referenceId, data.newValue);
     this.parseXML();
     // Push the changes to the API...
-  }
-
-  createOccurrenceTable () {
-    const occurrence_table = document.getElementById('occurrence_table');
-    const __parent = this;
-    this.occurrenceTable = new Handsontable(occurrence_table, {
-      data: [],
-      columns: this.occurrenceColumns,
-      colHeaders: ['Name', 'Databse Id', 'Suggestion', 'XML Context', 'Saved to Database', 'referenceId'],
-      columnSorting: true,
-      rowHeaders: true,
-      nestedRows: false,
-      width: 'auto',
-      height: '100%',
-      filters: true,
-      dropdownMenu: true,
-      allowInsertColumn: false,
-      manualColumnMove: true,
-      hiddenColumns: {
-        columns: [],
-        indicators: true
-      },
-      licenseKey: 'non-commercial-and-evaluation',
-      contextMenu: {
-        callback(key, selection, clickEvent) {
-          // Common callback for all options
-          console.log(key, selection, clickEvent);
-        },
-        items: {
-          row_above: {
-            disabled() { // `disabled` can be a boolean or a function
-              // Disable option when first row was clicked
-              return this.getSelectedLast()[0] === 0; // `this` === hot
-            }
-          },
-          row_below: {
-            name: 'Click to add row below' // Set custom text for predefined option
-          },
-          show_translations: {
-            name: '<b>Show translations for language</b>', // Name can contain HTML
-            callback(key, selection, clickEvent) { // Callback for specific option
-              selection.forEach(select => {
-
-              });
-            }
-          },
-          add_child: {
-            name: '<b>Add translation</b>', // Name can contain HTML
-            callback(key, selection, clickEvent) { // Callback for specific option
-              selection.forEach(select => {
-
-              });
-            }
-          }
-        }
-      },
-      afterChange: function (change, source) {
-        if (source === 'loadData') {
-          return; //don't save this change
-        }
-        change.forEach( changedData => {
-        });
-      },
-      afterCreateRow: function (index, amount, source?) {
-        // Create a placeholder row in the DB and update the data
-        if( source !== undefined ) {
-
-        }
-      },
-      afterAddChild: function (parent, element, index?) {
-        // Add a translation row
-        if ( parent !== null ) {
-
-        } else {
-          // Add new translation
-        }
-      }
-    });
   }
 }
