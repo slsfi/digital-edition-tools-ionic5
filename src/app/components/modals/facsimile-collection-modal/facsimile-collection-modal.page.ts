@@ -38,6 +38,8 @@ export class FacsimileCollectionModalPage implements OnInit {
   public versionId: number;
   public manuscriptId: number;
 
+  public showCreateCollection: boolean;
+
   public publicationManuscripts: any[];
   public publicationVersions: any[];
 
@@ -56,6 +58,7 @@ export class FacsimileCollectionModalPage implements OnInit {
     this.collectionList = [];
     this.startLoadNumber = 0;
     this.collCount = 0;
+    this.showCreateCollection = false;
   }
 
   ngOnInit() {
@@ -196,5 +199,9 @@ export class FacsimileCollectionModalPage implements OnInit {
 
   toggleInfiniteScroll() {
     this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }
+
+  toggleCreateCollection() {
+    this.showCreateCollection = !this.showCreateCollection;
   }
 }

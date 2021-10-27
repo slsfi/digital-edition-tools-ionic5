@@ -4,3 +4,36 @@
     --background: #dedede;
   }
 }
+
+.show-create-collection{
+  display: block;
+}
+
+.hide-create-collection{
+  display: none;
+}
+
+.required {
+  color: red;
+}
+
+form.create-collection {
+  width: 100%;
+}
+
+form.link-collection {
+  width: 100%;
+}
+
+.close-modal {
+  right:0;
+  top: 0em;
+  font-size: 2.3em;
+  position: absolute;
+  cursor: pointer;
+}
+
+.choose-collection {
+  cursor: pointer;
+  color: green;
+}

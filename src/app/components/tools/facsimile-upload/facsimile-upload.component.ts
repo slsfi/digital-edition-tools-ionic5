@@ -33,6 +33,7 @@ export class FacsimileUploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.iStartNumber = this.imageStartNumber;
     this.uploader.setProjectName(this.projectName);
     this.uploader.setImageStartNumber(this.iStartNumber);
     this.uploader.setFacsimileCollectionId(this.selectedFacsimileCollectionId);
@@ -41,6 +42,7 @@ export class FacsimileUploadComponent implements OnInit {
   }
 
   ngOnChanges() {
+    this.iStartNumber = this.imageStartNumber;
     this.uploader.setProjectName(this.projectName);
     this.uploader.setImageStartNumber(this.iStartNumber);
     this.uploader.setFacsimileCollectionId(this.selectedFacsimileCollectionId);
