@@ -28,7 +28,7 @@
             <ion-label>
                 Create a new Collection
             </ion-label>
-            <ion-icon name="add-circle-outline" class="choose-collection" (click)="toggleCreateCollection($event)"></ion-icon>
+            <ion-icon name="add-circle-outline" class="choose-collection" (click)="toggleCreateCollection()"></ion-icon>
           </ion-item>
           <ion-item [ngClass]="showCreateCollection ? 'show-create-collection' : 'hide-create-collection'">
             <form  #form="ngForm" (ngSubmit)="createFacsimileCollection(form)" class="create-collection">
