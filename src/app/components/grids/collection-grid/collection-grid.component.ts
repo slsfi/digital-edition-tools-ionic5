@@ -67,7 +67,7 @@ export class CollectionGridComponent implements OnInit {
     const __parent = this;
     this.collectionTable =  new Handsontable(collection_table, {
       data: [],
-      columns: this.collectionColumns,
+      columns: __parent.collectionColumns,
       colHeaders: ['Id', 'Name', 'Published?', 'Intro file', 'Intro published', 'introduction_id',
        'Title file', 'Title published', 'title_id', 'Date Created', 'Date Modified'],
       columnSorting: true,

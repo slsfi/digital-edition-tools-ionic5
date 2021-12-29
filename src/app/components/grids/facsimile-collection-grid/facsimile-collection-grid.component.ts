@@ -61,7 +61,7 @@ export class FacsimileCollectionGridComponent implements OnInit {
     const __parent = this;
     this.facsimileCollectionTable = new Handsontable(facsimileCollectionTable, {
       data: [],
-      columns: this.facsimileCollectionTableColumns,
+      columns: __parent.facsimileCollectionTableColumns,
       colHeaders: ['Id', 'description', 'external_url', 'folder_path', 'number_of_pages', 'page_comment', 'start_page_number', 'title', 'Text', 'Text', 'Text'],
       columnSorting: false,
       rowHeaders: true,
@@ -86,7 +86,16 @@ export class FacsimileCollectionGridComponent implements OnInit {
           return; //don't save this change
         }
         change.forEach( changedData => {
-
+          const rowData = __parent.facsimileCollectionTable.getDataAtRow(Number(changedData[0]));
+          const collectionData = {};
+          // Add labels to indexes
+          __parent.facsimileCollectionTableColumns.forEach((value, index) => {
+            collectionData[value['data']] = rowData[index];
+          });
+          collectionData['publication_facsimile_collection_id'] = collectionData['id'];
+          collectionData['numberOfPages'] = collectionData['number_of_pages'];
+          collectionData['startPageNumber'] = collectionData['start_page_number'];
+          __parent.editCollection(collectionData);
         });
       },
       afterCreateRow: function (index, amount, source?) {
@@ -96,5 +105,14 @@ export class FacsimileCollectionGridComponent implements OnInit {
       }
     });
     this.getFacsimileCollections();
+  }
+
+  async editCollection( data: any ) {
+    const projectName = localStorage.getItem('selectedProjectName');
+    this.facsimileService.updateFacsimilePublicationCollection(projectName, data).subscribe(
+      async (res) => {
+        this.getFacsimileCollections(true);
+      }
+    );
   }
 }

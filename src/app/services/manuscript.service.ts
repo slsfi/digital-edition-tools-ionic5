@@ -18,11 +18,11 @@ export class ManuscriptService {
   }
 
   createManuscript( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/' +
-    data['publication_collection_id'] + '/publications/new/', data);
+    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' +
+    data['publication_id'] + '/manuscripts/new/', data);
   }
 
   editManuscript( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' + data['id'] + '/edit/', data);
+    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/manuscripts/' + data['id'] + '/edit/', data);
   }
 }

@@ -17,8 +17,6 @@ export class ManuscriptGridComponent implements OnInit {
 
   @Input() publicationId: Number;
 
-  public selectedCollectionId: Number;
-
   public manuscriptColumns = [
     { data: 'id', readOnly: true },
     { data: 'name', readOnly: false },
@@ -65,14 +63,16 @@ export class ManuscriptGridComponent implements OnInit {
   }
 
   public addNewManuscript() {
-    if ( this.selectedCollectionId !== null && this.selectedCollectionId !== undefined ) {
-      /* const newManuscript = {};
-      newManuscript.name = 'placeholder';
-      newManuscript.published = 1;
-      newManuscript.manuscript_collection_id = this.selectedCollectionId;
+    if ( this.publicationId !== null && this.publicationId !== undefined ) {
+      const newManuscript: {name: string, published: Number, publication_id: Number} = {
+        name: 'placeholder',
+        published: 1,
+        publication_id: this.publicationId
+      };
+
       this.manuscripts.push(newManuscript);
       this.manuscriptTable.loadData(this.manuscripts);
-      this.createManuscript(newManuscript);*/
+      this.createManuscript(newManuscript);
     }
   }
 
@@ -114,7 +114,7 @@ export class ManuscriptGridComponent implements OnInit {
             manuscriptData['filename'] = manuscriptData['original_filename'];
           });
           console.log(manuscriptData);
-          // __parent.editManuscript(manuscriptData);
+          __parent.editManuscript(manuscriptData);
         });
       }
     });

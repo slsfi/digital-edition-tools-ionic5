@@ -6,6 +6,8 @@ import { ProjectService } from './services/project.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from "@ionic/angular";
 import { Subscription } from 'rxjs';
+import { Plugins } from '@capacitor/core';
+const { Storage } = Plugins;
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -21,28 +23,27 @@ export class AppComponent {
     The tool-selector.page.ts shows the selected Tool depending on the URL (routing)
   */
   public appPages = [
-    { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'mail', isOpen: false, subPages:
+    { title: 'Publisher-Tool', url: '/tool-selector/Publisher-Tool', icon: 'receipt', isOpen: false, subPages:
       [
-        {title: 'Project-Editor', url: 'Project-Editor', icon: 'bulb'},
-        {title: 'Collection-Editor', url: 'Collection-Editor', icon: 'bulb'},
-        {title: 'Publication-Editor', url: 'Publication-Editor', icon: 'bulb'}
+        {title: 'Project-Editor', url: 'Project-Editor', icon: 'list'},
+        {title: 'Collection-Editor', url: 'Collection-Editor', icon: 'list'},
+        {title: 'Publication-Editor', url: 'Publication-Editor', icon: 'list'}
+      ]
+    },
+    { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false , subPages:
+      [
+        {title: 'Image-Collections', url: 'Image-Collections', icon: 'list'},
+        {title: 'Image-Connector', url: 'Image-Connector', icon: 'git-compare'}
+      ]
+    },
+    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'build', isOpen: false, subPages:
+      [
+        {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'list'},
+        {title: 'Location-Editor', url: 'Location-Editor', icon: 'list'},
+        {title: 'Work-Editor', url: 'Work-Editor', icon: 'list'}
       ]
     },
     { title: 'TOC-Editor', url: '/tool-selector/TOC-Editor', icon: 'list', isOpen: false },
-    { title: 'Facsimile-Tool', url: '/tool-selector/Facsimile-Tool', icon: 'images', isOpen: false , subPages:
-      [
-        {title: 'Image-Collections', url: 'Image-Collections', icon: 'bulb'},
-        {title: 'Image-Connector', url: 'Image-Connector', icon: 'bulb'},
-        {title: 'Image-Upload', url: 'Image-Upload', icon: 'bulb'}
-      ]
-    },
-    { title: 'Entity-Editor', url: '/tool-selector/Entity-Editor', icon: 'file-tray', isOpen: false, subPages:
-      [
-        {title: 'Subject-Editor', url: 'Subject-Editor', icon: 'bulb'},
-        {title: 'Location-Editor', url: 'Location-Editor', icon: 'bulb'},
-        {title: 'Work-Editor', url: 'Work-Editor', icon: 'bulb'}
-      ]
-    },
     { title: 'Event-Editor', url: '/tool-selector/Event-Editor', icon: 'git-compare', isOpen: false },
     { title: 'TEI-Selector', url: '/tool-selector/TEI-Selector', icon: 'color-wand', isOpen: false }
   ];
@@ -50,7 +51,7 @@ export class AppComponent {
   public selectedProjectId: string;
   public selectedPId: number;
   public selectedProjectName: string;
-  public projects: [];
+  public projects: Array<object>;
   public isLoggedIn: boolean = false;
   private isAuthenticatedSubscription: Subscription;
   public compareWith: any;
@@ -67,6 +68,7 @@ export class AppComponent {
 
   initializeApp(){
     this.translate.setDefaultLang('en');
+    this.projects = [];
     this.isAuthenticatedSubscription = this.authService.isAuthenticated.subscribe(state => {
       if (state) {
         this.selectedPId = Number(localStorage.getItem('selectedProjectId'));
@@ -92,9 +94,16 @@ export class AppComponent {
   }
 
   async getProjects() {
+    const projects = await Storage.get({ key: 'user-projects' });
+    this.projects = [];
     this.projectService.getProjects().subscribe(
       async (res) => {
-        this.projects = res;
+        res.forEach(project => {
+          // only include projects that user has access to
+          if( String(projects.value).indexOf(project['name']) != -1 ) {
+            this.projects.push(project);
+          }
+        }, this);
       },
       async (res) => {
 

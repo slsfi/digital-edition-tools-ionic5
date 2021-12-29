@@ -17,8 +17,6 @@ export class VersionGridComponent implements OnInit {
 
   @Input() publicationId: Number;
 
-  public selectedCollectionId: Number;
-
   public versionColumns = [
     { data: 'id', readOnly: true },
     { data: 'name', readOnly: false },
@@ -65,14 +63,15 @@ export class VersionGridComponent implements OnInit {
   }
 
   public addNewVersion() {
-    if ( this.selectedCollectionId !== null && this.selectedCollectionId !== undefined ) {
-      /* const newVersion = {};
-      newVersion.name = 'placeholder';
-      newVersion.published = 1;
-      newVersion.version_collection_id = this.selectedCollectionId;
+    if ( this.publicationId !== null && this.publicationId !== undefined ) {
+      const newVersion: {name: string, published: Number, publication_id: Number} = {
+        name: 'placeholder',
+        published: 1,
+        publication_id: this.publicationId
+      };
       this.versions.push(newVersion);
       this.versionTable.loadData(this.versions);
-      this.createVersion(newVersion);*/
+      this.createVersion(newVersion);
     }
   }
 
@@ -114,7 +113,7 @@ export class VersionGridComponent implements OnInit {
             versionData['filename'] = versionData['original_filename'];
           });
           console.log(versionData);
-          // __parent.editVersion(versionData);
+          __parent.editVersion(versionData);
         });
       }
     });

@@ -10,6 +10,7 @@ const { Storage } = Plugins;
 
 const ACCESS_TOKEN_KEY = 'my-access-token';
 const REFRESH_TOKEN_KEY = 'my-refresh-token';
+const USER_PROJECTS = 'user-projects';
 
 @Injectable({
   providedIn: 'root'
@@ -37,12 +38,13 @@ export class AuthenticationService {
 
   login(credentials: {email, password}): Observable<any> {
     return this.http.post( environment.api_url + '/auth/login', credentials).pipe(
-      switchMap((tokens: {access_token, refresh_token }) => {
+      switchMap((tokens: {access_token, refresh_token, user_projects}) => {
         this.currentAccessToken = tokens.access_token;
         const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.access_token});
         const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refresh_token});
+        const userProjects = Storage.set({key: USER_PROJECTS, value: tokens.user_projects});
         // this.startRefreshTokenTimer();
-        return from(Promise.all([storeAccess, storeRefresh]));
+        return from(Promise.all([storeAccess, storeRefresh, userProjects]));
       }),
       tap(_ => {
         this.isAuthenticated.next(true);
@@ -56,7 +58,8 @@ export class AuthenticationService {
     // Remove all stored tokens
     const deleteAccess = Storage.remove({ key: ACCESS_TOKEN_KEY });
     const deleteRefresh = Storage.remove({ key: REFRESH_TOKEN_KEY });
-    from(Promise.all([deleteAccess, deleteRefresh]));
+    const deleteProjects = Storage.remove({ key: USER_PROJECTS });
+    from(Promise.all([deleteAccess, deleteRefresh, deleteProjects]));
     this.isAuthenticated.next(false);
     this.router.navigateByUrl('/login')
   }
@@ -101,7 +104,7 @@ export class AuthenticationService {
   }
 
   private stopRefreshTokenTimer() {
-      clearTimeout(this.refreshTokenTimeout);
+    clearTimeout(this.refreshTokenTimeout);
   }
 
   public getToken(): string {
