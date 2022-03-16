@@ -31,7 +31,6 @@ npm-debug.log*
 /www
 
 # config files
-environment.prod.ts
 environment.staging.ts
 environment.ts
 

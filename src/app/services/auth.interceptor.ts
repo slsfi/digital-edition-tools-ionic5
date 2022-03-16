@@ -1,4 +1,4 @@
-import { environment } from './../../environments/environment';
+import { environment } from './../../environments/environment.prod';
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject, of } from 'rxjs';
