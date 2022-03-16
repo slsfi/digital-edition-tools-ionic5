@@ -1,12 +1,9 @@
 version: "3"
-
 services:
   backend:
-    build: .
+    image: slsfinland/digital_edition_tools:1.0.0
     volumes:
       - application:/app/www
-
-
   frontend:
     image: nginx
     ports:
@@ -15,7 +12,5 @@ services:
       - application:/usr/share/nginx/html
     depends_on:
       - backend
-
-
 volumes:
   application:
