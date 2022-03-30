@@ -4,9 +4,8 @@ import { tap, switchMap } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable, of} from 'rxjs';
 import { Router } from '@angular/router';
 
-import { Plugins } from '@capacitor/core';
+import { Storage } from '@ionic/storage-angular';
 import { environment } from '../../environments/environment.prod';
-const { Storage } = Plugins;
 
 const ACCESS_TOKEN_KEY = 'my-access-token';
 const REFRESH_TOKEN_KEY = 'my-refresh-token';
@@ -21,12 +20,13 @@ export class AuthenticationService {
   currentAccessToken = null;
   private refreshTokenTimeout;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private storage: Storage) {
     this.loadToken();
   }
 
   async loadToken() {
-    const token = await Storage.get({ key: ACCESS_TOKEN_KEY });
+    await this.storage.create();
+    const token = await this.storage.get(ACCESS_TOKEN_KEY);
     if (token && token.value) {
       this.currentAccessToken = token.value;
       this.isAuthenticated.next(true);
@@ -40,9 +40,9 @@ export class AuthenticationService {
     return this.http.post( environment.api_url + '/auth/login', credentials).pipe(
       switchMap((tokens: {access_token, refresh_token, user_projects}) => {
         this.currentAccessToken = tokens.access_token;
-        const storeAccess = Storage.set({key: ACCESS_TOKEN_KEY, value: tokens.access_token});
-        const storeRefresh = Storage.set({key: REFRESH_TOKEN_KEY, value: tokens.refresh_token});
-        const userProjects = Storage.set({key: USER_PROJECTS, value: tokens.user_projects});
+        const storeAccess = this.storage.set(ACCESS_TOKEN_KEY, tokens.access_token);
+        const storeRefresh = this.storage.set(REFRESH_TOKEN_KEY,tokens.refresh_token);
+        const userProjects = this.storage.set(USER_PROJECTS, tokens.user_projects);
         // this.startRefreshTokenTimer();
         return from(Promise.all([storeAccess, storeRefresh, userProjects]));
       }),
@@ -52,14 +52,11 @@ export class AuthenticationService {
     )
   }
 
-  logout() {
+  async logout() {
     this.currentAccessToken = null;
     this.stopRefreshTokenTimer();
     // Remove all stored tokens
-    const deleteAccess = Storage.remove({ key: ACCESS_TOKEN_KEY });
-    const deleteRefresh = Storage.remove({ key: REFRESH_TOKEN_KEY });
-    const deleteProjects = Storage.remove({ key: USER_PROJECTS });
-    from(Promise.all([deleteAccess, deleteRefresh, deleteProjects]));
+    await this.storage.clear();
     this.isAuthenticated.next(false);
     this.router.navigateByUrl('/login')
   }
@@ -67,14 +64,14 @@ export class AuthenticationService {
   // Load the refresh token from storage
   // then attach it as the header for one specific API call
   getNewAccessToken() {
-    const refreshToken = from(Storage.get({ key: REFRESH_TOKEN_KEY }));
+    const refreshToken = from(this.storage.get(REFRESH_TOKEN_KEY));
     return refreshToken.pipe(
       switchMap(token => {
-        if (token && token.value) {
+        if (token && token['value']) {
           const httpOptions = {
             headers: new HttpHeaders({
               'Content-Type': 'application/json',
-              Authorization: `Bearer ${token.value}`
+              Authorization: `Bearer ${token['value']}`
             })
           }
           // this.startRefreshTokenTimer();
@@ -90,7 +87,7 @@ export class AuthenticationService {
   // Store a new access token
   storeAccessToken(accessToken) {
     this.currentAccessToken = accessToken;
-    return from(Storage.set({ key: ACCESS_TOKEN_KEY, value: accessToken }));
+    return from(this.storage.set(ACCESS_TOKEN_KEY, accessToken));
   }
 
   private startRefreshTokenTimer() {

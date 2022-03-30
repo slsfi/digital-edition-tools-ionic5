@@ -6,8 +6,7 @@ import { ProjectService } from './services/project.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from "@ionic/angular";
 import { Subscription } from 'rxjs';
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -61,7 +60,8 @@ export class AppComponent {
     private router: Router,
     private projectService: ProjectService,
     private alertController: AlertController,
-    private menuController: MenuController) {
+    private menuController: MenuController,
+    private storage: Storage) {
     this.initializeApp();
     this.menuController.enable(true, 'main-content-menu');
   }
@@ -82,6 +82,10 @@ export class AppComponent {
     });
   }
 
+  async ngOnInit() {
+    await this.storage.create();
+  }
+
   ngOnDestroy() {
     this.isAuthenticatedSubscription.unsubscribe();
   }
@@ -94,13 +98,13 @@ export class AppComponent {
   }
 
   async getProjects() {
-    const projects = await Storage.get({ key: 'user-projects' });
+    const projects = await this.storage.get('user-projects');
     this.projects = [];
     this.projectService.getProjects().subscribe(
       async (res) => {
         res.forEach(project => {
           // only include projects that user has access to
-          if( String(projects.value).indexOf(project['name']) != -1 ) {
+          if( String(projects).indexOf(project['name']) != -1 ) {
             this.projects.push(project);
           }
         }, this);

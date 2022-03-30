@@ -14,7 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { FormsModule } from '@angular/forms';
 import { HotTableModule } from '@handsontable/angular';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';;
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 
 export function translateHttpLoaderFactory(handler: HttpBackend) {
@@ -29,6 +30,7 @@ export function translateHttpLoaderFactory(handler: HttpBackend) {
     BrowserModule,
     FormsModule,
     IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     AppRoutingModule,
     AgGridModule.withComponents([]),
     TranslateModule.forRoot({

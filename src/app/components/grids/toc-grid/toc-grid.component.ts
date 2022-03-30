@@ -89,7 +89,7 @@ export class TocGridComponent implements OnInit {
     const toc_table = this.toc_table.nativeElement;
     const __parent = this;
     this.tocTable = new Handsontable(this.toc_table.nativeElement, {
-      data: [],
+      data: [{}],
       columns: this.tocColumns,
       colHeaders: ['Text', 'Collection Id', 'Item id', 'Type', 'Date', 'Url', 'Collapsed?'],
       columnSorting: false,
@@ -117,14 +117,23 @@ export class TocGridComponent implements OnInit {
           return; //don't save this change
         }
         change.forEach( changedData => {
-          const updatedData = __parent.transformBack(__parent.tocTable.getPlugin('nestedRows').dataManager['data']);
+          const updatedData = __parent.transformBack(__parent.tocTable.getSourceData());
           __parent.saveCollectionData(updatedData);
         });
       },
       afterCreateRow: function (index, amount, source?) {
 
       },
-      afterAddChild: function (parent, element, index?) {
+      // Used to enable pasting in nested rows
+      beforePaste: (data, coords) => {
+        let selected = this.tocTable.getSelected();
+        // Only apply this copy/paste for the first column, default for rest
+        if ( selected[0][1] === 0 ) {
+          let selectedRow:number = this.tocTable.getSelected()[0][0];
+          this.tocTable.alter('insert_row', selectedRow, data.length)
+          this.tocTable.populateFromArray(selectedRow, 0, data);
+          return false;
+        }
       }
     });
     this.setTocData();
@@ -140,6 +149,8 @@ export class TocGridComponent implements OnInit {
       );
     }
   }
+
+  addRows
 
   createPublicationTable () {
     const pub_table = this.pub_table.nativeElement;
