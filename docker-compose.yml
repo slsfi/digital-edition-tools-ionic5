@@ -1,7 +1,7 @@
 version: "3"
 services:
   backend:
-    image: slsfinland/digital_edition_tools:1.0.1
+    image: slsfinland/digital_edition_tools:1.0.2
     volumes:
       - application:/app/www
   frontend:
