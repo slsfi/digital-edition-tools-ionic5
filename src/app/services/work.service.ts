@@ -18,14 +18,14 @@ export class WorkService {
   getWorks(projectName?: string): Observable<any> {
     // Send the request to the server
     if( projectName !== null && projectName !== undefined ) {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/works');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/works');
     } else {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/works');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/works');
     }
   }
 
   createWork(subjectName: string): Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/works');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/works');
   }
 }

@@ -17,7 +17,7 @@ export class DatabaseTranslationService {
   createNewTranslation(projectName: string, translation: object): Observable<any> {
     // Send the request to the server
     return this.http.post<any>(
-      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/translation/new/',
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/translation/new/',
       translation
     );
   }
@@ -25,7 +25,7 @@ export class DatabaseTranslationService {
   editTranslation (projectName: string, translation: object): Observable<any> {
     // Send the request to the server
     return this.http.post<any>(
-      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/translations/' + translation['translation_id'] +  '/edit/',
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/translations/' + translation['translation_id'] +  '/edit/',
       translation
     );
   }

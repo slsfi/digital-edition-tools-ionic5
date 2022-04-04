@@ -15,11 +15,11 @@ export class TocService {
 
   getCollectionTOC( projectName: String, collectionId: Number ): Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId);
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId);
   }
 
   saveCollectionToc( projectName: String, collectionId: Number, data: any ) {
-    return this.http.put<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId, data);
+    return this.http.put<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/toc/' + collectionId, data);
   }
 
 }

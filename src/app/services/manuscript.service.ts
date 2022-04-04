@@ -14,15 +14,15 @@ export class ManuscriptService {
   }
 
   getManuscripts( projectName: string, publicationId: Number ) {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' + publicationId + '/manuscripts/');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication/' + publicationId + '/manuscripts/');
   }
 
   createManuscript( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' +
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication/' +
     data['publication_id'] + '/manuscripts/new/', data);
   }
 
   editManuscript( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/manuscripts/' + data['id'] + '/edit/', data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/manuscripts/' + data['id'] + '/edit/', data);
   }
 }

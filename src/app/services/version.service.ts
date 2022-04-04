@@ -14,15 +14,15 @@ export class VersionService {
   }
 
   getVersions( projectName: string, publicationId: Number ) {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' + publicationId + '/versions/');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication/' + publicationId + '/versions/');
   }
 
   createVersion( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication/' +
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication/' +
     data['publication_id'] + '/versions/new/', data);
   }
 
   editVersion( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/versions/' + data['id'] + '/edit/', data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/versions/' + data['id'] + '/edit/', data);
   }
 }

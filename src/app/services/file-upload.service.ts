@@ -148,7 +148,7 @@ export class FileUploadService {
 
     const fNumber = this.imageStartNumber + fileNumber;
     queueObj.orderNumber = fNumber;
-    this.URL = environment.api_url + '/' + environment.api_url_path + '/' + this.projectName + '/facsimiles/' + this.facsimileCollectionId + '/' + String(fNumber);
+    this.URL = localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + environment.api_url_path + '/' + this.projectName + '/facsimiles/' + this.facsimileCollectionId + '/' + String(fNumber);
     // upload file and report progress
     const req = new HttpRequest('POST', this.URL, form, {
       reportProgress: true,

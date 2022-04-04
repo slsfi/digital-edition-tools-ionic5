@@ -16,18 +16,18 @@ export class CollectionService {
   // https://api.sls.fi/digitaledition/{projectName}/collection/{collectionId}/publications
   getCollectionPublications( projectName: string, collectionId: Number ) : Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/collection/' + collectionId + '/publications');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/collection/' + collectionId + '/publications');
   }
 
   getCollections( projectName: string ) {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/list/');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/list/');
   }
 
   createCollection( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/new/', data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/new/', data);
   }
 
   editCollection( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/' + data['id'] + '/edit/', data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/publication_collection/' + data['id'] + '/edit/', data);
   }
 }

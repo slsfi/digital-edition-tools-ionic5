@@ -37,7 +37,7 @@ export class AuthenticationService {
   }
 
   login(credentials: {email, password}): Observable<any> {
-    return this.http.post( environment.api_url + '/auth/login', credentials).pipe(
+    return this.http.post( localStorage.getItem('SELECTED_ENVIRONMENT') + '/auth/login', credentials).pipe(
       switchMap((tokens: {access_token, refresh_token, user_projects}) => {
         this.currentAccessToken = tokens.access_token;
         const storeAccess = this.storage.set(ACCESS_TOKEN_KEY, tokens.access_token);
@@ -75,7 +75,7 @@ export class AuthenticationService {
             })
           }
           // this.startRefreshTokenTimer();
-          return this.http.post(environment.api_url + '/auth/refresh', null, httpOptions);
+          return this.http.post(localStorage.getItem('SELECTED_ENVIRONMENT') + '/auth/refresh', null, httpOptions);
         } else {
           // No stored refresh token
           return of(null);

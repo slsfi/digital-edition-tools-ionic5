@@ -18,16 +18,16 @@ export class LocationService {
   getLocations(projectName?: string): Observable<any> {
     // Send the request to the server
     if( projectName !== null && projectName !== undefined ) {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/locations');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/locations');
     } else {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/locations');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/locations');
     }
   }
 
   createLocation(projectName: string, location: object): Observable<any> {
     // Send the request to the server
     return this.http.post<any>(
-      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/locations/new/',
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/locations/new/',
       location
     );
   }
@@ -35,7 +35,7 @@ export class LocationService {
   editLocation(projectName: string, location: object): Observable<any> {
     // Send the request to the server
     return this.http.post<any>(
-      environment.api_url + '/' + this.apiUrlPath  + '/' + projectName + '/locations/' + location['id'] + '/edit/',
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/locations/' + location['id'] + '/edit/',
       location
     );
   }

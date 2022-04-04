@@ -17,10 +17,10 @@ export class GitService {
   // Auth header is added by interceptor
   getFileTree( projectName: string, folder?: string ): Observable<any> {
     if ( folder === undefined || folder === null ) {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/get_tree/documents');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/get_tree/documents');
     } else {
       folder = folder.slice(0, folder.lastIndexOf('/'));
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/get_tree/documents' + folder );
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/get_tree/documents' + folder );
     }
   }
 }

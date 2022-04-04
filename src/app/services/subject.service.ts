@@ -18,14 +18,14 @@ export class SubjectService {
   getSubjects(projectName?: string): Observable<any> {
     // Send the request to the server
     if( projectName !== null && projectName !== undefined ) {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/subjects');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/subjects');
     } else {
-      return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/subjects');
+      return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/subjects');
     }
   }
 
   createSubject(subjectName: string): Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/subjects');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/subjects');
   }
 }

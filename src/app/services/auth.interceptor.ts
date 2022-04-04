@@ -56,9 +56,9 @@ export class AuthInterceptor implements HttpInterceptor {
   // Filter out URLs where you don't want to add the token!
   private isInBlockedList(url: string): Boolean {
     // Example: Filter out our login and logout API call
-    if (url == `${environment.api_url}/auth` ||
-      url == `${environment.api_url}/auth/logout` ||
-      url == `${environment.api_url}/auth/refresh`) {
+    if (url == `${localStorage.getItem('SELECTED_ENVIRONMENT')}/auth` ||
+      url == `${localStorage.getItem('SELECTED_ENVIRONMENT')}/auth/logout` ||
+      url == `${localStorage.getItem('SELECTED_ENVIRONMENT')}/auth/refresh`) {
       return true;
     } else {
       return false;

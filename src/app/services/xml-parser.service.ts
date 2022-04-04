@@ -14,7 +14,7 @@ export class XmlParserService {
   }
 
   public getFile( projectName: string, fullFilePath: string ) {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/get_file/by_path/' + fullFilePath);
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/get_file/by_path/' + fullFilePath);
   }
 
   public getXMLOccurrences ( xmlDocument: XMLDocument, types: Array<string> ) {

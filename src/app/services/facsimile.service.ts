@@ -16,32 +16,32 @@ export class FacsimileService {
 
   // Auth header is added by interceptor
   getFacsimileCollections( projectName: string ): Observable<any> {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/list/');
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/list/');
   }
 
   getFacsimilePublications( projectName: string, publicationId: number ): Observable<any> {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimiles/' + publicationId);
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimiles/' + publicationId);
   }
 
   // /<project>/facsimiles/<collection_id>/<page_number>
   uploadFacsimileCollection( projectName: string, collectionId: Number, pageNumber: Number ): Observable<any> {
-    return this.http.get<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimiles/' + collectionId + '/' + pageNumber);
+    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimiles/' + collectionId + '/' + pageNumber);
   }
 
   createFacsimileCollection( projectName: string, data: any ){
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/new/', data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/new/', data);
   }
 
   linkFacsimileCollection( projectName: string, data: any ){
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' +
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' +
      data.publication_facsimile_collection_id + '/link/' , data);
   }
 
   updateFacsimilePublication( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/facsimile/edit/' , data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/facsimile/edit/' , data);
   }
 
   updateFacsimilePublicationCollection( projectName: string, data: any ) {
-    return this.http.post<any>(environment.api_url + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' + data.publication_facsimile_collection_id + '/edit/' , data);
+    return this.http.post<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/' + projectName + '/facsimile_collection/' + data.publication_facsimile_collection_id + '/edit/' , data);
   }
 }

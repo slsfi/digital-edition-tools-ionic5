@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,9 @@ export class LoginPage implements OnInit {
     private alertController: AlertController,
     private router: Router,
     private loadingController: LoadingController
-  ) {}
+  ) {
+
+  }
 
   ngOnInit() {
     this.credentials = this.fb.group({
@@ -47,6 +50,19 @@ export class LoginPage implements OnInit {
         await alert.present();
       }
     );
+  }
+
+  selectEnvironment( event ){
+    const env = event.target.value.toLowerCase();
+    if (env === 'prod') {
+      localStorage.setItem('SELECTED_ENVIRONMENT', environment.api_prod_url);
+    }
+    else if (env === 'qa') {
+      localStorage.setItem('SELECTED_ENVIRONMENT', environment.api_qa_url);
+    }
+    else if (env === 'dev') {
+      localStorage.setItem('SELECTED_ENVIRONMENT', environment.api_dev_url);
+    }
   }
 
   // Easy access for form fields
