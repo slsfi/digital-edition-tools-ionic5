@@ -4,7 +4,7 @@ export const environment = {
   server_url: 'localhost:5000',
   api_url: 'https://api.sls.fi',
   api_prod_url: 'https://api.sls.fi',
-  api_qa_url: 'https://granska-api.sls.fi',
+  api_qa_url: 'https://testa-vonwright.sls.fi:8000',
   api_dev_url: 'https://test-api.sls.fi',
   api_url_path: 'digitaledition',
   project_default: 'topelius',

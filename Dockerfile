@@ -9,6 +9,8 @@ WORKDIR /app
 
 COPY . /app/
 
+COPY ./src/environments/environment.ts /app/environments/environments.ts
+
 RUN npm install
 RUN npm i -g @ionic/cli
 RUN ionic build --prod
