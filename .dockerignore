@@ -1,6 +1,9 @@
-node_modules/
-www/
-.vscode/
-Dockerfile
-docker-compose.yml
-e2e/
+# Ignore local build files
+**/node_modules
+**/www
+**/.vscode
+**/Dockerfile
+**/docker-compose.yml
+**/e2e
+**/.git
+**/.angular
