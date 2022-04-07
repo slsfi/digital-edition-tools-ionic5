@@ -5,16 +5,19 @@
 </ion-header>
 
 <ion-content>
-
-  <form (ngSubmit)="login()" [formGroup]="credentials">
+  <form (ngSubmit)="login()" [formGroup]="credentials" class="login-main">
     <div class="input-group">
       <ion-item>
-        <ion-label>Environment</ion-label>
-        <ion-select placeholder="Select One" (ionChange)="selectEnvironment($event)">
-          <ion-select-option value="dev">Development</ion-select-option>
-          <ion-select-option value="qa">QA</ion-select-option>
-          <ion-select-option value="prod">Production</ion-select-option>
+        <ion-label>Select Environment</ion-label>
+        <ion-select interface="action-sheet" placeholder="Select One" (ionChange)="selectEnvironment($event)">
+          <ion-select-option value="dev">Development ({{env.api_dev_url}})</ion-select-option>
+          <ion-select-option value="qa">QA ({{env.api_qa_url}})</ion-select-option>
+          <ion-select-option value="prod">Production ({{env.api_prod_url}})</ion-select-option>
+          <ion-select-option value="custom">Custom (https://...)</ion-select-option>
         </ion-select>
+      </ion-item>
+      <ion-item *ngIf="showCustomEnvironment" >
+        <ion-input type="text" [value]="customEnvironment" (input)="updateCustomEnvironment($event)" placeholder="Custom Environment (https://...)"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>

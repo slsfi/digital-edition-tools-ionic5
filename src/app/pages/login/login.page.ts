@@ -12,6 +12,9 @@ import { environment } from '../../../environments/environment.prod';
 })
 export class LoginPage implements OnInit {
   credentials: FormGroup;
+  public env: any;
+  public customEnvironment: string = '';
+  public showCustomEnvironment: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -20,7 +23,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private loadingController: LoadingController
   ) {
-
+    this.env = environment;
   }
 
   ngOnInit() {
@@ -33,6 +36,10 @@ export class LoginPage implements OnInit {
   async login() {
     const loading = await this.loadingController.create();
     await loading.present();
+
+    if( this.customEnvironment !== '' && this.showCustomEnvironment === true ) {
+      localStorage.setItem('SELECTED_ENVIRONMENT', this.customEnvironment);
+    }
 
     this.authService.login(this.credentials.value).subscribe(
       async (res) => {
@@ -63,6 +70,13 @@ export class LoginPage implements OnInit {
     else if (env === 'dev') {
       localStorage.setItem('SELECTED_ENVIRONMENT', environment.api_dev_url);
     }
+    else if (env === 'custom') {
+      this.showCustomEnvironment = true;
+    }
+  }
+
+  updateCustomEnvironment( event ) {
+    this.customEnvironment = event.target.value;
   }
 
   // Easy access for form fields
