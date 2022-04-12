@@ -24,8 +24,19 @@ export class SubjectService {
     }
   }
 
-  createSubject(subjectName: string): Observable<any> {
+  createSubject(projectName: string, subject: object): Observable<any> {
     // Send the request to the server
-    return this.http.get<any>(localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath + '/subjects');
+    return this.http.post<any>(
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/subjects/new/',
+      subject
+    );
+  }
+
+  editSubject(projectName: string, subject: object): Observable<any> {
+    // Send the request to the server
+    return this.http.post<any>(
+      localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + this.apiUrlPath  + '/' + projectName + '/subjects/' + subject['id'] + '/edit/',
+      subject
+    );
   }
 }

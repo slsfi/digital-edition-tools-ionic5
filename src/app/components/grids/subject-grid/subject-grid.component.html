@@ -1,5 +1,6 @@
 <div class="subject-grid">
   <ion-input type="text" placeholder="Search..." [(ngModel)]="filter" class="ion-padding-bottom"></ion-input>
+  <ion-button (click)="addRow($event)">Add Row</ion-button>
   <ag-grid-angular
     style="width: 100%; height: 100%;"
     class="ag-theme-alpine"

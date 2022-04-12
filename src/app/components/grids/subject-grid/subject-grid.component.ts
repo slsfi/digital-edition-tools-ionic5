@@ -13,12 +13,15 @@ export class SubjectGridComponent implements OnInit {
 
   public subjectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
-      { headerName: 'First name', field: 'first_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
-      { headerName: 'Last name', field: 'last_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
-      { headerName: 'Full name', field: 'full_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.nameEdited },
-      { headerName: 'Date Created', field: 'date_created', sortable: true, filter: true  },
+      { headerName: 'First name', field: 'first_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Last name', field: 'last_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Preposition', field: 'preposition', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Full name', field: 'full_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Date Born', field: 'date_born', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Date Deceased', field: 'date_deceased', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
+      { headerName: 'Description', field: 'description', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
       { headerName: 'Date Modified', field: 'date_modified', sortable: true, filter: true  },
-      { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true  }
+      { headerName: 'Deleted (0, 1)', field: 'deleted', sortable: true, filter: true, editable: false }
   ];
 
   public defaultColDef = {
@@ -47,13 +50,24 @@ export class SubjectGridComponent implements OnInit {
     );
   }
 
-  nameEdited(data: any) {
-    console.log(data)
-    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
+  editValue ( data: any ) {
+    const fieldName = data.colDef.field;
+    const subject: object = {[fieldName]: data.newValue, 'id': data.data.id};
+    const projectName = localStorage.getItem('selectedProjectName');
+    this.subjectService.editSubject(projectName, subject).subscribe(
+      async (res) => {
+        this.getSubjects();
+      }
+    );
   }
 
-  publishedEdited(data: any) {
-    console.log(data)
-    console.log(data.data.id + ' = ' + data.colDef.field + ' = ' + data.newValue)
+  addRow( event: any ) {
+    const projectName = localStorage.getItem('selectedProjectName');
+    const subject: object = {'first_name': 'placeholder'};
+    this.subjectService.createSubject(projectName, subject).subscribe(
+      async (res) => {
+        this.getSubjects();
+      }
+    );
   }
 }
