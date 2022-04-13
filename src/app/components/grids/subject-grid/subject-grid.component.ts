@@ -13,6 +13,7 @@ export class SubjectGridComponent implements OnInit {
 
   public subjectColumns = [
       { headerName: 'ID', field: 'id', sortable: true, filter: true, rowDrag: true  },
+      { headerName: 'Legacy Id', field: 'legacy_id', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this)  },
       { headerName: 'First name', field: 'first_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
       { headerName: 'Last name', field: 'last_name', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },
       { headerName: 'Preposition', field: 'preposition', sortable: true, filter: true, editable: true, onCellValueChanged: this.editValue.bind(this) },

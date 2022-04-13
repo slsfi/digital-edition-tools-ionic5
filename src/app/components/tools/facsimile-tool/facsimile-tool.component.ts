@@ -108,7 +108,7 @@ export class FacsimileToolComponent implements OnInit {
     this.facsimileImageUrls = [];
     for(let i = Number(this.selectedFacsimile['first_page']); i <= Number(this.selectedFacsimile['last_page']); i++) {
       let url = localStorage.getItem('SELECTED_ENVIRONMENT') + '/' + environment.api_url_path + '/' +
-                  this.selectedProjectName + '/facsimiles/' + this.selectedFacsimile['publication_facsimile_collection_id'] + '/' + i + '/1' + '?' + Date.now();
+                  this.selectedProjectName + '/facsimiles/' + this.selectedFacsimile['publication_facsimile_collection_id'] + '/' + i + '/4' + '?' + Date.now();
       this.facsimileImageUrls.push({'url': url, 'number': i});
     }
   }

@@ -57,6 +57,7 @@ export class AuthenticationService {
     this.stopRefreshTokenTimer();
     // Remove all stored tokens
     await this.storage.clear();
+    localStorage.clear();
     this.isAuthenticated.next(false);
     this.router.navigateByUrl('/login')
   }
