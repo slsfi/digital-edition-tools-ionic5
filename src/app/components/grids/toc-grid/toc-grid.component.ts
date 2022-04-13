@@ -91,7 +91,7 @@ export class TocGridComponent implements OnInit {
     this.tocTable = new Handsontable(this.toc_table.nativeElement, {
       data: [{}],
       columns: this.tocColumns,
-      colHeaders: ['Text', 'Collection Id', 'Item id', 'Type', 'Date', 'Url', 'Collapsed?'],
+      colHeaders: ['Text', 'Collection Id', 'Item Id', 'Type', 'Date', 'Url', 'Collapsed?'],
       columnSorting: false,
       rowHeaders: true,
       contextMenu: true,
@@ -158,7 +158,7 @@ export class TocGridComponent implements OnInit {
     this.pubTable = new Handsontable(this.pub_table.nativeElement, {
       data: [],
       columns: this.pubColumns,
-      colHeaders: ['Name', 'Id', 'ItemId', 'In TOC?'],
+      colHeaders: ['Name', 'Item Id', 'Publication Id', 'In TOC?'],
       columnSorting: true,
       rowHeaders: true,
       contextMenu: true,

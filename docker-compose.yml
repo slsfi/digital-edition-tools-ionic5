@@ -1,6 +1,6 @@
 version: "3"
 services:
   frontend:
-    image: slsfinland/digital_edition_tools:1.0.6
+    image: slsfinland/digital_edition_tools:1.0.7
     ports:
       - 8000:80
